@@ -63,32 +63,32 @@
   - [ ] Add to docker-compose.yml
 
 #### ERP Stub
-- [ ] Create `services/erp-stub/` project (Node.js/Python/C#)
-- [ ] POST /orders endpoint
-  - [ ] Accept order data
-  - [ ] Store in-memory (simulate ERP acceptance)
-  - [ ] Return 200 OK or configurable failure
-- [ ] POST /admin/mode endpoint
-  - [ ] Modes: `normal`, `down`
-  - [ ] In `down` mode: return 503 for all requests
-- [ ] GET /orders endpoint (for verification)
-- [ ] Dockerize
-  - [ ] Dockerfile
-  - [ ] Add to docker-compose.yml
+- [x] Create `services/erp-stub/` project (Python + FastAPI)
+- [x] POST /orders endpoint
+  - [x] Accept order data
+  - [x] Store in-memory (simulate ERP acceptance)
+  - [x] Return 200 OK or configurable failure
+- [x] POST /admin/mode endpoint
+  - [x] Modes: `normal`, `down`
+  - [x] In `down` mode: return 503 for all requests
+- [x] GET /orders endpoint (for verification)
+- [x] Dockerize
+  - [x] Dockerfile
+  - [x] Add to docker-compose.yml
 
 #### WMS Stub
-- [ ] Create `services/wms-stub/` project (Node.js/Python/C#)
-- [ ] POST /reservations endpoint
-  - [ ] Accept reservation request
-  - [ ] Calculate new stock level
-  - [ ] Call WMS Event Adapter webhook (instead of direct RabbitMQ)
-  - [ ] Return 200 OK or configurable failure/timeout
-- [ ] POST /admin/mode endpoint
-  - [ ] Modes: `normal`, `slow` (10s delay), `down` (503 error)
-- [ ] GET /stock/{productId} endpoint
-- [ ] Dockerize
-  - [ ] Dockerfile
-  - [ ] Add to docker-compose.yml
+- [x] Create `services/wms-stub/` project (Python + FastAPI)
+- [x] POST /reservations endpoint
+  - [x] Accept reservation request
+  - [x] Calculate new stock level
+  - [x] Call WMS Event Adapter webhook (instead of direct RabbitMQ)
+  - [x] Return 200 OK or configurable failure/timeout
+- [x] POST /admin/mode endpoint
+  - [x] Modes: `normal`, `slow` (10s delay), `down` (503 error)
+- [x] GET /stock/{productId} endpoint
+- [x] Dockerize
+  - [x] Dockerfile
+  - [x] Add to docker-compose.yml
 
 #### WMS Webhook Endpoint (Inside Integration Service)
 - [ ] Add webhook controller to Integration Service

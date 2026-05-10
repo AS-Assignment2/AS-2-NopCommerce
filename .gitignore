@@ -209,3 +209,6 @@ src/Tests/Nop.Tests/Connections.resx
 __pycache__/
 *.pyc
 *.pyo
+# Node
+node_modules/
+dist/

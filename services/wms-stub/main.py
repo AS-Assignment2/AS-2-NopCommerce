@@ -6,12 +6,14 @@ from uuid import uuid4
 
 import httpx
 from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [WMS] %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
 
 app = FastAPI(title="WMS Stub", description="VerdeMart WMS stub — handles reservations, supports failure injection")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 DEFAULT_STOCK: int = int(os.getenv("DEFAULT_STOCK", "100"))
 STOCK_WEBHOOK_URL: str | None = os.getenv("STOCK_WEBHOOK_URL")
@@ -85,6 +87,11 @@ async def reserve(body: ReservationRequest, background_tasks: BackgroundTasks):
 
     reservations.append({"reservationId": reservation_id, "orderId": body.orderId, "stock": updated_stock})
     return {"status": "reserved", "reservationId": reservation_id}
+
+
+@app.get("/reservations")
+def list_reservations():
+    return {"count": len(reservations), "reservations": reservations}
 
 
 @app.get("/stock/{product_id}")

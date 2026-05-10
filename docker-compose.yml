@@ -60,6 +60,15 @@ services:
             timeout: 5s
             retries: 3
 
+    dashboard:
+        build: ./services/dashboard
+        container_name: verdemart_dashboard
+        ports:
+            - "8090:8090"
+        depends_on:
+            - erp-stub
+            - wms-stub
+
 volumes:
   nopcommerce_data:
   rabbitmq_data:

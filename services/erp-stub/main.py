@@ -1,11 +1,13 @@
 import logging
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [ERP] %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
 
 app = FastAPI(title="ERP Stub", description="VerdeMart ERP stub — accepts orders, supports failure injection")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 # --- State ---
 mode: str = "normal"

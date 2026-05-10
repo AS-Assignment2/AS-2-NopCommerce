@@ -9,6 +9,8 @@ services:
         depends_on:
             - nopcommerce_database
             - rabbitmq
+        networks:
+            - verdemart
     nopcommerce_database:
         image: "mcr.microsoft.com/mssql/server:2019-latest"
         container_name: nopcommerce_mssql_server
@@ -16,6 +18,8 @@ services:
             SA_PASSWORD: "nopCommerce_db_password"
             ACCEPT_EULA: "Y"
             MSSQL_PID: "Express"
+        networks:
+            - verdemart
     rabbitmq:
         image: "rabbitmq:3-management"
         container_name: nopcommerce_rabbitmq
@@ -27,7 +31,41 @@ services:
             RABBITMQ_DEFAULT_PASS: "guest"
         volumes:
             - rabbitmq_data:/var/lib/rabbitmq
+        networks:
+            - verdemart
+
+    ospos_mysql:
+        image: mysql:5.7
+        container_name: ospos_mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ospospass
+            MYSQL_DATABASE: ospos
+        volumes:
+            - ospos_mysql_data:/var/lib/mysql
+        networks:
+            - verdemart
+        command: --default-authentication-plugin=mysql_native_password
+
+    ospos:
+        image: jekkos/opensourcepos:latest
+        container_name: ospos
+        depends_on:
+            - ospos_mysql
+        environment:
+            DB_HOST: ospos_mysql
+            DB_NAME: ospos
+            DB_USER: root
+            DB_PASS: ospospass
+        ports:
+            - "8080:80"
+        networks:
+            - verdemart
+
+networks:
+    verdemart:
+        driver: bridge
 
 volumes:
   nopcommerce_data:
-  rabbitmq_data:            
+  rabbitmq_data:
+  ospos_mysql_data:            

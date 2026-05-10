@@ -1,1 +1,5 @@
 threshold: medium
+fileignoreconfig:
+- filename: ospos_minimal_schema.sql
+  checksum: dbaa929f4580016152753fb089176b49141009f89aa3f6404eefa14b0b7a8ad3
+  ignore_detectors: []

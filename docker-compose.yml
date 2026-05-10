@@ -61,6 +61,30 @@ services:
         networks:
             - verdemart
 
+    ospos_adapter:
+        build: ./services/ospos-adapter
+        container_name: ospos_adapter
+        depends_on:
+            - ospos_mysql
+            - rabbitmq
+        environment:
+            OSPOS_DB_HOST: ospos_mysql
+            OSPOS_DB_NAME: ospos
+            OSPOS_DB_USER: root
+            OSPOS_DB_PASSWORD: ospospass
+            OSPOS_DB_PORT: 3306
+            RABBITMQ_HOST: rabbitmq
+            RABBITMQ_PORT: 5672
+            RABBITMQ_USERNAME: guest
+            RABBITMQ_PASSWORD: guest
+            RABBITMQ_EXCHANGE: verdemart.events
+            POLLING_INTERVAL_SECONDS: 30
+            IDEMPOTENCY_DB_PATH: /app/data/idempotency.db
+        volumes:
+            - ospos_adapter_data:/app/data
+        networks:
+            - verdemart
+
 networks:
     verdemart:
         driver: bridge
@@ -68,4 +92,5 @@ networks:
 volumes:
   nopcommerce_data:
   rabbitmq_data:
-  ospos_mysql_data:            
+  ospos_mysql_data:
+  ospos_adapter_data:            

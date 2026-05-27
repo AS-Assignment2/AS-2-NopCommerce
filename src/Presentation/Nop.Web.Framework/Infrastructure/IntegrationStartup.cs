@@ -20,6 +20,7 @@ public partial class IntegrationStartup : INopStartup
 
         services.AddScoped<IOutboxService, OutboxService>();
         services.AddScoped<IRabbitMqPublisher, RabbitMqPublisher>();
+        services.AddScoped<IStockUpdateHandler, StockUpdateHandler>();
 
         services.AddHostedService<StockUpdateConsumerBackgroundService>();
     }

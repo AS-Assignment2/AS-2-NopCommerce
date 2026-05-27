@@ -1,6 +1,6 @@
 # Services — VerdeMart External System Stubs
 
-This folder contains the independently deployable stub services and (in future weeks) the Order Integration Service and Observability Dashboard that together form the integration layer around nopCommerce.
+This folder contains the independently deployable stub services and (in future weeks) the Order Integration Service that together form the integration layer around nopCommerce.
 
 ---
 
@@ -8,14 +8,17 @@ This folder contains the independently deployable stub services and (in future w
 
 | Service | Folder | Port | Status |
 |---------|--------|------|--------|
-| ERP Stub | `erp-stub/` | 8001 | ✅ Done |
-| WMS Stub | `wms-stub/` | 8002 | ✅ Done |
-| Order Integration Service | `order-integration-service/` | 8080 | TODO|
-| Observability Dashboard | `dashboard/` | 8090 | TODO |
+| ERP Stub | `erp-stub/` | 8001 | Done |
+| WMS Stub | `wms-stub/` | 8002 | Done |
+| WMS Event Adapter | `wms-event-adapter/` | 8085 | Done |
+| Stub Monitor (Dashboard) | `dashboard/` | 8090 | Done |
+| Order Integration Service | `order-integration-service/` | 8080 | TODO |
 
 ### ERP Stub
 
 Simulates the back-office ERP system that receives orders from the Order Integration Service. Stores all accepted orders in memory and supports switching to a failure mode to trigger the ERP retry scenario (QA-5).
+
+CORS is enabled (`allow_origins=["*"]`) so the browser-based dashboard can call it directly.
 
 **Endpoints:**
 
@@ -33,15 +36,20 @@ Simulates the back-office ERP system that receives orders from the Order Integra
 | `normal` | Accepts orders, stores them, returns `{"status":"accepted","erpRef":"erp-{orderId}"}` |
 | `down` | Returns `503 Service Unavailable` on `POST /orders` — triggers the Polly retry in the Integration Service |
 
+**Idempotency:** duplicate requests with the same `eventId` return the cached `erpRef` without adding to the `orders_received` counter. Tracked via `duplicates_skipped`.
+
 ### WMS Stub
 
 Simulates the Warehouse Management System that receives stock reservation requests. Maintains an in-memory stock ledger per product. On successful reservation it fires an asynchronous webhook to the Integration Service, which then publishes the `stock.updated` event to RabbitMQ. Supports three failure modes to drive the circuit breaker scenario (QA-1, QA-3).
+
+CORS is enabled (`allow_origins=["*"]`) so the browser-based dashboard can call it directly.
 
 **Endpoints:**
 
 | Method | Path | Description |
 |--------|------|-------------|
 | `POST` | `/reservations` | Reserve stock for an order. Returns `503` (down) or delays 10 s (slow). |
+| `GET` | `/reservations` | List all reservations processed so far. |
 | `GET` | `/stock/{productId}` | Query current stock for a product. |
 | `POST` | `/admin/mode` | Switch mode: `normal`, `slow`, or `down`. |
 | `GET` | `/health` | Health check — always `200`, reports mode and reservation count. |
@@ -53,6 +61,52 @@ Simulates the Warehouse Management System that receives stock reservation reques
 | `normal` | Reserves stock, fires webhook, returns `{"status":"reserved","reservationId":"..."}` |
 | `slow` | Waits **10 seconds** before responding — triggers circuit breaker timeout detection |
 | `down` | Returns `503 Service Unavailable` — triggers circuit breaker failure counting |
+
+**Idempotency:** duplicate requests with the same `orderId` return the cached `reservationId` without re-decrementing stock. Tracked via `duplicates_skipped`. The idempotency check runs *before* the slow-mode delay, so retries don't wait 10 s unnecessarily (QA-3).
+
+### WMS Event Adapter
+
+Temporary bridge service that receives stock-change webhooks from the WMS stub and publishes them to RabbitMQ. It exists because the WMS stub needs to notify the message bus after a reservation, but the Integration Service (which will eventually own the `/webhooks/stock-changed` endpoint) is not yet available.
+
+When the Integration Service is deployed, change `STOCK_WEBHOOK_URL` in `docker-compose.yml` to `http://order-integration-service:8080/webhooks/stock-changed` and this service becomes unnecessary.
+
+**Endpoints:**
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/webhooks/stock-changed` | Receive webhook from WMS stub, publish `stock.updated` to RabbitMQ. |
+| `GET` | `/health` | Always `200` — reports `events_published` and `events_failed`. |
+
+**Published message:** routing key `stock.updated` on exchange `verdemart.events` (topic, durable, persistent delivery mode 2).
+
+### Stub Monitor Dashboard
+
+Single-page React app (port 8090) with a dark sidebar and full-width layout. Polls every 3 seconds — no manual refreshes needed.
+
+**Sidebar:** lists ERP Stub and WMS Stub with live pulsing status dots (green = reachable, red = unreachable). Polls both `/health` endpoints every 5 s independently of the page content.
+
+**ERP page (`/erp`):**
+
+| Feature | Description |
+|---------|-------------|
+| Mode badge | Shows `NORMAL` (green) or `DOWN` (red) — current ERP state |
+| Orders Received | Running count of orders accepted since startup |
+| Duplicates Skipped | Count of idempotent retries intercepted (QA-5) — turns yellow when > 0 |
+| Service Status | `OK` / `DOWN` with colour-coded accent |
+| Failure Injection | `Normal` / `Down — 503` buttons + `Reset State` |
+| Recent Orders table | Last 10 orders — order ID, event ID, customer, items, total, timestamp |
+
+**WMS page (`/wms`):**
+
+| Feature | Description |
+|---------|-------------|
+| Integration Service card | Polls `GET :8080/health` — shows circuit breaker state (CLOSED/HALF-OPEN/OPEN), DLQ depth, last processed timestamp. Card turns red when circuit is OPEN. Shows "connecting…" until the Integration Service is up. |
+| Mode badge | Shows `NORMAL` (green), `SLOW` (yellow), or `DOWN` (red) |
+| Reservations Processed | Running count of reservations since startup |
+| Duplicates Skipped | Count of idempotent retries intercepted (QA-3) — turns yellow when > 0 |
+| Failure Injection | `Normal` / `Slow — 10s` / `Down — 503` buttons + `Reset State` |
+| Stock Lookup | Enter a product ID → shows quantity with colour (green/amber/red) and LOW STOCK / OUT OF STOCK labels |
+| Recent Reservations table | Last 10 reservations — reservation ID, order ID, products, stock levels after |
 
 ---
 
@@ -96,9 +150,28 @@ Request → mode check → (optional 10s sleep) → decrement stock →
 
 If `STOCK_WEBHOOK_URL` is not set, the webhook step is skipped with a warning log — this allows the WMS stub to run standalone during development without the Integration Service being up.
 
+### Dashboard (`dashboard/src/`)
+
+Vite + React + Tailwind CSS app with two routes served by nginx. No backend — all data comes from direct browser calls to the stub APIs (CORS required, hence the middleware on both stubs).
+
+```
+src/
+├── App.tsx           — BrowserRouter, dark sidebar, route definitions
+├── lib/utils.ts      — cn() helper (clsx + tailwind-merge)
+└── pages/
+    ├── ErpPage.tsx   — polls /health + /orders every 3s, mode buttons, metric cards
+    └── WmsPage.tsx   — polls /health + /reservations + :8080/health every 3s, mode buttons, stock lookup
+```
+
+The polling loop uses `setInterval` inside a `useEffect` — cleanup runs on unmount so there are no leaked timers on route change. Mode control buttons call `POST /admin/mode` and rely on the next poll cycle (≤3 s) to reflect the new state in the badge. The Integration Service health poll in `WmsPage` is wrapped in a separate `try/catch` so WMS data never stops updating if the IS is unreachable.
+
+Built with `npm run build` → static files in `dist/` → served by `nginx:alpine` on port 8090.
+
 ---
 
 ## Tools Used
+
+### Stubs (ERP + WMS)
 
 | Tool | Version | Purpose |
 |------|---------|---------|
@@ -107,9 +180,31 @@ If `STOCK_WEBHOOK_URL` is not set, the webhook step is skipped with a warning lo
 | Uvicorn | 0.30.0 | ASGI server that runs FastAPI |
 | Pydantic | (bundled with FastAPI) | Request/response model validation |
 | httpx | 0.27.0 | Async HTTP client used by WMS stub to call the webhook |
-| Docker | — | Container packaging |
+| Docker | — | Container packaging (`python:3.12-slim`) |
 
-Both stubs are built from `python:3.12-slim` for a minimal image footprint.
+### WMS Event Adapter
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| Python | 3.12 | Runtime |
+| FastAPI | 0.115.0 | HTTP framework |
+| Uvicorn | 0.30.0 | ASGI server |
+| pika | 1.3.2 | RabbitMQ AMQP client (blocking connection, per-request) |
+| Docker | — | Container packaging (`python:3.12-slim`) |
+
+### Dashboard
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| Node.js | 20 | Build-time runtime |
+| Vite | 5.4 | Build tool and dev server |
+| React | 18.3 | UI framework |
+| React Router | 6.28 | Client-side routing (`/erp`, `/wms`) |
+| Tailwind CSS | 3.4 | Utility-first styling |
+| clsx + tailwind-merge | 2.x | Conditional class composition (`cn()` helper) |
+| lucide-react | 0.460 | Icons |
+| nginx | alpine | Serves the static build in production |
+| Docker | — | Multi-stage build: Node builder + nginx runner |
 
 ---
 
@@ -117,13 +212,25 @@ Both stubs are built from `python:3.12-slim` for a minimal image footprint.
 
 ### Option A — Docker Compose (recommended)
 
-Run only the stubs (no need for the full stack):
+Run the full stub stack (RabbitMQ + WMS Event Adapter + both stubs + dashboard):
+
+```bash
+docker compose up --build rabbitmq wms-event-adapter erp-stub wms-stub dashboard
+```
+
+Startup order is enforced by `depends_on` with `service_healthy`:
+```
+rabbitmq → wms-event-adapter → wms-stub → dashboard
+                                erp-stub → dashboard
+```
+
+Then open **http://localhost:8090** (dashboard) and **http://localhost:15672** (RabbitMQ management, guest/guest).
+
+To run stubs only (no UI, no RabbitMQ):
 
 ```bash
 docker compose up --build erp-stub wms-stub
 ```
-
-Both services will be available on `localhost:8001` and `localhost:8002`.
 
 To run the full stack when all services are ready:
 
@@ -131,8 +238,9 @@ To run the full stack when all services are ready:
 docker compose up --build
 ```
 
-### Option B — Local Python (no Docker)
+### Option B — Local (no Docker)
 
+**Stubs:**
 ```bash
 # Create a virtual environment
 python3 -m venv .venv
@@ -149,12 +257,20 @@ STOCK_WEBHOOK_URL=http://localhost:8080/webhooks/stock-changed \
 uvicorn main:app --port 8002 --reload
 ```
 
+**Dashboard (dev server):**
+```bash
+cd services/dashboard
+npm install   # first time only
+npm run dev   # opens on http://localhost:5173
+```
+
 ### Interactive API docs
 
-Once running, FastAPI generates interactive documentation automatically:
+FastAPI generates interactive documentation automatically:
 
 - ERP Stub: http://localhost:8001/docs
 - WMS Stub: http://localhost:8002/docs
+- Dashboard: http://localhost:8090
 
 ---
 
@@ -345,7 +461,7 @@ sequenceDiagram
 
 ## What Must Be Implemented for a Complete Flow
 
-The two stubs are ready and independently testable. The following components are needed to complete the end-to-end integration:
+The stubs and dashboard are ready and independently testable. The following components are needed to complete the end-to-end integration:
 
 ### 1. Order Integration Service — `services/order-integration-service/`
 
@@ -397,16 +513,6 @@ Without this, stock levels in nopCommerce are never updated after WMS confirms a
 - Calls `ProductService.AdjustInventoryAsync()` with the new quantity from the webhook payload
 - Register in `IntegrationStartup.cs`
 
-### 4. Observability Dashboard — `services/dashboard/` 
-
-Without this, the pressure point is invisible during the demo.
-
-- Single-page HTML/JS that polls every 2 s:
-  - `GET http://order-integration-service:8080/health` → circuit state, DLQ depth
-  - `GET http://nopcommerce/integration/health` → outbox pending count
-- Demo control buttons wired to `POST /admin/mode` on both stubs
-- Visual colour indicators (green/yellow/red)
-
 ---
 
 ## Environment Variables Reference
@@ -435,6 +541,7 @@ No environment variables — all configuration is via the `/admin/mode` endpoint
 - [x] `GET /health` — always `200`, reports mode and order count
 - [x] Mode `down` returns `503` on business endpoints only
 - [x] Request validated against `order.placed` contract (Pydantic model)
+- [x] CORS middleware (`allow_origins=["*"]`) for dashboard browser calls
 - [x] Structured logging with `[ERP]` prefix
 - [x] `Dockerfile` (python:3.12-slim, port 8001)
 - [x] `requirements.txt` (fastapi, uvicorn)
@@ -444,6 +551,7 @@ No environment variables — all configuration is via the `/admin/mode` endpoint
 
 - [x] `services/wms-stub/` folder created
 - [x] `POST /reservations` — reserves stock per item, fires webhook, returns `reservationId`
+- [x] `GET /reservations` — returns all reservations processed so far
 - [x] `GET /stock/{productId}` — returns current quantity (defaults to `DEFAULT_STOCK`)
 - [x] `POST /admin/mode` — switches between `normal`, `slow`, and `down`
 - [x] `GET /health` — always `200`, reports mode and reservation count
@@ -455,16 +563,51 @@ No environment variables — all configuration is via the `/admin/mode` endpoint
 - [x] Webhook errors caught and logged — never fail the reservation response
 - [x] `STOCK_WEBHOOK_URL` configurable via env var; skipped gracefully if unset
 - [x] Webhook payload matches `stock.updated` contract
+- [x] CORS middleware (`allow_origins=["*"]`) for dashboard browser calls
 - [x] Structured logging with `[WMS]` prefix
 - [x] `Dockerfile` (python:3.12-slim, port 8002)
 - [x] `requirements.txt` (fastapi, uvicorn, httpx)
 - [x] Added to `docker-compose.yml` with health check and env vars
 
+### WMS Event Adapter
+
+- [x] `services/wms-event-adapter/` folder created
+- [x] `POST /webhooks/stock-changed` — receives WMS webhook, publishes `stock.updated` to RabbitMQ
+- [x] `GET /health` — reports `events_published` and `events_failed`
+- [x] Exchange declared as topic, durable; messages published with `delivery_mode=2` (persistent)
+- [x] `RABBITMQ_URL` configurable via env var
+- [x] Structured logging with `[WMS-ADAPTER]` prefix
+- [x] `Dockerfile` (python:3.12-slim, port 8085)
+- [x] `requirements.txt` (fastapi, uvicorn, pika)
+- [x] Added to `docker-compose.yml` with `depends_on: rabbitmq (service_healthy)`
+
+### Stub Monitor Dashboard
+
+- [x] `services/dashboard/` folder created (Vite + React + Tailwind)
+- [x] Dark sidebar with pulsing status dots per service
+- [x] `/erp` route — ERP page with live data and mode controls
+- [x] `/wms` route — WMS page with live data, mode controls, and stock lookup
+- [x] Auto-refresh polling every 3 seconds (setInterval, cleanup on unmount)
+- [x] Mode badge — green/yellow/red indicator per current stub mode
+- [x] Metric cards with colour-coded accent bars (default/warning/danger/success)
+- [x] Duplicates Skipped counter (ERP + WMS) — turns yellow when > 0
+- [x] Integration Service card (WMS page) — circuit breaker state, DLQ depth, last processed (polls `:8080/health`, silent failure)
+- [x] Failure injection buttons — switch modes directly from the browser
+- [x] Reset State button (ERP + WMS) — clears all in-memory state for clean demo runs
+- [x] Orders table (ERP) — last 10 orders, most recent first
+- [x] Reservations table (WMS) — last 10 reservations with stock-after values
+- [x] Stock lookup (WMS) — colour-coded quantity with LOW STOCK / OUT OF STOCK labels
+- [x] Error banner when stub is unreachable
+- [x] `src/lib/utils.ts` — `cn()` helper (clsx + tailwind-merge)
+- [x] `Dockerfile` — multi-stage: Node 20 builder + nginx:alpine runner, port 8090
+- [x] `nginx.conf` — SPA routing (`try_files` fallback to `index.html`)
+- [x] Added to `docker-compose.yml` with `depends_on: [erp-stub (healthy), wms-stub (healthy)]`
+
 ### Docker Compose
 
+- [x] `rabbitmq` service — health check (`rabbitmq-diagnostics ping`)
 - [x] `erp-stub` service — build, port 8001, health check
-- [x] `wms-stub` service — build, port 8002, health check, env vars
-- [x] RabbitMQ health check added
+- [x] `wms-event-adapter` service — build, port 8085, `RABBITMQ_URL` env var, `depends_on: rabbitmq (service_healthy)`
+- [x] `wms-stub` service — build, port 8002, health check, `DEFAULT_STOCK` + `STOCK_WEBHOOK_URL` env vars, `depends_on: wms-event-adapter (service_healthy)`
+- [x] `dashboard` service — build, port 8090, `depends_on: erp-stub + wms-stub (service_healthy)`
 - [ ] `order-integration-service` — pending
-- [ ] `depends_on: service_healthy` conditions — pending service
-- [ ] `dashboard` service — pending Week 4

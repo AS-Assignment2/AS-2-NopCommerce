@@ -27,6 +27,9 @@ else:
 mode: str = "normal"
 stock: dict[int, int] = {}
 reservations: list[dict] = []
+processed_orders: set[int] = set()        # orderId deduplication
+processed_order_refs: dict[int, str] = {}  # orderId → reservationId
+duplicates_skipped: int = 0
 
 
 # --- Models ---
@@ -66,9 +69,17 @@ async def _call_webhook(product_id: int, new_qty: int) -> None:
 # --- Endpoints ---
 @app.post("/reservations", status_code=200)
 async def reserve(body: ReservationRequest, background_tasks: BackgroundTasks):
+    global duplicates_skipped
     if mode == "down":
         log.warning("mode=down — rejecting POST /reservations for orderId=%s", body.orderId)
         raise HTTPException(status_code=503, detail="WMS unavailable")
+
+    # Idempotency: same orderId already processed → return original reservationId immediately
+    if body.orderId in processed_orders:
+        reservation_id = processed_order_refs[body.orderId]
+        duplicates_skipped += 1
+        log.info("Duplicate orderId=%d — returning cached reservationId=%s (total skipped=%d)", body.orderId, reservation_id, duplicates_skipped)
+        return {"status": "reserved", "reservationId": reservation_id}
 
     if mode == "slow":
         log.info("mode=slow — applying 10s delay for orderId=%s", body.orderId)
@@ -86,6 +97,8 @@ async def reserve(body: ReservationRequest, background_tasks: BackgroundTasks):
         background_tasks.add_task(_call_webhook, item.productId, new_qty)
 
     reservations.append({"reservationId": reservation_id, "orderId": body.orderId, "stock": updated_stock})
+    processed_orders.add(body.orderId)
+    processed_order_refs[body.orderId] = reservation_id
     return {"status": "reserved", "reservationId": reservation_id}
 
 
@@ -111,6 +124,24 @@ def set_mode(body: ModeRequest):
     return {"mode": mode}
 
 
+@app.post("/admin/reset")
+def reset():
+    global mode, stock, reservations, processed_orders, processed_order_refs, duplicates_skipped
+    mode = "normal"
+    stock.clear()
+    reservations.clear()
+    processed_orders.clear()
+    processed_order_refs.clear()
+    duplicates_skipped = 0
+    log.info("State reset")
+    return {"status": "reset"}
+
+
 @app.get("/health")
 def health():
-    return {"status": "ok", "mode": mode, "reservations_processed": len(reservations)}
+    return {
+        "status": "ok",
+        "mode": mode,
+        "reservations_processed": len(reservations),
+        "duplicates_skipped": duplicates_skipped,
+    }

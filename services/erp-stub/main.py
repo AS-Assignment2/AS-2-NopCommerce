@@ -12,6 +12,9 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 # --- State ---
 mode: str = "normal"
 orders: list[dict] = []
+processed_events: set[str] = set()       # eventId deduplication
+processed_event_refs: dict[str, str] = {}  # eventId → erpRef
+duplicates_skipped: int = 0
 
 
 # --- Models ---
@@ -37,14 +40,24 @@ class ModeRequest(BaseModel):
 # --- Endpoints ---
 @app.post("/orders", status_code=200)
 def receive_order(body: OrderRequest):
+    global duplicates_skipped
     if mode == "down":
         log.warning("mode=down — rejecting POST /orders for orderId=%s", body.orderId)
         raise HTTPException(status_code=503, detail="ERP unavailable")
 
-    record = body.model_dump()
-    orders.append(record)
+    # Idempotency: same eventId already processed → return original response
+    if body.eventId in processed_events:
+        erp_ref = processed_event_refs[body.eventId]
+        duplicates_skipped += 1
+        log.info("Duplicate eventId=%s — returning cached erpRef=%s (total skipped=%d)", body.eventId, erp_ref, duplicates_skipped)
+        return {"status": "accepted", "erpRef": erp_ref}
+
+    erp_ref = f"erp-{body.orderId}"
+    orders.append(body.model_dump())
+    processed_events.add(body.eventId)
+    processed_event_refs[body.eventId] = erp_ref
     log.info("Order accepted: orderId=%s eventId=%s items=%d", body.orderId, body.eventId, len(body.items))
-    return {"status": "accepted", "erpRef": f"erp-{body.orderId}"}
+    return {"status": "accepted", "erpRef": erp_ref}
 
 
 @app.get("/orders")
@@ -63,6 +76,23 @@ def set_mode(body: ModeRequest):
     return {"mode": mode}
 
 
+@app.post("/admin/reset")
+def reset():
+    global mode, orders, processed_events, processed_event_refs, duplicates_skipped
+    mode = "normal"
+    orders.clear()
+    processed_events.clear()
+    processed_event_refs.clear()
+    duplicates_skipped = 0
+    log.info("State reset")
+    return {"status": "reset"}
+
+
 @app.get("/health")
 def health():
-    return {"status": "ok", "mode": mode, "orders_received": len(orders)}
+    return {
+        "status": "ok",
+        "mode": mode,
+        "orders_received": len(orders),
+        "duplicates_skipped": duplicates_skipped,
+    }

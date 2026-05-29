@@ -9,5 +9,5 @@ public class OsposConfig
     public int Port { get; set; } = 3306;
 
     public string ConnectionString =>
-        $"Server={Host};Port={Port};Database={Database};User={User};Password={Password};";
+        $"Server={Host};Port={Port};Database={Database};User={User};Password={Password};SslMode=None;";
 }

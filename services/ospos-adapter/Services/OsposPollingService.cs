@@ -1,4 +1,8 @@
+using System.Text.Json;
+using Dapper;
+using MySqlConnector;
 using OsposAdapter.Configuration;
+using OsposAdapter.Models;
 
 namespace OsposAdapter.Services;
 
@@ -28,7 +32,6 @@ public class OsposPollingService : BackgroundService
     {
         _logger.LogInformation("OSPOS Polling Service starting...");
         _logger.LogInformation("Polling interval: {Interval} seconds", _adapterConfig.PollingIntervalSeconds);
-        _logger.LogInformation("OSPOS Database: {ConnectionString}", _osposConfig.ConnectionString);
 
         await _tracker.InitializeAsync();
 
@@ -54,10 +57,82 @@ public class OsposPollingService : BackgroundService
 
     private async Task PollAndPublishAsync()
     {
-        _logger.LogInformation("Polling OSPOS for new sales...");
+        var lastProcessedTime = await _tracker.GetLastProcessedTimeAsync();
+        _logger.LogInformation("Polling OSPOS for sales after {LastTime}", lastProcessedTime);
 
-        _logger.LogInformation("Polling cycle complete (stub - no actual queries yet)");
+        var sales = await QueryOsposSalesAsync(lastProcessedTime);
+        var salesList = sales.ToList();
 
-        await Task.CompletedTask;
+        if (salesList.Count == 0)
+        {
+            _logger.LogInformation("No new sales found");
+            return;
+        }
+
+        _logger.LogInformation("Found {Count} sale line items to process", salesList.Count);
+
+        var salesGroupedById = salesList
+            .GroupBy(s => s.SaleId)
+            .OrderBy(g => g.First().SaleTime);
+
+        foreach (var saleGroup in salesGroupedById)
+        {
+            var saleId = saleGroup.Key;
+
+            if (await _tracker.IsProcessedAsync(saleId))
+            {
+                _logger.LogInformation("Sale {SaleId} already processed, skipping", saleId);
+                continue;
+            }
+
+            var saleEvent = BuildSaleCompletedEvent(saleGroup);
+            var messageBody = JsonSerializer.Serialize(saleEvent);
+
+            await _publisher.PublishAsync("sale.completed", messageBody);
+            await _tracker.MarkProcessedAsync(saleId);
+            await _tracker.UpdateLastProcessedTimeAsync(saleGroup.First().SaleTime);
+
+            _logger.LogInformation(
+                "Published sale.completed for OSPOS sale {SaleId} with {ItemCount} items",
+                saleId,
+                saleEvent.Items.Count
+            );
+        }
+    }
+
+    private async Task<IEnumerable<OsposSale>> QueryOsposSalesAsync(DateTime lastProcessedTime)
+    {
+        using var connection = new MySqlConnection(_osposConfig.ConnectionString);
+        return await connection.QueryAsync<OsposSale>(@"
+            SELECT
+                s.sale_id AS SaleId,
+                s.sale_time AS SaleTime,
+                i.item_number AS Sku,
+                si.quantity_purchased AS Quantity
+            FROM ospos_sales s
+            JOIN ospos_sales_items si ON s.sale_id = si.sale_id
+            JOIN ospos_items i ON si.item_id = i.item_id
+            WHERE s.sale_time > @lastProcessedTime
+              AND s.sale_status = 'COMPLETED'
+            ORDER BY s.sale_time ASC
+            LIMIT 100",
+            new { lastProcessedTime }
+        );
+    }
+
+    private static SaleCompletedEvent BuildSaleCompletedEvent(IGrouping<int, OsposSale> saleGroup)
+    {
+        var firstItem = saleGroup.First();
+        return new SaleCompletedEvent
+        {
+            EventId = Guid.NewGuid().ToString(),
+            Timestamp = firstItem.SaleTime,
+            Items = saleGroup.Select(s => new SaleItem
+            {
+                Sku = s.Sku,
+                Quantity = s.Quantity,
+                StoreId = "main"
+            }).ToList()
+        };
     }
 }

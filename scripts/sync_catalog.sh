@@ -16,18 +16,16 @@ MYSQL_PASSWORD="${MYSQL_PASSWORD:-ospospass}"
 
 products="$(docker exec "$MSSQL_CONTAINER" /opt/mssql-tools18/bin/sqlcmd \
     -S localhost -U "$MSSQL_USER" -P "$MSSQL_PASSWORD" -d "$MSSQL_DB" \
-    -No -W -s '|' -h -1 -Q "SET NOCOUNT ON;
-        SELECT REPLACE(Sku, '''', ''''''),
-               REPLACE(Name, '''', ''''''),
-               Price,
-               StockQuantity
+    -No -W -s $'\t' -h -1 -Q "SET NOCOUNT ON;
+        SELECT Sku, Name, Price, StockQuantity
         FROM Product
         WHERE Deleted = 0 AND Published = 1 AND Sku IS NOT NULL AND Sku <> '';")"
 
-awk -F'|' 'NF==4 && $1 != "" {
-    printf "INSERT INTO ospos_items (item_number, name, unit_price) VALUES (\"%s\", \"%s\", %s) ON DUPLICATE KEY UPDATE name=VALUES(name), unit_price=VALUES(unit_price);\n", $1, $2, $3
+awk -F'\t' 'NF==4 && $1 != "" {
+    gsub(/\\/, "\\\\", $2); gsub(/'\''/, "\\'\''", $2);
+    printf "INSERT INTO ospos_items (item_number, name, unit_price) VALUES ('\''%s'\'', '\''%s'\'', %s) ON DUPLICATE KEY UPDATE name=VALUES(name), unit_price=VALUES(unit_price);\n", $1, $2, $3
 }' <<< "$products" \
-| docker exec -i "$MYSQL_CONTAINER" mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DB"
+| docker exec -i "$MYSQL_CONTAINER" mysql --local-infile=0 -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DB"
 
 count="$(docker exec "$MYSQL_CONTAINER" mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DB" -N -e "SELECT COUNT(*) FROM ospos_items;" 2>/dev/null)"
 echo "OSPOS catalog now has $count items."

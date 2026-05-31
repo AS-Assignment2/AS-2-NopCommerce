@@ -131,116 +131,109 @@
 
 ### Week 3 - OSPOS & nopCommerce Integration
 
-#### OSPOS (Open Source Point of Sale)
-- [ ] Deploy OSPOS system
-  - [ ] Pull OSPOS Docker image or setup from source
-  - [ ] Configure MySQL database for OSPOS
-  - [ ] Run OSPOS container
-  - [ ] Access OSPOS web interface
-- [ ] Configure OSPOS
-  - [ ] Create store location
-  - [ ] Create cashier user account
-  - [ ] Configure tax rates
-  - [ ] Sync product catalog with nopCommerce
-    - [ ] Export products from nopCommerce
-    - [ ] Import to OSPOS OR use API to sync
-- [ ] Document OSPOS setup
-  - [ ] Access credentials
-  - [ ] Configuration steps
-  - [ ] Product sync process
-- [ ] Dockerize
-  - [ ] Add OSPOS service to docker-compose.yml
-  - [ ] Configure volumes for persistence
+#### OSPOS (Open Source Point of Sale) - COMPLETE
+- [x] Deploy OSPOS system
+  - [x] Pull OSPOS Docker image (jekkos/opensourcepos)
+  - [x] Configure MySQL database for OSPOS (ospos_mysql in docker-compose)
+  - [x] Run OSPOS container
+  - [x] Access OSPOS web interface
+- [x] Configure OSPOS
+  - [x] Create store location
+  - [x] Create cashier user account
+  - [x] Configure tax rates
+  - [x] Sync product catalog with nopCommerce
+    - [x] Export products from nopCommerce MSSQL
+    - [x] Import to OSPOS via catalog sync script (commit 66cc015118)
+- [x] Document OSPOS setup (docs/ospos-setup.md)
+- [x] Dockerize
+  - [x] Add OSPOS service to docker-compose.yml
+  - [x] Configure volumes for persistence
 
-#### OSPOS Integration Adapter
+#### OSPOS Integration Adapter - COMPLETE (`services/ospos-adapter/`)
 **Note:** Adapter publishes `sale.completed` to RabbitMQ. Integration Service consumes this event and forwards to WMS/ERP.
 
-- [ ] Create `services/ospos-adapter/` project (.NET 10 worker service)
-- [ ] Implement sale polling mechanism
-  - [ ] Connect to OSPOS MySQL database (MySQL polling approach)
-  - [ ] Poll for new sales (query ospos_sales + ospos_sales_items + ospos_items)
-  - [ ] Track last processed sale timestamp in SQLite
-- [ ] Transform sale data
-  - [ ] Map OSPOS sale format → `SaleCompletedEvent` model
-  - [ ] Extract: SKU, quantity, storeId, timestamp
-  - [ ] Generate EventId (UUID) for idempotency
-- [ ] Publish to RabbitMQ
-  - [ ] Publish `sale.completed` to `verdemart.events` exchange
-  - [ ] Routing key: `sale.completed`
-  - [ ] Use RabbitMQ publisher pattern from nopCommerce
-- [ ] Idempotency handling
-  - [ ] Track processed sale IDs in SQLite (/app/data/idempotency.db)
-  - [ ] Skip duplicate sales (check before publishing)
-- [ ] Error handling and logging
-  - [ ] Log all polling cycles
-  - [ ] Handle OSPOS MySQL connection failures with retry
-  - [ ] Retry logic for RabbitMQ publish failures
-- [ ] Dockerize
-  - [ ] Dockerfile (multi-stage .NET 10 Alpine)
-  - [ ] Add to docker-compose.yml with ospos_mysql dependency
-  - [ ] Configure polling interval via POLLING_INTERVAL_SECONDS env var (default 30s)
-  - [ ] Volume mount for SQLite persistence (ospos_adapter_data:/app/data)
+- [x] Create `services/ospos-adapter/` project (.NET 10 worker service)
+- [x] Implement sale polling mechanism
+  - [x] Connect to OSPOS MySQL database
+  - [x] Poll for new sales (OsposPollingService)
+  - [x] Track last processed sale timestamp in SQLite
+- [x] Transform sale data
+  - [x] Map OSPOS sale format → `SaleCompletedEvent` model
+  - [x] Extract: SKU, quantity, storeId, timestamp
+  - [x] Generate EventId (UUID) for idempotency
+- [x] Publish to RabbitMQ
+  - [x] Publish `sale.completed` to `verdemart.events` exchange
+  - [x] Routing key: `sale.completed`
+- [x] Idempotency handling (IdempotencyTracker — SQLite /app/data/idempotency.db)
+- [x] Error handling and logging
+- [x] Dockerize
+  - [x] Dockerfile (multi-stage .NET 10)
+  - [x] Add to docker-compose.yml with ospos_mysql + rabbitmq dependencies
+  - [x] Configure polling interval via POLLING_INTERVAL_SECONDS env var
+  - [x] Volume mount for SQLite persistence
 
-#### nopCommerce - Real Order Events
-- [ ] Replace spike's `AppStartedEventConsumer`
-- [ ] Hook into `OrderProcessingService.PlaceOrderAsync()`
-  - [ ] After order saved to DB
-  - [ ] Write IntegrationEvent to outbox (same transaction)
-  - [ ] Event type: `order.placed`
-  - [ ] Event data: orderId, customerId, items, total, timestamp
-- [ ] Update `SpikeOutboxPublisherTask` → `OutboxPublisherTask`
-  - [ ] Remove "Spike" prefix
-  - [ ] Production-ready error handling
-  - [ ] Configurable poll interval (appsettings.json)
+#### nopCommerce - Real Order Events - COMPLETE
+- [x] Replace spike's `AppStartedEventConsumer` → `OrderPlacedEventConsumer`
+- [x] Hook into order placement
+  - [x] After order saved to DB
+  - [x] Write IntegrationEvent to outbox
+  - [x] Event type: `order.placed`
+  - [x] Event data: orderId, customerId, items, total, timestamp
+- [x] Update `SpikeOutboxPublisherTask` → `OutboxPublisherTask`
+  - [x] Remove "Spike" prefix
+  - [x] Production-ready error handling
+  - [x] Configurable poll interval
 
-#### nopCommerce - Stock Consumer
-**Note:** Consumer handles `stock.updated` from WMS (both web orders and POS sales flow through WMS). No OSPOS-specific changes needed.
+#### nopCommerce - Stock Consumer - COMPLETE
+**Note:** Consumer handles `stock.updated` from WMS (both web orders and POS sales flow through WMS).
 
-- [ ] Create `StockUpdateConsumerBackgroundService`
-  - [ ] Subscribe to RabbitMQ `stock.updated` routing key
-  - [ ] Deserialize event
-  - [ ] Call `ProductService.AdjustInventoryAsync()`
-- [ ] Cross-channel conflict resolution
-  - [ ] If stock becomes negative after any stock update
-  - [ ] Query recent pending web orders (last 60s)
-  - [ ] Cancel most recent web order(s) until stock ≥ 0
-  - [ ] Publish `order.cancelled` event
+- [x] Create `StockUpdateConsumerBackgroundService`
+  - [x] Subscribe to RabbitMQ `stock.updated` routing key
+  - [x] Deserialize event
+  - [x] Call `ProductService.AdjustInventoryAsync()`
+- [x] Cross-channel conflict resolution (StockUpdateHandler.cs)
+  - [x] If stock becomes negative after any stock update
+  - [x] Query recent pending web orders (last 60s)
+  - [x] Cancel most recent web order(s) until stock ≥ 0
+  - [x] Publish `order.cancelled` event
   - [ ] Send customer notification email
-- [ ] Register consumer in `IntegrationStartup.cs`
+- [x] Register consumer in `IntegrationStartup.cs`
 
-#### nopCommerce - Health Endpoint
-- [ ] Add `/integration/health` endpoint
-  - [ ] Return: pending outbox count, last publish time, status
-  - [ ] Status codes: 200 (healthy), 503 (degraded)
-- [ ] Add controller to `Nop.Web`
+#### nopCommerce - Health Endpoint - COMPLETE
+- [x] Add `/integration/health` endpoint (IntegrationHealthController.cs)
+  - [x] Return: pending outbox count, last publish time, status
+  - [x] Status codes: 200 (healthy), 503 (degraded)
+- [x] Add controller to `Nop.Web`
 
 ---
 
 ### Week 4 - Observability & Testing
 
-#### Observability Dashboard
-- [ ] Create `services/dashboard/` project (Vite + React + Tailwind, port 8090)
-- [ ] Dark sidebar with pulsing live status dots per service
-- [ ] Full-width layout (sidebar + main content, no narrow max-w column)
-- [ ] Poll endpoints every 3 seconds:
-  - [ ] GET /integration/health (nopCommerce) — pending Henrique
-  - [ ] GET /health (Integration Service) — card ready, shows "connecting…" until Martim's service is up
+#### Observability Dashboard - MOSTLY COMPLETE
+- [x] Create `services/dashboard/` project (Vite + React + Tailwind, port 8090)
+- [x] Dark sidebar with pulsing live status dots per service
+- [x] Full-width layout (sidebar + main content)
+- [x] Poll endpoints every 3 seconds:
+  - [x] GET /integration/health (nopCommerce) — endpoint exists; dashboard wiring may still need polling card
+  - [x] GET /health (Integration Service) — card ready, shows "connecting…" until IS is up
 - [ ] Display cards:
-  - [ ] Circuit breaker state (OPEN/HALF_OPEN/CLOSED) — on WMS page, polls Integration Service /health
-  - [ ] Dead-letter queue depth — on WMS page, polls Integration Service /health
-  - [ ] WMS mode (normal/slow/down) — badge on WMS page
-  - [ ] Duplicates Skipped (ERP + WMS) — idempotency guard counters
-  - [ ] Outbox pending count — pending Henrique (nopCommerce /integration/health)
-  - [ ] Last event published timestamp — shown when Integration Service is online
+  - [x] WMS mode (normal/slow/down) — badge on WMS page
+  - [x] ERP mode (normal/down) — badge on ERP page
+  - [x] Duplicates Skipped (ERP + WMS) — idempotency guard counters
+  - [x] Circuit breaker state (OPEN/HALF_OPEN/CLOSED) — polling wired, awaits IS
+  - [x] Dead-letter queue depth — polling wired, awaits IS
+  - [ ] Outbox pending count — needs wiring to `/integration/health`
+  - [x] Last event published timestamp — shown when Integration Service is online
 - [ ] Demo control buttons:
-  - [ ] Toggle WMS mode (normal/slow/down) — buttons on WMS page
-  - [ ] Toggle ERP mode (normal/down) — buttons on ERP page
-  - [ ] Reset State (ERP + WMS) — clears all counters and stock for clean demo runs
-  - [ ] Simulate POS sale — pending OSPOS integration (Sebastião)
-  - [ ] Clear DLQ — pending Integration Service (Martim)
-- [ ] Visual indicators (red/yellow/green for status, colour-coded metric cards)
-- [ ] Stock lookup with LOW STOCK / OUT OF STOCK labels
-- [ ] Dockerize and add to docker-compose.yml
+  - [x] Toggle WMS mode (normal/slow/down)
+  - [x] Toggle ERP mode (normal/down)
+  - [x] Reset State (ERP + WMS)
+  - [ ] Simulate POS sale — pending OSPOS integration
+  - [ ] Clear DLQ — pending Integration Service
+- [x] Visual indicators (red/yellow/green for status, colour-coded metric cards)
+- [x] Stock lookup
+  - [ ] LOW STOCK / OUT OF STOCK labels
+- [x] Dockerize and add to docker-compose.yml
 
 #### Integration Tests
 - [ ] Test: Outbox publishes to RabbitMQ
@@ -281,17 +274,17 @@
 
 ### Week 5 - Documentation & Final Polish
 
-#### Architecture Report
-- [ ] Executive summary
-- [ ] Business drivers and QA scenarios
-- [ ] Current-state analysis
-- [ ] Bounded contexts and responsibilities
-- [ ] Target architecture (C4 diagrams)
-- [ ] Evolution path (step-by-step)
-- [ ] Design decisions (ADRs)
-- [ ] Cross-cutting concerns (observability, idempotency)
-- [ ] Scope decisions and justifications (stubs, POS, adapters)
-- [ ] Evidence pack references
+#### Architecture Report - COMPLETE (docs/architecture-report.md, 876 lines)
+- [x] Executive summary
+- [x] Business drivers and QA scenarios
+- [x] Current-state analysis
+- [x] Bounded contexts and responsibilities
+- [x] Target architecture (C4 diagrams)
+- [x] Evolution path (step-by-step)
+- [x] Design decisions (ADRs)
+- [x] Cross-cutting concerns (observability, idempotency)
+- [x] Scope decisions and justifications (stubs, POS, adapters)
+- [ ] Evidence pack references (pending evidence pack)
 
 #### ADR Updates
 - [ ] Review all 4 ADRs for consistency
@@ -344,18 +337,18 @@
 ## Repository & Collaboration
 
 ### Git Workflow
-- [ ] Merge spike branch to develop (once access granted)
-- [ ] Create feature branches:
+- [x] Merge spike branch to develop
+- [x] Create feature branches:
   - [ ] `feature/integration-service`
-  - [ ] `feature/stubs` (ERP, WMS, POS)
-  - [ ] `feature/nop-stock-consumer`
-  - [ ] `feature/observability-dashboard`
-- [ ] Pull request review process
+  - [x] `feature/stubs` (ERP, WMS) — PR #4 merged
+  - [x] `feature/nop-real-order-events` — PR #2 merged
+  - [x] `feature/StockConsumer` — PR #3 merged
+  - [x] `feature/observability-dashboard` — merged with stubs PR
+- [x] Pull request review process (PRs #1–#4 merged)
 - [ ] Final merge to main for submission
 
 ### Team Coordination
-- [ ] Assign owners to each service/component
-- [ ] Weekly sync meetings
+- [x] Assign owners to each service/component
 - [ ] Shared evidence pack folder
 - [ ] Demo rehearsal schedule
 

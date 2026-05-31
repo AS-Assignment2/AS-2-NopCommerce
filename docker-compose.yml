@@ -9,7 +9,9 @@ services:
         depends_on:
             - nopcommerce_database
             - rabbitmq
-
+        networks:
+            - verdemart
+            
     nopcommerce_database:
         image: "mcr.microsoft.com/mssql/server:2019-latest"
         container_name: nopcommerce_mssql_server
@@ -17,6 +19,8 @@ services:
             SA_PASSWORD: "nopCommerce_db_password"
             ACCEPT_EULA: "Y"
             MSSQL_PID: "Express"
+        networks:
+            - verdemart
 
     rabbitmq:
         image: "rabbitmq:3-management"
@@ -92,7 +96,66 @@ services:
                 condition: service_healthy
             wms-stub:
                 condition: service_healthy
+        networks:
+            - verdemart
+
+    ospos_mysql:
+        image: mysql:5.7
+        container_name: ospos_mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ospospass
+            MYSQL_DATABASE: ospos
+        volumes:
+            - ospos_mysql_data:/var/lib/mysql
+        networks:
+            - verdemart
+        command: --default-authentication-plugin=mysql_native_password
+
+    ospos:
+        image: jekkos/opensourcepos:latest
+        container_name: ospos
+        depends_on:
+            - ospos_mysql
+        environment:
+            DB_HOST: ospos_mysql
+            DB_NAME: ospos
+            DB_USER: root
+            DB_PASS: ospospass
+        ports:
+            - "8080:80"
+        networks:
+            - verdemart
+
+    ospos_adapter:
+        build: ./services/ospos-adapter
+        container_name: ospos_adapter
+        depends_on:
+            - ospos_mysql
+            - rabbitmq
+        environment:
+            OSPOS_DB_HOST: ospos_mysql
+            OSPOS_DB_NAME: ospos
+            OSPOS_DB_USER: root
+            OSPOS_DB_PASSWORD: ospospass
+            OSPOS_DB_PORT: 3306
+            RABBITMQ_HOST: rabbitmq
+            RABBITMQ_PORT: 5672
+            RABBITMQ_USERNAME: guest
+            RABBITMQ_PASSWORD: guest
+            RABBITMQ_EXCHANGE: verdemart.events
+            POLLING_INTERVAL_SECONDS: 30
+            IDEMPOTENCY_DB_PATH: /app/data/idempotency.db
+        volumes:
+            - ospos_adapter_data:/app/data
+        networks:
+            - verdemart
+
+networks:
+    verdemart:
+        driver: bridge
 
 volumes:
   nopcommerce_data:
   rabbitmq_data:
+  ospos_mysql_data:
+  ospos_adapter_data:            

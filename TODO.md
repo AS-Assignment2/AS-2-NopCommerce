@@ -39,15 +39,23 @@
 - [ ] RabbitMQ consumer configuration
   - [ ] Subscribe to `verdemart.events` exchange
   - [ ] Listen for `order.placed` routing key
+  - [ ] Listen for `sale.completed` routing key (from OSPOS Adapter)
   - [ ] Deserialize IntegrationEvent messages
 - [ ] ERP Adapter
   - [ ] HTTP client for ERP stub
   - [ ] Polly retry policy (exponential backoff, 3 retries)
   - [ ] Error handling and logging
+  - [ ] Handle both web orders and POS sales
 - [ ] WMS Adapter
   - [ ] HTTP client for WMS stub
   - [ ] Polly circuit breaker (3 failures → open, 30s timeout)
   - [ ] Dead-letter queue routing on circuit open
+  - [ ] Handle both web orders (POST /reservations) and POS sales (POST /pos-sales)
+- [ ] POS Sale Consumer
+  - [ ] Consume `sale.completed` events from OSPOS Adapter
+  - [ ] Forward to WMS stub (POST /pos-sales)
+  - [ ] Forward to ERP stub (POST /sales)
+  - [ ] WMS publishes `stock.updated` → nopCommerce updates stock
 - [ ] Reconciliation loop
   - [ ] Background service polls DLQ
   - [ ] Retry on circuit half-open
@@ -145,29 +153,33 @@
   - [ ] Configure volumes for persistence
 
 #### OSPOS Integration Adapter
-- [ ] Create `services/ospos-adapter/` project
+**Note:** Adapter publishes `sale.completed` to RabbitMQ. Integration Service consumes this event and forwards to WMS/ERP.
+
+- [ ] Create `services/ospos-adapter/` project (.NET 10 worker service)
 - [ ] Implement sale polling mechanism
-  - [ ] Connect to OSPOS MySQL database OR use OSPOS API
-  - [ ] Poll for new sales (query sales table with timestamp filter)
-  - [ ] Track last processed sale ID/timestamp
+  - [ ] Connect to OSPOS MySQL database (MySQL polling approach)
+  - [ ] Poll for new sales (query ospos_sales + ospos_sales_items + ospos_items)
+  - [ ] Track last processed sale timestamp in SQLite
 - [ ] Transform sale data
-  - [ ] Map OSPOS sale format → `sale.completed` event
-  - [ ] Extract: productId, quantity, storeId, timestamp
-  - [ ] Generate eventId for idempotency
+  - [ ] Map OSPOS sale format → `SaleCompletedEvent` model
+  - [ ] Extract: SKU, quantity, storeId, timestamp
+  - [ ] Generate EventId (UUID) for idempotency
 - [ ] Publish to RabbitMQ
-  - [ ] Publish `sale.completed` to `verdemart.events`
-  - [ ] Include correlation ID for tracing
+  - [ ] Publish `sale.completed` to `verdemart.events` exchange
+  - [ ] Routing key: `sale.completed`
+  - [ ] Use RabbitMQ publisher pattern from nopCommerce
 - [ ] Idempotency handling
-  - [ ] Track processed sale IDs in-memory or database
-  - [ ] Skip duplicate sales
+  - [ ] Track processed sale IDs in SQLite (/app/data/idempotency.db)
+  - [ ] Skip duplicate sales (check before publishing)
 - [ ] Error handling and logging
   - [ ] Log all polling cycles
-  - [ ] Handle OSPOS database connection failures
+  - [ ] Handle OSPOS MySQL connection failures with retry
   - [ ] Retry logic for RabbitMQ publish failures
 - [ ] Dockerize
-  - [ ] Dockerfile
-  - [ ] Add to docker-compose.yml
-  - [ ] Configure polling interval via environment variable
+  - [ ] Dockerfile (multi-stage .NET 10 Alpine)
+  - [ ] Add to docker-compose.yml with ospos_mysql dependency
+  - [ ] Configure polling interval via POLLING_INTERVAL_SECONDS env var (default 30s)
+  - [ ] Volume mount for SQLite persistence (ospos_adapter_data:/app/data)
 
 #### nopCommerce - Real Order Events
 - [ ] Replace spike's `AppStartedEventConsumer`
@@ -182,13 +194,15 @@
   - [ ] Configurable poll interval (appsettings.json)
 
 #### nopCommerce - Stock Consumer
+**Note:** Consumer handles `stock.updated` from WMS (both web orders and POS sales flow through WMS). No OSPOS-specific changes needed.
+
 - [ ] Create `StockUpdateConsumerBackgroundService`
   - [ ] Subscribe to RabbitMQ `stock.updated` routing key
   - [ ] Deserialize event
   - [ ] Call `ProductService.AdjustInventoryAsync()`
 - [ ] Cross-channel conflict resolution
-  - [ ] If stock becomes negative after POS event
-  - [ ] Query recent web orders (last 60s)
+  - [ ] If stock becomes negative after any stock update
+  - [ ] Query recent pending web orders (last 60s)
   - [ ] Cancel most recent web order(s) until stock ≥ 0
   - [ ] Publish `order.cancelled` event
   - [ ] Send customer notification email

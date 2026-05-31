@@ -11,6 +11,7 @@ services:
             - rabbitmq
         networks:
             - verdemart
+            
     nopcommerce_database:
         image: "mcr.microsoft.com/mssql/server:2019-latest"
         container_name: nopcommerce_mssql_server
@@ -20,17 +21,81 @@ services:
             MSSQL_PID: "Express"
         networks:
             - verdemart
+
     rabbitmq:
         image: "rabbitmq:3-management"
         container_name: nopcommerce_rabbitmq
         ports:
-            - "5672:5672"    # AMQP protocol
-            - "15672:15672"  # Management UI
+            - "5672:5672"
+            - "15672:15672"
         environment:
             RABBITMQ_DEFAULT_USER: "guest"
             RABBITMQ_DEFAULT_PASS: "guest"
         volumes:
             - rabbitmq_data:/var/lib/rabbitmq
+        healthcheck:
+            test: ["CMD", "rabbitmq-diagnostics", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    erp-stub:
+        build: ./services/erp-stub
+        container_name: verdemart_erp_stub
+        ports:
+            - "8001:8001"
+        healthcheck:
+            test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+            interval: 10s
+            timeout: 5s
+            retries: 3
+
+    wms-event-adapter:
+        build: ./services/wms-event-adapter
+        container_name: verdemart_wms_event_adapter
+        ports:
+            - "8085:8085"
+        environment:
+            - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+        depends_on:
+            rabbitmq:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8085/health')"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    wms-stub:
+        build: ./services/wms-stub
+        container_name: verdemart_wms_stub
+        ports:
+            - "8002:8002"
+        environment:
+            - DEFAULT_STOCK=100
+            # Points to the standalone WMS Event Adapter.
+            # When the Order Integration Service is running, change this to:
+            # http://order-integration-service:8080/webhooks/stock-changed
+            - STOCK_WEBHOOK_URL=http://wms-event-adapter:8085/webhooks/stock-changed
+        depends_on:
+            wms-event-adapter:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/health')"]
+            interval: 10s
+            timeout: 5s
+            retries: 3
+
+    dashboard:
+        build: ./services/dashboard
+        container_name: verdemart_dashboard
+        ports:
+            - "8090:8090"
+        depends_on:
+            erp-stub:
+                condition: service_healthy
+            wms-stub:
+                condition: service_healthy
         networks:
             - verdemart
 

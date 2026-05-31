@@ -71,52 +71,61 @@
   - [ ] Add to docker-compose.yml
 
 #### ERP Stub
-- [ ] Create `services/erp-stub/` project (Node.js/Python/C#)
-- [ ] POST /orders endpoint
-  - [ ] Accept order data
-  - [ ] Store in-memory (simulate ERP acceptance)
-  - [ ] Return 200 OK or configurable failure
-- [ ] POST /admin/mode endpoint
-  - [ ] Modes: `normal`, `down`
-  - [ ] In `down` mode: return 503 for all requests
-- [ ] GET /orders endpoint (for verification)
-- [ ] Dockerize
-  - [ ] Dockerfile
-  - [ ] Add to docker-compose.yml
+- [x] Create `services/erp-stub/` project (Python + FastAPI)
+- [x] POST /orders endpoint
+  - [x] Accept order data
+  - [x] Store in-memory (simulate ERP acceptance)
+  - [x] Return 200 OK or configurable failure
+- [x] Idempotency by `eventId` — duplicate retries return cached response, never double-count
+- [x] POST /admin/mode endpoint
+  - [x] Modes: `normal`, `down`
+  - [x] In `down` mode: return 503 for all requests
+- [x] POST /admin/reset endpoint — clear all state, reset mode to normal
+- [x] GET /orders endpoint (for verification)
+- [x] GET /health — reports mode, orders_received, duplicates_skipped
+- [x] Dockerize
+  - [x] Dockerfile
+  - [x] Add to docker-compose.yml
 
 #### WMS Stub
-- [ ] Create `services/wms-stub/` project (Node.js/Python/C#)
-- [ ] POST /reservations endpoint
-  - [ ] Accept reservation request (from web orders)
-  - [ ] Calculate new stock level
-  - [ ] Call WMS Event Adapter webhook (instead of direct RabbitMQ)
-  - [ ] Return 200 OK or configurable failure/timeout
-- [ ] POST /pos-sales endpoint
-  - [ ] Accept POS sale notification (from Integration Service)
-  - [ ] Update stock level based on POS sale
-  - [ ] Publish `stock.updated` event to RabbitMQ
-  - [ ] Return 200 OK or configurable failure
-- [ ] POST /admin/mode endpoint
-  - [ ] Modes: `normal`, `slow` (10s delay), `down` (503 error)
-- [ ] GET /stock/{productId} endpoint
-- [ ] Dockerize
-  - [ ] Dockerfile
-  - [ ] Add to docker-compose.yml
+- [x] Create `services/wms-stub/` project (Python + FastAPI)
+- [x] POST /reservations endpoint
+  - [x] Accept reservation request
+  - [x] Calculate new stock level
+  - [x] Call WMS Event Adapter webhook (instead of direct RabbitMQ)
+  - [x] Return 200 OK or configurable failure/timeout
+- [x] Idempotency by `orderId` — duplicate DLQ retries return cached reservationId, zero double-deductions (QA-3)
+- [x] POST /admin/mode endpoint
+  - [x] Modes: `normal`, `slow` (10s delay), `down` (503 error)
+- [x] POST /admin/reset endpoint — clear all state, reset stock and mode
+- [x] GET /reservations endpoint (for verification)
+- [x] GET /stock/{productId} endpoint
+- [x] GET /health — reports mode, reservations_processed, duplicates_skipped
+- [x] Dockerize
+  - [x] Dockerfile
+  - [x] Add to docker-compose.yml
 
-#### WMS Webhook Endpoint (Inside Integration Service)
-- [ ] Add webhook controller to Integration Service
-- [ ] POST /webhooks/stock-changed endpoint
-  - [ ] Receive webhook from WMS stub
-  - [ ] Transform WMS payload → `stock.updated` event format
-  - [ ] Publish to RabbitMQ `verdemart.events`
-- [ ] Logging with correlation IDs
-- [ ] No separate deployment needed (part of Integration Service)
+#### WMS Webhook Endpoint / WMS Event Adapter
+- [x] Implemented as standalone `services/wms-event-adapter/` (Python + FastAPI + pika, port 8085)
+  - Note: temporary bridge until Integration Service implements this endpoint natively.
+    When ready, set `STOCK_WEBHOOK_URL=http://order-integration-service:8080/webhooks/stock-changed`
+- [x] POST /webhooks/stock-changed endpoint
+  - [x] Receive webhook from WMS stub
+  - [x] Publish `stock.updated` to RabbitMQ `verdemart.events` (routing key: `stock.updated`, durable, persistent)
+- [x] GET /health — reports events_published, events_failed
+- [x] Structured logging with `[WMS-ADAPTER]` prefix
+- [x] Dockerize
+  - [x] Dockerfile
+  - [x] Add to docker-compose.yml with `depends_on: rabbitmq (service_healthy)`
 
 #### Docker Compose Updates
-- [ ] Add health checks for all services
-- [ ] Configure `depends_on` with `service_healthy` conditions
-- [ ] Add environment variable configuration
-- [ ] Document startup sequence
+- [x] Add health checks for all services (erp-stub, wms-stub, wms-event-adapter, rabbitmq)
+- [x] Configure `depends_on` with `service_healthy` conditions
+  - [x] wms-event-adapter → rabbitmq
+  - [x] wms-stub → wms-event-adapter
+  - [x] dashboard → erp-stub, wms-stub
+- [x] Add environment variable configuration (STOCK_WEBHOOK_URL, RABBITMQ_URL, DEFAULT_STOCK)
+- [x] Document startup sequence (services/README.md — startup order + docker compose command)
 
 ---
 
@@ -210,21 +219,27 @@
 ### Week 4 - Observability & Testing
 
 #### Observability Dashboard
-- [ ] Create `services/dashboard/` project (HTML/JS or React)
-- [ ] Poll endpoints every 2 seconds:
-  - [ ] GET /integration/health (nopCommerce)
-  - [ ] GET /health (Integration Service)
+- [ ] Create `services/dashboard/` project (Vite + React + Tailwind, port 8090)
+- [ ] Dark sidebar with pulsing live status dots per service
+- [ ] Full-width layout (sidebar + main content, no narrow max-w column)
+- [ ] Poll endpoints every 3 seconds:
+  - [ ] GET /integration/health (nopCommerce) — pending Henrique
+  - [ ] GET /health (Integration Service) — card ready, shows "connecting…" until Martim's service is up
 - [ ] Display cards:
-  - [ ] Circuit breaker state (OPEN/HALF_OPEN/CLOSED)
-  - [ ] Dead-letter queue depth
-  - [ ] WMS mode (normal/slow/down)
-  - [ ] Outbox pending count
-  - [ ] Last event published timestamp
+  - [ ] Circuit breaker state (OPEN/HALF_OPEN/CLOSED) — on WMS page, polls Integration Service /health
+  - [ ] Dead-letter queue depth — on WMS page, polls Integration Service /health
+  - [ ] WMS mode (normal/slow/down) — badge on WMS page
+  - [ ] Duplicates Skipped (ERP + WMS) — idempotency guard counters
+  - [ ] Outbox pending count — pending Henrique (nopCommerce /integration/health)
+  - [ ] Last event published timestamp — shown when Integration Service is online
 - [ ] Demo control buttons:
-  - [ ] Toggle WMS mode (normal/slow/down)
-  - [ ] Simulate POS sale
-  - [ ] Clear DLQ
-- [ ] Visual indicators (red/yellow/green for status)
+  - [ ] Toggle WMS mode (normal/slow/down) — buttons on WMS page
+  - [ ] Toggle ERP mode (normal/down) — buttons on ERP page
+  - [ ] Reset State (ERP + WMS) — clears all counters and stock for clean demo runs
+  - [ ] Simulate POS sale — pending OSPOS integration (Sebastião)
+  - [ ] Clear DLQ — pending Integration Service (Martim)
+- [ ] Visual indicators (red/yellow/green for status, colour-coded metric cards)
+- [ ] Stock lookup with LOW STOCK / OUT OF STOCK labels
 - [ ] Dockerize and add to docker-compose.yml
 
 #### Integration Tests

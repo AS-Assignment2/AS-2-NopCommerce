@@ -3,7 +3,10 @@ using Nop.Core.Domain.ScheduleTasks;
 
 namespace Nop.Data.Migrations.UpgradeTo500;
 
-[NopUpdateMigration("2026-05-19 00:00:00", "5.00", UpdateMigrationType.Data)]
+// NoMatter so the schedule task is registered on a FRESH install too — an
+// Update-only data migration is recorded-as-applied but never executed on a
+// clean DB, which left the outbox publisher task unregistered (events stuck).
+[NopMigration("2026-05-19 00:00:00", "Register outbox publisher schedule task", MigrationProcessType.NoMatter)]
 public class OutboxPublisherTaskMigration : Migration
 {
     protected readonly INopDataProvider _dataProvider;

@@ -252,36 +252,46 @@ public partial class WebHelper : IWebHelper
         if (string.IsNullOrEmpty(key))
             return url;
 
-        //prepare URI object
-        var isLocalUrl = CheckIsLocalUrl(url);
-
-        var uriStr = url;
-        if (isLocalUrl)
+        try
         {
-            var pathBase = _httpContextAccessor.HttpContext.Request.PathBase;
-            uriStr = $"{GetStoreLocation().TrimEnd('/')}{(url.StartsWith(pathBase) ? url.Replace(pathBase, "") : url)}";
+            //prepare URI object
+            var isLocalUrl = CheckIsLocalUrl(url);
+
+            var uriStr = url;
+            if (isLocalUrl)
+            {
+                var pathBase = _httpContextAccessor.HttpContext.Request.PathBase;
+                uriStr = $"{GetStoreLocation().TrimEnd('/')}{(url.StartsWith(pathBase) ? url.Replace(pathBase, "") : url)}";
+            }
+
+            var uri = new Uri(uriStr, UriKind.Absolute);
+
+            //get current query parameters
+            var queryParameters = QueryHelpers.ParseQuery(uri.Query);
+
+            //and add passed one
+            queryParameters[key] = string.Join(",", values);
+
+            //add only first value
+            //two the same query parameters? theoretically it's not possible.
+            //but MVC has some ugly implementation for checkboxes and we can have two values
+            //find more info here: http://www.mindstorminteractive.com/topics/jquery-fix-asp-net-mvc-checkbox-truefalse-value/
+            //we do this validation just to ensure that the first one is not overridden
+            var queryBuilder = new QueryBuilder(queryParameters
+                .ToDictionary(parameter => parameter.Key, parameter => parameter.Value.FirstOrDefault()?.ToString() ?? string.Empty));
+
+            //create new URL with passed query parameters
+            url = $"{(isLocalUrl ? uri.LocalPath : uri.GetLeftPart(UriPartial.Path))}{queryBuilder.ToQueryString()}{uri.Fragment}";
+
+            return url;
         }
-
-        var uri = new Uri(uriStr, UriKind.Absolute);
-
-        //get current query parameters
-        var queryParameters = QueryHelpers.ParseQuery(uri.Query);
-
-        //and add passed one
-        queryParameters[key] = string.Join(",", values);
-
-        //add only first value
-        //two the same query parameters? theoretically it's not possible.
-        //but MVC has some ugly implementation for checkboxes and we can have two values
-        //find more info here: http://www.mindstorminteractive.com/topics/jquery-fix-asp-net-mvc-checkbox-truefalse-value/
-        //we do this validation just to ensure that the first one is not overridden
-        var queryBuilder = new QueryBuilder(queryParameters
-            .ToDictionary(parameter => parameter.Key, parameter => parameter.Value.FirstOrDefault()?.ToString() ?? string.Empty));
-
-        //create new URL with passed query parameters
-        url = $"{(isLocalUrl ? uri.LocalPath : uri.GetLeftPart(UriPartial.Path))}{queryBuilder.ToQueryString()}{uri.Fragment}";
-
-        return url;
+        catch (UriFormatException)
+        {
+            //some routing-generated absolute URLs can be malformed in certain hosting
+            //environments (e.g. behind a container/proxy). Never let that crash page
+            //rendering — fall back to a parse-free query-string append.
+            return QueryHelpers.AddQueryString(url, key, string.Join(",", values));
+        }
     }
 
     /// <summary>

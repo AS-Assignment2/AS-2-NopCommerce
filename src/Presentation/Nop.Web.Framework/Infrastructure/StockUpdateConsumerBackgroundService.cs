@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nop.Core.Configuration;
+using Nop.Data;
 using Nop.Services.Catalog;
 using Nop.Services.Logging;
 using RabbitMQ.Client;
@@ -34,8 +35,21 @@ public partial class StockUpdateConsumerBackgroundService : BackgroundService
         _logger = logger;
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        // Do not touch RabbitMQ or the database until nopCommerce is installed.
+        // Before installation there is no connection string, so any DB write
+        // (including error logging) throws and — with the default StopHost
+        // behaviour — would take the whole web host down before the install
+        // wizard can even be reached. Wait for the install to complete instead.
+        while (!DataSettingsManager.IsDatabaseInstalled())
+        {
+            if (stoppingToken.IsCancellationRequested)
+                return;
+            try { await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken); }
+            catch (OperationCanceledException) { return; }
+        }
+
         try
         {
             var factory = new ConnectionFactory
@@ -61,10 +75,10 @@ public partial class StockUpdateConsumerBackgroundService : BackgroundService
         }
         catch (Exception ex)
         {
-            _logger.ErrorAsync($"StockUpdateConsumer: failed to start: {ex.Message}", ex).GetAwaiter().GetResult();
+            // Never log a startup failure to the DB here — a transient broker
+            // problem must not be able to crash the host. Console only.
+            Console.Error.WriteLine($"[StockUpdateConsumer] failed to start: {ex}");
         }
-
-        return Task.CompletedTask;
     }
 
     private async Task OnMessageAsync(object sender, BasicDeliverEventArgs args)
@@ -100,8 +114,9 @@ public partial class StockUpdateConsumerBackgroundService : BackgroundService
         }
         catch (Exception ex)
         {
-            await _logger.ErrorAsync($"StockUpdateConsumer: failed to process message: {ex.Message}. Body: {json}", ex);
-            _channel.BasicNack(args.DeliveryTag, multiple: false, requeue: false);
+            try { await _logger.ErrorAsync($"StockUpdateConsumer: failed to process message: {ex.Message}. Body: {json}", ex); }
+            catch { Console.Error.WriteLine($"[StockUpdateConsumer] failed to process message: {ex}"); }
+            try { _channel.BasicNack(args.DeliveryTag, multiple: false, requeue: false); } catch { }
         }
     }
 

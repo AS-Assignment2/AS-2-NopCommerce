@@ -3463,6 +3463,15 @@ public partial class InstallationService
                 Enabled = true,
                 LastEnabledUtc = lastEnabledUtc,
                 StopOnError = false
+            },
+            new()
+            {
+                Name = "Outbox publisher (RabbitMQ)",
+                Seconds = 10,
+                Type = "Nop.Services.Integration.OutboxPublisherTask, Nop.Services",
+                Enabled = true,
+                LastEnabledUtc = lastEnabledUtc,
+                StopOnError = false
             }
         };
 

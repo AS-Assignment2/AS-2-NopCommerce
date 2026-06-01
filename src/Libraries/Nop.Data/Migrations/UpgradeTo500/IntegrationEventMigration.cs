@@ -4,7 +4,7 @@ using Nop.Data.Extensions;
 
 namespace Nop.Data.Migrations.UpgradeTo500;
 
-[NopSchemaMigration("2026-05-04 00:00:01", "IntegrationEvent spike migration")]
+[NopSchemaMigration("2026-05-04 00:00:01", "IntegrationEvent spike migration", MigrationProcessType.Installation)]
 public class IntegrationEventMigration : ForwardOnlyMigration
 {
     /// <summary>

@@ -1,7 +1,9 @@
 services:
     nopcommerce_web:
         build: .
+        platform: linux/amd64
         container_name: nopcommerce
+        restart: unless-stopped
         ports:
             - "80:80"
         volumes:
@@ -38,6 +40,8 @@ services:
             interval: 10s
             timeout: 5s
             retries: 5
+        networks:
+            - verdemart
 
     erp-stub:
         build: ./services/erp-stub
@@ -49,6 +53,8 @@ services:
             interval: 10s
             timeout: 5s
             retries: 3
+        networks:
+            - verdemart
 
     wms-event-adapter:
         build: ./services/wms-event-adapter
@@ -65,6 +71,8 @@ services:
             interval: 10s
             timeout: 5s
             retries: 5
+        networks:
+            - verdemart
 
     wms-stub:
         build: ./services/wms-stub
@@ -86,6 +94,8 @@ services:
             interval: 10s
             timeout: 5s
             retries: 3
+        networks:
+            - verdemart
 
     order-integration-service:
         build: ./services/order-integration-service
@@ -151,6 +161,10 @@ services:
             DB_NAME: ospos
             DB_USER: root
             DB_PASS: ospospass
+        # OSPOS web UI is intentionally not operational — the minimal DB
+        # schema (ospos_minimal_schema.sql) only covers what the adapter
+        # needs. POS sales are simulated by INSERTing rows into ospos_sales.
+        # See docs/ospos-setup.md.
         ports:
             - "8080:80"
         networks:

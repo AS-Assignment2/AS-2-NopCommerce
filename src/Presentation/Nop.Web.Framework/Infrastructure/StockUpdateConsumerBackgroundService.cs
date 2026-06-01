@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nop.Core.Configuration;
+using Nop.Data;
 using Nop.Services.Catalog;
 using Nop.Services.Logging;
 using RabbitMQ.Client;
@@ -34,8 +35,17 @@ public partial class StockUpdateConsumerBackgroundService : BackgroundService
         _logger = logger;
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        // Wait until nopCommerce is installed (i.e. App_Data/dataSettings.json exists).
+        // Without this, the consumer starts before the DB connection string is configured
+        // and any logging attempt crashes the host before the /install page can be served.
+        while (!DataSettingsManager.IsDatabaseInstalled() && !stoppingToken.IsCancellationRequested)
+        {
+            try { await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken); }
+            catch (TaskCanceledException) { return; }
+        }
+
         try
         {
             var factory = new ConnectionFactory
@@ -61,10 +71,10 @@ public partial class StockUpdateConsumerBackgroundService : BackgroundService
         }
         catch (Exception ex)
         {
-            _logger.ErrorAsync($"StockUpdateConsumer: failed to start: {ex.Message}", ex).GetAwaiter().GetResult();
+            // Swallow logging failures: a logging-stack exception here must not take down Kestrel.
+            try { await _logger.ErrorAsync($"StockUpdateConsumer: failed to start: {ex.Message}", ex); }
+            catch { Console.Error.WriteLine($"StockUpdateConsumer: failed to start and failed to log: {ex}"); }
         }
-
-        return Task.CompletedTask;
     }
 
     private async Task OnMessageAsync(object sender, BasicDeliverEventArgs args)

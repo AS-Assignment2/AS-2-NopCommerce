@@ -81,10 +81,9 @@ services:
             - "8002:8002"
         environment:
             - DEFAULT_STOCK=100
-            # Points to the standalone WMS Event Adapter.
-            # When the Order Integration Service is running, change this to:
-            # http://order-integration-service:8080/webhooks/stock-changed
-            - STOCK_WEBHOOK_URL=http://wms-event-adapter:8085/webhooks/stock-changed
+            # Stock-change webhook is routed through the Order Integration Service,
+            # which publishes stock.updated to RabbitMQ (replaces the wms-event-adapter).
+            - STOCK_WEBHOOK_URL=http://order-integration-service:8083/webhooks/stock-changed
         depends_on:
             wms-event-adapter:
                 condition: service_healthy
@@ -106,6 +105,33 @@ services:
                 condition: service_healthy
             wms-stub:
                 condition: service_healthy
+        networks:
+            - verdemart
+
+    order-integration-service:
+        build: ./services/order-integration-service
+        container_name: verdemart_order_integration
+        ports:
+            - "8083:8083"
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - RABBITMQ_HOST=rabbitmq
+            - RABBITMQ_PORT=5672
+            - RABBITMQ_USERNAME=guest
+            - RABBITMQ_PASSWORD=guest
+            - RABBITMQ_EXCHANGE=verdemart.events
+            - ERP_BASE_URL=http://erp-stub:8001
+            - WMS_BASE_URL=http://wms-stub:8002
+        depends_on:
+            rabbitmq:
+                condition: service_healthy
+            erp-stub:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "wget", "-qO-", "http://localhost:8083/health"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
         networks:
             - verdemart
 

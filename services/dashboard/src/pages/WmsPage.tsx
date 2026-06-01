@@ -3,7 +3,7 @@ import { RefreshCw, Warehouse, TrendingUp, Copy, Zap, Search, AlertTriangle, Che
 import { cn } from "../lib/utils"
 
 const WMS_URL = (import.meta.env.VITE_WMS_URL as string | undefined) ?? "http://localhost:8002"
-const IS_URL = (import.meta.env.VITE_INTEGRATION_URL as string | undefined) ?? "http://localhost:8080"
+const IS_URL = (import.meta.env.VITE_INTEGRATION_URL as string | undefined) ?? "http://localhost:8083"
 
 interface WmsHealth {
   status: string

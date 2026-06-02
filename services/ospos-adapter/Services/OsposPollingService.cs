@@ -113,7 +113,7 @@ public class OsposPollingService : BackgroundService
             JOIN ospos_sales_items si ON s.sale_id = si.sale_id
             JOIN ospos_items i ON si.item_id = i.item_id
             WHERE s.sale_time > @lastProcessedTime
-              AND s.sale_status = 'COMPLETED'
+              AND s.sale_status = 0 -- OSPOS Constants.php: COMPLETED = 0 (1 = suspended)
             ORDER BY s.sale_time ASC
             LIMIT 100",
             new { lastProcessedTime }

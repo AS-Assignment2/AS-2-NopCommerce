@@ -157,14 +157,21 @@ services:
         depends_on:
             - ospos_mysql
         environment:
-            DB_HOST: ospos_mysql
-            DB_NAME: ospos
-            DB_USER: root
-            DB_PASS: ospospass
-        # OSPOS web UI is intentionally not operational — the minimal DB
-        # schema (ospos_minimal_schema.sql) only covers what the adapter
-        # needs. POS sales are simulated by INSERTing rows into ospos_sales.
-        # See docs/ospos-setup.md.
+            CI_ENVIRONMENT: production
+            FORCE_HTTPS: "false"
+            PHP_TIMEZONE: UTC
+            MYSQL_HOST_NAME: ospos_mysql
+            MYSQL_USERNAME: root
+            MYSQL_PASSWORD: ospospass
+            MYSQL_DB_NAME: ospos
+        # app.allowedHostnames uses a dotted CI4 var name that docker-compose
+        # strips from the environment map, so it's supplied via a bind-mounted
+        # .env file instead (OSPOS 3.4 refuses to start without it).
+        volumes:
+            - ./services/ospos/ospos.env:/app/.env:ro
+            # CI4 clean-URL support: image ships no .htaccess and Apache uses
+            # AllowOverride None, so /login etc. 404 without this FallbackResource.
+            - ./services/ospos/apache-cleanurls.conf:/etc/apache2/conf-enabled/zz-ospos-cleanurls.conf:ro
         ports:
             - "8080:80"
         networks:

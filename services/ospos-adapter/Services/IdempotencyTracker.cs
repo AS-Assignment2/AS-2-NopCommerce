@@ -41,6 +41,12 @@ public class IdempotencyTracker
                     Timestamp TEXT NOT NULL
                 )");
 
+            await connection.ExecuteAsync(@"
+                CREATE TABLE IF NOT EXISTS ProcessedStockEvents (
+                    EventId TEXT PRIMARY KEY,
+                    ProcessedAt TEXT NOT NULL
+                )");
+
             var count = await connection.ExecuteScalarAsync<int>(
                 "SELECT COUNT(*) FROM LastProcessedTime WHERE Id = 1"
             );
@@ -98,6 +104,45 @@ public class IdempotencyTracker
         await connection.ExecuteAsync(
             "UPDATE LastProcessedTime SET Timestamp = @Timestamp WHERE Id = 1",
             new { Timestamp = time.ToString("o") }
+        );
+    }
+
+    // Stock-event dedupe lives here too so the inbound StockUpdateConsumer can run
+    // independently of the polling service's InitializeAsync (this only touches its
+    // own table — no race with the LastProcessedTime seed).
+    public async Task EnsureStockEventsTableAsync()
+    {
+        var directory = Path.GetDirectoryName(_config.IdempotencyDbPath);
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        using var connection = new SqliteConnection($"Data Source={_config.IdempotencyDbPath}");
+        await connection.OpenAsync();
+        await connection.ExecuteAsync(@"
+            CREATE TABLE IF NOT EXISTS ProcessedStockEvents (
+                EventId TEXT PRIMARY KEY,
+                ProcessedAt TEXT NOT NULL
+            )");
+    }
+
+    public async Task<bool> IsStockEventProcessedAsync(string eventId)
+    {
+        using var connection = new SqliteConnection($"Data Source={_config.IdempotencyDbPath}");
+        var count = await connection.ExecuteScalarAsync<int>(
+            "SELECT COUNT(*) FROM ProcessedStockEvents WHERE EventId = @EventId",
+            new { EventId = eventId }
+        );
+        return count > 0;
+    }
+
+    public async Task MarkStockEventProcessedAsync(string eventId)
+    {
+        using var connection = new SqliteConnection($"Data Source={_config.IdempotencyDbPath}");
+        await connection.ExecuteAsync(
+            "INSERT OR IGNORE INTO ProcessedStockEvents (EventId, ProcessedAt) VALUES (@EventId, @ProcessedAt)",
+            new { EventId = eventId, ProcessedAt = DateTime.UtcNow.ToString("o") }
         );
     }
 }

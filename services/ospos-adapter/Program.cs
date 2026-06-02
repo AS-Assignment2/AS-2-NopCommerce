@@ -33,6 +33,7 @@ builder.Services.AddSingleton(adapterConfig);
 builder.Services.AddSingleton<RabbitMqPublisher>();
 builder.Services.AddSingleton<IdempotencyTracker>();
 builder.Services.AddHostedService<OsposPollingService>();
+builder.Services.AddHostedService<StockUpdateConsumer>();
 
 var host = builder.Build();
 host.Run();

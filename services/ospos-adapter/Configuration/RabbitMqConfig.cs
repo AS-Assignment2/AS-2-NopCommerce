@@ -7,4 +7,6 @@ public class RabbitMqConfig
     public string Username { get; set; } = "guest";
     public string Password { get; set; } = "guest";
     public string Exchange { get; set; } = "verdemart.events";
+    public string StockUpdatedRoutingKey { get; set; } = "stock.updated";
+    public string StockUpdatedQueue { get; set; } = "ospos-adapter.stock-updated";
 }

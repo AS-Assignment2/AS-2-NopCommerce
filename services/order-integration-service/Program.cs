@@ -30,10 +30,24 @@ builder.Services.AddSingleton(wmsConfig);
 builder.Services.AddSingleton(reconConfig);
 
 // --- Shared state (singletons) ---
-builder.Services.AddSingleton<HealthState>();
+// HealthState is built up-front so the circuit-breaker policy below can close
+// over the same instance the rest of the app uses.
+var healthState = new HealthState();
+builder.Services.AddSingleton(healthState);
 builder.Services.AddSingleton<IdempotencyTracker>();
 builder.Services.AddSingleton<DeadLetterQueue>();
 builder.Services.AddSingleton<RabbitMqPublisher>();
+
+// Circuit breaker policy is built ONCE so its state survives across requests.
+// (AddPolicyHandler with a factory would create a fresh breaker per request.)
+var wmsBreaker = HttpPolicyExtensions
+    .HandleTransientHttpError()
+    .CircuitBreakerAsync(
+        handledEventsAllowedBeforeBreaking: 3,
+        durationOfBreak: TimeSpan.FromSeconds(30),
+        onBreak: (_, _) => healthState.CircuitState = "OPEN",
+        onReset: () => healthState.CircuitState = "CLOSED",
+        onHalfOpen: () => healthState.CircuitState = "HALF_OPEN");
 
 // --- HTTP clients with Polly policies ---
 // ERP: retry 3x exponential backoff (1s, 2s, 4s) on 5xx + transient errors.
@@ -46,25 +60,13 @@ builder.Services.AddHttpClient<ErpAdapter>(client =>
     .HandleTransientHttpError()
     .WaitAndRetryAsync(3, retry => TimeSpan.FromSeconds(Math.Pow(2, retry - 1))));
 
-// WMS: circuit breaker — 3 consecutive failures → OPEN for 30s. We pass a
-// HealthState updater so the dashboard sees CLOSED/OPEN/HALF_OPEN.
+// WMS: circuit breaker — 3 consecutive failures → OPEN for 30s.
 builder.Services.AddHttpClient<WmsAdapter>(client =>
 {
     client.BaseAddress = new Uri(wmsConfig.BaseUrl);
     client.Timeout = wmsConfig.Timeout;
 })
-.AddPolicyHandler((sp, _) =>
-{
-    var health = sp.GetRequiredService<HealthState>();
-    return HttpPolicyExtensions
-        .HandleTransientHttpError()
-        .CircuitBreakerAsync(
-            handledEventsAllowedBeforeBreaking: 3,
-            durationOfBreak: TimeSpan.FromSeconds(30),
-            onBreak: (_, ts) => health.CircuitState = "OPEN",
-            onReset: () => health.CircuitState = "CLOSED",
-            onHalfOpen: () => health.CircuitState = "HALF_OPEN");
-});
+.AddPolicyHandler(wmsBreaker);
 
 // AddHttpClient<TClient> already registers ErpAdapter and WmsAdapter (transient).
 builder.Services.AddHostedService<OrderPlacedConsumer>();

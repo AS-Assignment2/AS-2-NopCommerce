@@ -37,17 +37,13 @@ public partial class StockUpdateConsumerBackgroundService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // Do not touch RabbitMQ or the database until nopCommerce is installed.
-        // Before installation there is no connection string, so any DB write
-        // (including error logging) throws and — with the default StopHost
-        // behaviour — would take the whole web host down before the install
-        // wizard can even be reached. Wait for the install to complete instead.
-        while (!DataSettingsManager.IsDatabaseInstalled())
+        // Wait until nopCommerce is installed (i.e. App_Data/dataSettings.json exists).
+        // Without this, the consumer starts before the DB connection string is configured
+        // and any logging attempt crashes the host before the /install page can be served.
+        while (!DataSettingsManager.IsDatabaseInstalled() && !stoppingToken.IsCancellationRequested)
         {
-            if (stoppingToken.IsCancellationRequested)
-                return;
-            try { await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken); }
-            catch (OperationCanceledException) { return; }
+            try { await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken); }
+            catch (TaskCanceledException) { return; }
         }
 
         try
@@ -75,9 +71,9 @@ public partial class StockUpdateConsumerBackgroundService : BackgroundService
         }
         catch (Exception ex)
         {
-            // Never log a startup failure to the DB here — a transient broker
-            // problem must not be able to crash the host. Console only.
-            Console.Error.WriteLine($"[StockUpdateConsumer] failed to start: {ex}");
+            // Swallow logging failures: a logging-stack exception here must not take down Kestrel.
+            try { await _logger.ErrorAsync($"StockUpdateConsumer: failed to start: {ex.Message}", ex); }
+            catch { Console.Error.WriteLine($"StockUpdateConsumer: failed to start and failed to log: {ex}"); }
         }
     }
 

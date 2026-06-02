@@ -1,7 +1,9 @@
 services:
     nopcommerce_web:
         build: .
+        platform: linux/amd64
         container_name: nopcommerce
+        restart: unless-stopped
         ports:
             - "80:80"
         volumes:
@@ -81,8 +83,10 @@ services:
             - "8002:8002"
         environment:
             - DEFAULT_STOCK=100
-            # Stock-change webhook is routed through the Order Integration Service,
-            # which publishes stock.updated to RabbitMQ (replaces the wms-event-adapter).
+            # Routed through the Order Integration Service so stock.updated
+            # publishes flow through the same observability surface (/health
+            # circuit state + DLQ). The standalone wms-event-adapter remains
+            # as a fallback bridge.
             - STOCK_WEBHOOK_URL=http://order-integration-service:8083/webhooks/stock-changed
         depends_on:
             wms-event-adapter:
@@ -92,6 +96,33 @@ services:
             interval: 10s
             timeout: 5s
             retries: 3
+        networks:
+            - verdemart
+
+    order-integration-service:
+        build: ./services/order-integration-service
+        container_name: verdemart_order_integration
+        ports:
+            - "8083:8083"
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - RABBITMQ_HOST=rabbitmq
+            - RABBITMQ_PORT=5672
+            - RABBITMQ_USERNAME=guest
+            - RABBITMQ_PASSWORD=guest
+            - RABBITMQ_EXCHANGE=verdemart.events
+            - ERP_BASE_URL=http://erp-stub:8001
+            - WMS_BASE_URL=http://wms-stub:8002
+        depends_on:
+            rabbitmq:
+                condition: service_healthy
+            erp-stub:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "wget", "-qO-", "http://localhost:8083/health"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
         networks:
             - verdemart
 
@@ -137,29 +168,73 @@ services:
 
     ospos_mysql:
         image: mysql:5.7
+        platform: linux/amd64
         container_name: ospos_mysql
         environment:
             MYSQL_ROOT_PASSWORD: ospospass
             MYSQL_DATABASE: ospos
         volumes:
             - ospos_mysql_data:/var/lib/mysql
-            # Auto-load the OSPOS schema on a fresh volume so the adapter's
-            # tables (ospos_sales, ospos_items, ...) exist on first `up`.
-            - ./ospos_minimal_schema.sql:/docker-entrypoint-initdb.d/01-ospos-schema.sql:ro
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pospospass"]
+            interval: 5s
+            timeout: 3s
+            retries: 20
         networks:
             - verdemart
         command: --default-authentication-plugin=mysql_native_password
 
+    # One-shot: builds the OSPOS schema on a fresh DB. The jekkos/opensourcepos
+    # image ships no auto-migrator, so a fresh `ospos` DB would otherwise come up
+    # empty (HTTP 500 in the UI). `migrate --all` is idempotent — on an already
+    # built DB it finds nothing new and exits 0. ospos + ospos_adapter gate on
+    # this completing via `service_completed_successfully`.
+    ospos_migrate:
+        image: jekkos/opensourcepos:latest
+        platform: linux/amd64
+        container_name: ospos_migrate
+        depends_on:
+            ospos_mysql:
+                condition: service_healthy
+        environment:
+            CI_ENVIRONMENT: production
+            PHP_TIMEZONE: UTC
+            MYSQL_HOST_NAME: ospos_mysql
+            MYSQL_USERNAME: root
+            MYSQL_PASSWORD: ospospass
+            MYSQL_DB_NAME: ospos
+        volumes:
+            - ./services/ospos/ospos.env:/app/.env:ro
+        command: ["sh", "-c", "cd /app && until php spark migrate --all; do echo 'waiting for OSPOS DB...'; sleep 3; done"]
+        restart: "no"
+        networks:
+            - verdemart
+
     ospos:
         image: jekkos/opensourcepos:latest
+        platform: linux/amd64
         container_name: ospos
         depends_on:
-            - ospos_mysql
+            ospos_mysql:
+                condition: service_healthy
+            ospos_migrate:
+                condition: service_completed_successfully
         environment:
-            DB_HOST: ospos_mysql
-            DB_NAME: ospos
-            DB_USER: root
-            DB_PASS: ospospass
+            CI_ENVIRONMENT: production
+            FORCE_HTTPS: "false"
+            PHP_TIMEZONE: UTC
+            MYSQL_HOST_NAME: ospos_mysql
+            MYSQL_USERNAME: root
+            MYSQL_PASSWORD: ospospass
+            MYSQL_DB_NAME: ospos
+        # app.allowedHostnames uses a dotted CI4 var name that docker-compose
+        # strips from the environment map, so it's supplied via a bind-mounted
+        # .env file instead (OSPOS 3.4 refuses to start without it).
+        volumes:
+            - ./services/ospos/ospos.env:/app/.env:ro
+            # CI4 clean-URL support: image ships no .htaccess and Apache uses
+            # AllowOverride None, so /login etc. 404 without this FallbackResource.
+            - ./services/ospos/apache-cleanurls.conf:/etc/apache2/conf-enabled/zz-ospos-cleanurls.conf:ro
         ports:
             - "8080:80"
         networks:
@@ -169,8 +244,12 @@ services:
         build: ./services/ospos-adapter
         container_name: ospos_adapter
         depends_on:
-            - ospos_mysql
-            - rabbitmq
+            ospos_mysql:
+                condition: service_healthy
+            ospos_migrate:
+                condition: service_completed_successfully
+            rabbitmq:
+                condition: service_healthy
         environment:
             OSPOS_DB_HOST: ospos_mysql
             OSPOS_DB_NAME: ospos

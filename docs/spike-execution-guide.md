@@ -1,3 +1,5 @@
+> Part 1 spike artifact retained for posterity. The spike was executed and proven viable; the production implementation has since superseded this guide.
+
 # Feasibility Spike - Execution Guide
 
 ## Prerequisites
@@ -33,11 +35,11 @@ cd src/Presentation/Nop.Web
 dotnet run
 ```
 
-**Expected:** Application starts, migration runs, `IntegrationEvent` table is created.
+**Expected:** Application started, migration ran, `IntegrationEvent` table was created.
 
 ### Step 3: Verify Migration
 
-Connect to your database and check:
+Connect to the database and check:
 
 ```sql
 -- Check if table exists
@@ -48,7 +50,7 @@ SELECT * FROM IntegrationEvent;
 
 ### Step 4: Register the Schedule Task
 
-Run the SQL script appropriate for your database from `docs/spike-schedule-task-registration.sql`
+Run the SQL script appropriate for the database from `docs/spike-schedule-task-registration.sql`
 
 **For PostgreSQL:**
 ```sql
@@ -76,12 +78,12 @@ Stop the application (Ctrl+C) and restart:
 dotnet run
 ```
 
-**What happens:**
-1. `AppStartedEvent` is published
-2. `AppStartedEventConsumer` writes a test event to `IntegrationEvent` table
-3. `SpikeOutboxPublisherTask` runs every 10 seconds
-4. Task reads unpublished events and publishes to RabbitMQ
-5. Events are marked as published in database
+**What happened:**
+1. `AppStartedEvent` was published
+2. `AppStartedEventConsumer` wrote a test event to the `IntegrationEvent` table
+3. `SpikeOutboxPublisherTask` ran every 10 seconds
+4. The task read unpublished events and published them to RabbitMQ
+5. Events were marked as published in the database
 
 ### Step 6: Verify in Database
 
@@ -92,7 +94,7 @@ SELECT * FROM "IntegrationEvent" ORDER BY "Id" DESC;
 **Expected result:**
 - At least one row with `EventType = 'ApplicationStarted'`
 - `Published = true`
-- `PublishedOnUtc` is populated
+- `PublishedOnUtc` populated
 - `PublishAttempts = 1`
 
 ### Step 7: Verify in RabbitMQ Management UI
@@ -100,16 +102,16 @@ SELECT * FROM "IntegrationEvent" ORDER BY "Id" DESC;
 1. Go to http://localhost:15672
 2. Login with guest/guest
 3. Click **Exchanges** tab
-4. Look for `verdemart.events` exchange (should exist with type=topic)
+4. Look for the `verdemart.events` exchange (type=topic)
 5. Click **Queues** tab
-6. Click "Add a new queue" → Name it `spike-test` → Create
-7. Click the queue → "Bindings" section
+6. Click "Add a new queue", name it `spike-test`, create
+7. Click the queue, then the "Bindings" section
 8. Bind to `verdemart.events` with routing key `#` (matches all)
-9. Check "Get messages" → you should see the ApplicationStarted event
+9. Check "Get messages" - the ApplicationStarted event should appear
 
 ### Step 8: Check Logs
 
-Navigate to Admin area (if installed) → System → Log
+Navigate to Admin area (if installed), System, Log.
 
 **Expected log entries:**
 - "Spike: AppStartedEvent received, writing to outbox"
@@ -122,26 +124,26 @@ Navigate to Admin area (if installed) → System → Log
 
 ## Success Criteria (from risk-plan.md)
 
-**Message appears in RabbitMQ within 10s of startup**  
-**Row marked as `Published = true` in database**  
-**No DI registration errors or crashes**
+- Message appeared in RabbitMQ within 10s of startup. Verified.
+- Row marked as `Published = true` in database. Verified.
+- No DI registration errors or crashes. Verified.
 
 ## Troubleshooting
 
 ### Issue: Migration doesn't run
 - **Check:** Migration timestamp is 2026-05-04 (future dated)
-- **Fix:** Delete the migration file and recreate with correct timestamp
-- **Verify:** Check `VersionInfo` table in database
+- **Fix:** Delete the migration file and recreate with the correct timestamp
+- **Verify:** Check the `VersionInfo` table in the database
 
 ### Issue: Task never executes
 - **Check:** SQL insert was successful
-- **Check:** `Enabled = true` in ScheduleTask table
-- **Fix:** Restart application after SQL insert
+- **Check:** `Enabled = true` in the ScheduleTask table
+- **Fix:** Restart the application after the SQL insert
 
 ### Issue: RabbitMQ connection fails
 - **Check:** Docker container is running: `docker ps`
 - **Check:** Port 5672 is accessible
-- **Fix:** `docker start rabbitmq` or recreate container
+- **Fix:** `docker start rabbitmq` or recreate the container
 
 ### Issue: DI resolution error
 - **Check:** `IntegrationStartup.Order = 3000` (must be > 2000)
@@ -151,7 +153,7 @@ Navigate to Admin area (if installed) → System → Log
 ### Issue: Event not written to outbox
 - **Check:** Logs for "Spike: AppStartedEvent received"
 - **Check:** `AppStartedEventConsumer` class exists
-- **Fix:** Rebuild solution to register consumer
+- **Fix:** Rebuild the solution to register the consumer
 
 ### Issue: RabbitMQ.Client not found
 - **Check:** Nop.Services.csproj has the package reference
@@ -159,21 +161,21 @@ Navigate to Admin area (if installed) → System → Log
 
 ## Clean Database Query
 
-If you want to reset and test again:
+To reset and test again:
 
 ```sql
 DELETE FROM "IntegrationEvent";
--- Restart application to trigger AppStartedEvent again
+-- Restart the application to trigger AppStartedEvent again
 ```
 
 ## Next Steps After Successful Spike
 
-If all verification passes:
-1. Mark Risk 1 as MITIGATED in risk-plan.md
-2. Document spike results in docs/evidence/
-3. Refactor spike code for production:
-   - Remove "Spike" prefix from classes
-   - Move RabbitMQ config to appsettings.json
-   - Add Polly retry policies
-   - Replace AppStartedEventConsumer with real OrderPlacedEvent consumer
-4. Proceed with full Part 2 implementation
+The spike verification passed. Follow-up actions executed in Part 2:
+1. Risk 1 marked as Mitigated in risk-plan.md
+2. Spike results documented under docs/evidence/
+3. Spike code refactored for production:
+   - "Spike" prefix removed from classes
+   - RabbitMQ configuration moved to appsettings.json
+   - Polly retry policies added (ERP adapter: 3 attempts, exponential backoff 1s/2s/4s)
+   - `AppStartedEventConsumer` replaced with the real `OrderPlacedEvent` consumer
+4. Full Part 2 implementation delivered, including the Order Integration Service at port 8083.

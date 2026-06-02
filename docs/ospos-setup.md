@@ -2,9 +2,9 @@
 
 ## Deployment Status
 
-**OSPOS MySQL Database:** Running and configured ✓  
+**OSPOS MySQL Database:** Running and configured  
 **OSPOS Web UI:** Not operational (HTTP 500) - not required for adapter  
-**Database Schema:** Minimal schema created manually ✓
+**Database Schema:** Minimal schema loaded
 
 ## Database Access
 
@@ -83,7 +83,7 @@ LIMIT 100;
 
 ## Product Catalog Sync
 
-Products will be manually inserted into ospos_items table matching nopCommerce SKUs.
+Products are inserted into the ospos_items table to match nopCommerce SKUs.
 
 Example sync script:
 

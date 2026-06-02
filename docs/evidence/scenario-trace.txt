@@ -1,0 +1,69 @@
+=== BASELINE (QA-1: order placement happy-path) ===
+Published baseline-001 order 1001 at 2026-06-01T19:31:10Z
+ERP orders:
+{"count":1,"orders":[{"eventId":"baseline-001","orderId":1001,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:31:10.0000000Z"}]}
+WMS reservations:
+{"count":1,"reservations":[{"reservationId":"550ab720-d780-438e-937d-94af8d06673e","orderId":1001,"stock":{"1":98}}]}
+OIS health:
+{"status":"healthy","circuitBreakerState":"CLOSED","dlqDepth":0,"lastProcessedAt":"2026-06-01T19:31:10.5570458Z","eventsProcessed":1,"duplicatesSkipped":0}
+=== QA-2/QA-3: WMS DOWN scenario ===
+WMS set to down at 2026-06-01T19:31:32.357Z
+[2026-06-01T19:41:47.672Z] after wms-down-1  HEALTH={"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":1,"lastProcessedAt":"2026-06-01T19:41:43.6498324Z","eventsProcessed":2,"duplicatesSkipped":0}
+[2026-06-01T19:41:47.672Z] after wms-down-1  DLQ={"depth":1,"entries":[{"eventId":"wms-down-1","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1101,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:41:43.6497353Z","lastAttemptAt":"2026-06-01T19:41:44.6692403Z","retryCount":1,"lastError":"HTTP 503"}]}
+[2026-06-01T19:41:51.788Z] after wms-down-2  HEALTH={"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":2,"lastProcessedAt":"2026-06-01T19:41:47.7632925Z","eventsProcessed":3,"duplicatesSkipped":0}
+[2026-06-01T19:41:51.788Z] after wms-down-2  DLQ={"depth":2,"entries":[{"eventId":"wms-down-2","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1102,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:41:47.7632895Z","lastAttemptAt":"2026-06-01T19:41:47.7632895Z","retryCount":0,"lastError":"HTTP 503"},{"eventId":"wms-down-1","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1101,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:41:43.6497353Z","lastAttemptAt":"2026-06-01T19:41:49.6731631Z","retryCount":2,"lastError":"HTTP 503"}]}
+[2026-06-01T19:41:55.901Z] after wms-down-3  HEALTH={"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":3,"lastProcessedAt":"2026-06-01T19:41:51.8756397Z","eventsProcessed":4,"duplicatesSkipped":0}
+[2026-06-01T19:41:55.901Z] after wms-down-3  DLQ={"depth":3,"entries":[{"eventId":"wms-down-1","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1101,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:41:43.6497353Z","lastAttemptAt":"2026-06-01T19:41:49.6731631Z","retryCount":2,"lastError":"HTTP 503"},{"eventId":"wms-down-3","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1103,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:41:51.8756366Z","lastAttemptAt":"2026-06-01T19:41:51.8756366Z","retryCount":0,"lastError":"HTTP 503"},{"eventId":"wms-down-2","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1102,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:41:47.7632895Z","lastAttemptAt":"2026-06-01T19:41:54.6756795Z","retryCount":1,"lastError":"HTTP 503"}]}
+[2026-06-01T19:42:09.773Z] {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":3,"lastProcessedAt":"2026-06-01T19:41:51.8756397Z","eventsProcessed":4,"duplicatesSkipped":0}
+[2026-06-01T19:42:14.797Z] {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":3,"lastProcessedAt":"2026-06-01T19:41:51.8756397Z","eventsProcessed":4,"duplicatesSkipped":0}
+[2026-06-01T19:42:19.821Z] {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":3,"lastProcessedAt":"2026-06-01T19:41:51.8756397Z","eventsProcessed":4,"duplicatesSkipped":0}
+[2026-06-01T19:42:24.843Z] {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":3,"lastProcessedAt":"2026-06-01T19:41:51.8756397Z","eventsProcessed":4,"duplicatesSkipped":0}
+[2026-06-01T19:42:29.865Z] {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":3,"lastProcessedAt":"2026-06-01T19:41:51.8756397Z","eventsProcessed":4,"duplicatesSkipped":0}
+[2026-06-01T19:42:34.888Z] {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":3,"lastProcessedAt":"2026-06-01T19:41:51.8756397Z","eventsProcessed":4,"duplicatesSkipped":0}
+--- Forcing circuit open: 5 more events ---
+[2026-06-01T19:42:58.968Z] after wms-down-4  {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":4,"lastProcessedAt":"2026-06-01T19:42:55.9552212Z","eventsProcessed":5,"duplicatesSkipped":0}
+[2026-06-01T19:43:02.074Z] after wms-down-5  {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":5,"lastProcessedAt":"2026-06-01T19:42:59.0573923Z","eventsProcessed":6,"duplicatesSkipped":0}
+[2026-06-01T19:43:05.180Z] after wms-down-6  {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":6,"lastProcessedAt":"2026-06-01T19:43:02.1618092Z","eventsProcessed":7,"duplicatesSkipped":0}
+[2026-06-01T19:43:08.283Z] after wms-down-7  {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":7,"lastProcessedAt":"2026-06-01T19:43:05.2652090Z","eventsProcessed":8,"duplicatesSkipped":0}
+[2026-06-01T19:43:11.386Z] after wms-down-8  {"status":"degraded","circuitBreakerState":"CLOSED","dlqDepth":8,"lastProcessedAt":"2026-06-01T19:43:08.3692318Z","eventsProcessed":9,"duplicatesSkipped":0}
+--- final DLQ ---
+{"depth":8,"entries":[{"eventId":"wms-down-4","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1104,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:42:55.9552197Z","lastAttemptAt":"2026-06-01T19:42:55.9552198Z","retryCount":0,"lastError":"HTTP 503"},{"eventId":"wms-down-5","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1105,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:42:59.057391Z","lastAttemptAt":"2026-06-01T19:42:59.0573911Z","retryCount":0,"lastError":"HTTP 503"},{"eventId":"wms-down-1","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1101,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:41:43.6497353Z","lastAttemptAt":"2026-06-01T19:42:59.717103Z","retryCount":7,"lastError":"HTTP 503"},{"eventId":"wms-down-6","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1106,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:43:02.1618081Z","lastAttemptAt":"2026-06-01T19:43:02.1618081Z","retryCount":0,"lastError":"HTTP 503"},{"eventId":"wms-down-3","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1103,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:41:51.8756366Z","lastAttemptAt":"2026-06-01T19:43:04.7179167Z","retryCount":5,"lastError":"HTTP 503"},{"eventId":"wms-down-7","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1107,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:43:05.2652079Z","lastAttemptAt":"2026-06-01T19:43:05.2652079Z","retryCount":0,"lastError":"HTTP 503"},{"eventId":"wms-down-8","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1108,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:43:08.3692306Z","lastAttemptAt":"2026-06-01T19:43:08.3692306Z","retryCount":0,"lastError":"HTTP 503"},{"eventId":"wms-down-2","eventType":"order.placed","target":"WMS","payload":"{\"orderId\":1102,\"items\":[{\"productId\":1,\"quantity\":2}]}","firstFailedAt":"2026-06-01T19:41:47.7632895Z","lastAttemptAt":"2026-06-01T19:43:09.7180091Z","retryCount":6,"lastError":"HTTP 503"}]}
+
+=== QA-3: WMS RECOVERY scenario ===
+WMS_RECOVERY_AT=2026-06-01T19:43:35.824Z
+{"mode":"normal"}
+[2026-06-01T19:43:40.850Z] {"status":"healthy","circuitBreakerState":"CLOSED","dlqDepth":0,"lastProcessedAt":"2026-06-01T19:43:39.7759252Z","eventsProcessed":17,"duplicatesSkipped":0}
+DLQ_DRAINED_AT=2026-06-01T19:43:40.850Z
+
+--- post-recovery reservations / duplicates ---
+{"count":9,"reservations":[{"reservationId":"550ab720-d780-438e-937d-94af8d06673e","orderId":1001,"stock":{"1":98}},{"reservationId":"eb4c7245-6620-4912-aba1-4c52789aa888","orderId":1107,"stock":{"1":96}},{"reservationId":"39e835cd-00df-4031-872f-fae7379b7f70","orderId":1108,"stock":{"1":94}},{"reservationId":"71bce1c5-c43f-4853-9f24-048e2ae36e8f","orderId":1102,"stock":{"1":92}},{"reservationId":"146e09c3-a7e4-4574-af5a-30588302d2e8","orderId":1104,"stock":{"1":90}},{"reservationId":"bd735a6d-966f-4710-9e71-03d5e6753343","orderId":1105,"stock":{"1":88}},{"reservationId":"78b83bdb-7a6d-4e56-b2d1-419d03d580ed","orderId":1101,"stock":{"1":86}},{"reservationId":"96a1cf86-5176-40c4-b89c-2c722c557f07","orderId":1106,"stock":{"1":84}},{"reservationId":"295cab4d-ec6a-4147-b65e-1bf0cc8c1ec5","orderId":1103,"stock":{"1":82}}]}
+--- ERP final orders ---
+{"count":9,"orders":[{"eventId":"baseline-001","orderId":1001,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:31:10.0000000Z"},{"eventId":"wms-down-1","orderId":1101,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:41:43.0000000Z"},{"eventId":"wms-down-2","orderId":1102,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:41:47.0000000Z"},{"eventId":"wms-down-3","orderId":1103,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:41:51.0000000Z"},{"eventId":"wms-down-4","orderId":1104,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:42:55.0000000Z"},{"eventId":"wms-down-5","orderId":1105,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:42:58.0000000Z"},{"eventId":"wms-down-6","orderId":1106,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:43:02.0000000Z"},{"eventId":"wms-down-7","orderId":1107,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:43:05.0000000Z"},{"eventId":"wms-down-8","orderId":1108,"customerId":1,"items":[{"productId":1,"sku":"P1","quantity":2}],"totalAmount":50.0,"occurredAt":"2026-06-01T19:43:08.0000000Z"}]}
+--- WMS health (duplicates_skipped) ---
+{"status":"ok","mode":"normal","reservations_processed":9,"duplicates_skipped":0}
+
+=== QA-4: ERP TRANSIENT 503 (Polly retry) ===
+ERP_DOWN_AT=2026-06-01T19:44:01.177Z
+{"mode":"down"}
+[T+2s] (ERP still down)  HEALTH={"status":"healthy","circuitBreakerState":"CLOSED","dlqDepth":0,"lastProcessedAt":"2026-06-01T19:43:39.7759252Z","eventsProcessed":17,"duplicatesSkipped":0}
+ERP_UP_AT=2026-06-01T19:44:03.285Z
+{"mode":"normal"}
+ERP_RECEIVED_AT=2026-06-01T19:44:06.312Z  (after Polly retries succeeded)
+--- final ERP /orders contains erp-flaky-1 ---
+[{'eventId': 'erp-flaky-1', 'orderId': 2001, 'customerId': 1, 'items': [{'productId': 1, 'sku': 'P1', 'quantity': 2}], 'totalAmount': 50.0, 'occurredAt': '2026-06-01T19:44:01.0000000Z'}]
+
+=== QA-5: UC2 cross-channel (WMS -> webhook -> stock.updated) ===
+UC2_TRIGGER_AT=2026-06-01T19:44:20.229Z
+WMS resp: {"status":"reserved","reservationId":"53b2bdca-876a-4a2d-97cf-c970859d7a23"}
+--- WMS event adapter health (events_published should have grown) ---
+{"status":"ok","rabbitmq_url":"rabbitmq:5672/","events_published":11,"events_failed":0}
+--- RabbitMQ queues (verdemart.events stock.updated routing) ---
++----------------------------------+----------+--------------------------+
+|               name               | messages | messages_published_total |
++----------------------------------+----------+--------------------------+
+| order-integration.order-placed   | 0        |                          |
+| order-integration.sale-completed | 0        |                          |
++----------------------------------+----------+--------------------------+
+
+--- nopCommerce StockUpdateConsumer cannot be verified: container exited (status: 139, MSSQL EF init segfault). ---
+Webhook delivery + RabbitMQ publish was verified via the wms-event-adapter counter; consumer-side application of stock.updated is documented as a known gap.

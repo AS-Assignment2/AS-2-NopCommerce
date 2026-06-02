@@ -1,16 +1,16 @@
-# Business & Architectural Drivers — Quality Attribute Scenarios
+# Business & Architectural Drivers - Quality Attribute Scenarios
 
-**Owner: Martim**  
-**Scenario C — Omnichannel Commerce Core (VerdeMart Retail)**
+**Scenario C - Omnichannel Commerce Core (VerdeMart Retail)**  
+**Owner:** Martim
 
 ---
 
 ## Business Drivers
 
-1. **Cross-channel unified commerce** — VerdeMart operates web, physical stores, and warehouse. Customers expect consistent order state and stock visibility across all channels.
-2. **Operational resilience** — The web store must remain functional even when warehouse or ERP systems are temporarily unavailable. An outage in one system must not block customer orders.
-3. **Real-time stock accuracy** — Stock sold in physical stores must be reflected on the website within seconds, preventing overselling.
-4. **Fulfillment traceability** — Operations team must be able to trace an order from web placement through warehouse pick/pack to shipping carrier, even across system boundaries.
+1. **Cross-channel unified commerce** - VerdeMart operates web, physical stores, and warehouse. Customers expect consistent order state and stock visibility across all channels.
+2. **Operational resilience** - The web store must remain functional even when warehouse or ERP systems are temporarily unavailable. An outage in one system must not block customer orders.
+3. **Real-time stock accuracy** - Stock sold in physical stores must be reflected on the website within seconds, preventing overselling.
+4. **Fulfillment traceability** - Operations team must be able to trace an order from web placement through warehouse pick/pack to shipping carrier, even across system boundaries.
 
 ---
 
@@ -25,7 +25,7 @@
 
 ## Quality Attribute Scenarios
 
-### QA-1: Availability — WMS Unavailable During Order Peak
+### QA-1: Availability - WMS Unavailable During Order Peak
 
 | Field | Value |
 |-------|-------|
@@ -36,18 +36,18 @@
 | Response | Order is accepted and confirmed to customer; order event is queued; WMS is not contacted synchronously |
 | Measure | 0% order failures attributable to WMS unavailability; all queued events delivered within 60 s of WMS recovery |
 
-### QA-2: Consistency — Cross-Channel Stock Visibility
+### QA-2: Consistency - Cross-Channel Stock Visibility
 
 | Field | Value |
 |-------|-------|
 | Source | Physical store POS (simulated via WMS stub) |
 | Stimulus | A product is sold in the physical store, reducing warehouse stock |
 | Environment | Normal operating condition; RabbitMQ healthy |
-| Artifact | WMS stub → RabbitMQ → nopCommerce stock consumer |
+| Artifact | WMS stub -> RabbitMQ -> nopCommerce stock consumer |
 | Response | nopCommerce product stock quantity is updated to reflect the new warehouse level |
 | Measure | Stock update reflected in nopCommerce web store within 30 s of WMS event |
 
-### QA-3: Recoverability — WMS Returns After Outage
+### QA-3: Recoverability - WMS Returns After Outage
 
 | Field | Value |
 |-------|-------|
@@ -58,7 +58,7 @@
 | Response | Circuit breaker resets to half-open; dead-letter queue is drained; all 5 orders are sent to WMS; stock updates are published back |
 | Measure | All queued orders processed within 60 s of WMS recovery; no duplicate stock adjustments (idempotent) |
 
-### QA-4: Observability — Degradation Visible to Operator
+### QA-4: Observability - Degradation Visible to Operator
 
 | Field | Value |
 |-------|-------|
@@ -69,7 +69,7 @@
 | Response | Dashboard shows circuit breaker state as `OPEN` or `HALF_OPEN`, dead-letter queue depth increasing, WMS mode |
 | Measure | State change visible on dashboard within 5 s of first WMS timeout |
 
-### QA-5: Reliability — ERP Transient Failure Recovery
+### QA-5: Reliability - ERP Transient Failure Recovery
 
 | Field | Value |
 |-------|-------|
@@ -84,4 +84,4 @@
 
 ## Chosen Framework: ADD (Attribute-Driven Design)
 
-ADD was chosen because it starts from quality attribute scenarios and uses them directly to drive decomposition decisions. Every major architectural choice in this design — the outbox pattern (QA-1), the circuit breaker (QA-3, QA-4), the dead-letter queue (QA-3), and the retry policy (QA-5) — is traceable to a specific QA scenario. This traceability is a core ADD principle and makes the design defensible: each structural decision exists because a measurable quality requirement demands it. ADD's iterative refinement also aligns with our approach of selectively evolving nopCommerce rather than redesigning it from scratch, allowing each phase to be validated against the scenarios before the next begins.
+ADD was chosen because it starts from quality attribute scenarios and uses them directly to drive decomposition decisions. Every major architectural choice in this design - the outbox pattern (QA-1), the circuit breaker (QA-3, QA-4), the dead-letter queue (QA-3), and the retry policy (QA-5) - is traceable to a specific QA scenario. This traceability is a core ADD principle and makes the design defensible: each structural decision exists because a measurable quality requirement demands it. ADD's iterative refinement also aligns with the approach of selectively evolving nopCommerce rather than redesigning it from scratch, allowing each phase to be validated against the scenarios before the next begins.

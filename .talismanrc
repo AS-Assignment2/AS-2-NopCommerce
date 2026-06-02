@@ -3,3 +3,6 @@ fileignoreconfig:
 - filename: ospos_minimal_schema.sql
   checksum: dbaa929f4580016152753fb089176b49141009f89aa3f6404eefa14b0b7a8ad3
   ignore_detectors: []
+- filename: docs/evidence/service-logs.txt
+  checksum: 9cbe4ea141413127af6b293f3952c0369f4b03e048ff210c92dbed0b932020c4
+  ignore_detectors: []

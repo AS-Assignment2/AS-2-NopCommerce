@@ -1,6 +1,6 @@
-# ADR-004: External Systems — Real vs Stub
+# ADR-004: External Systems - Real vs Stub
 
-**Status:** Accepted  
+**Status:** Implemented  
 **Date:** 2026-04-26 (Updated: 2026-05-09)  
 **Owner:** Sebastião  
 **Deciders:** Full team
@@ -46,7 +46,7 @@ A WMS stub provides:
 
 The same reasoning applies to ERP (ERPNext would require a full Odoo/ERPNext stack with no demo value over a stub).
 
-### POS — Real OSPOS
+### POS - Real OSPOS
 
 **Decision:** Use real Open Source Point of Sale (OSPOS) system, not a stub.
 
@@ -68,14 +68,19 @@ The same reasoning applies to ERP (ERPNext would require a full Odoo/ERPNext sta
 
 ## Rejected Alternatives
 
-### Real OpenBoxes
+### Real WMS (OpenBoxes)
 
 Rejected because:
 - High operational overhead for negligible architectural benefit
 - No native failure injection capability for the mandatory pressure point demo
-- Integrating with OpenBoxes's real API would couple our architecture to their specific data model, which is not the assignment goal
+- Integrating with the OpenBoxes real API would couple the architecture to its specific data model, which is not the assignment goal
 
----
+### Real ERP (ERPNext / Odoo)
+
+Rejected because:
+- Requires a full ERPNext or Odoo stack (database, scheduler, queue workers) with no demo value beyond what a stub provides
+- No native controllable failure mode equivalent to the stub `POST /admin/mode` endpoint, so retry and circuit-breaker pressure cannot be exercised deterministically
+- Forces the Order Integration Service to map to a vendor-specific document model, distracting from the architectural problem under study
 
 ### POS Stub
 
@@ -96,7 +101,7 @@ Rejected because:
 - Architectural pressure (circuit breaker trigger, dead-letter accumulation, reconciliation) is fully preserved
 
 ### Real OSPOS
-- `services/ospos/` runs real OSPOS Docker container with MySQL database
+- The `ospos` service in docker-compose runs the real OSPOS Docker image with a MySQL database
 - `services/ospos-adapter/` polls OSPOS sales table and publishes `sale.completed` events to RabbitMQ
 - Product catalog must be synced between nopCommerce and OSPOS (setup overhead)
 - Integration adapter introduces polling latency (30-60s configurable interval)

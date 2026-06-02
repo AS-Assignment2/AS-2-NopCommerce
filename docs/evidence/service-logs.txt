@@ -1,0 +1,1062 @@
+verdemart_erp_stub  | INFO:     Started server process [1]
+verdemart_erp_stub  | INFO:     Waiting for application startup.
+verdemart_erp_stub  | INFO:     Application startup complete.
+verdemart_erp_stub  | INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+verdemart_erp_stub  | INFO:     127.0.0.1:58110 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:48964 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:35254 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     172.27.0.1:35010 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:59906 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:44132 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:58602 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     172.27.0.1:34844 - "GET /orders HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:46792 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:54186 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:42026 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | 2026-06-01 19:31:10,538 [ERP] INFO Order accepted: orderId=1001 eventId=baseline-001 items=1
+verdemart_erp_stub  | INFO:     172.27.0.11:39956 - "POST /orders HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:43452 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     172.27.0.1:49512 - "GET /orders HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:57136 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     172.27.0.1:52860 - "GET /orders HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:42050 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:44638 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:46746 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:39360 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:48838 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:50664 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub  | INFO:     127.0.0.1:50762 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:44978 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:60422 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:56654 - "GET /health HTTP/1.1" 200 OK
+verdemart_order_integration  | warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+verdemart_order_integration  |       Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://+:8083'.
+verdemart_erp_stub           | INFO:     127.0.0.1:41982 - "GET /health HTTP/1.1" 200 OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.ReconciliationService[0]
+verdemart_order_integration  |       Reconciliation loop started, interval=5s
+verdemart_order_integration  | info: Microsoft.Hosting.Lifetime[14]
+verdemart_erp_stub           | INFO:     127.0.0.1:57310 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:55974 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:59848 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:50110 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:36340 - "GET /health HTTP/1.1" 200 OK
+verdemart_order_integration  |       Now listening on: http://[::]:8083
+verdemart_wms_stub           | INFO:     172.27.0.1:35900 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:54430 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:47224 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:43924 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:51892 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:36292 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:39228 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:54586 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:47076 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:54046 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:40278 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:36044 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:36446 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:41438 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:54986 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     172.27.0.1:53422 - "GET /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:45884 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:46076 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:36504 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:31:10,548 [WMS] INFO Reserved productId=1 qty=2 → stock 100→98
+verdemart_erp_stub           | INFO:     127.0.0.1:57424 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:56126 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:59992 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:49996 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:37816 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:53900 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:40330 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:47048 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:41348 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:38444 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:37632 - "GET /health HTTP/1.1" 200 OK
+verdemart_order_integration  | info: Microsoft.Hosting.Lifetime[0]
+verdemart_order_integration  |       Application started. Press Ctrl+C to shut down.
+verdemart_order_integration  | info: Microsoft.Hosting.Lifetime[0]
+verdemart_order_integration  |       Hosting environment: Production
+verdemart_order_integration  | info: Microsoft.Hosting.Lifetime[0]
+verdemart_order_integration  |       Content root path: /app
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       OSPOS Polling Service starting...
+ospos_adapter                | info: Microsoft.Hosting.Lifetime[0]
+verdemart_wms_stub           | INFO:     172.27.0.11:58226 - "POST /reservations HTTP/1.1" 200 OK
+ospos_adapter                |       Application started. Press Ctrl+C to shut down.
+verdemart_erp_stub           | INFO:     127.0.0.1:58084 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:53252 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:39684 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:43004 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:35348 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:56976 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:44664 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:41168 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:35976 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:51240 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:46360 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:38858 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:31:10,565 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+nopcommerce_rabbitmq         | 2026-06-01 19:27:29.817201+00:00 [info] <0.254.0>  home dir       : /var/lib/rabbitmq[0m
+verdemart_wms_stub           | 2026-06-01 19:31:10,565 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=98
+nopcommerce_rabbitmq         | 2026-06-01 19:27:29.817201+00:00 [info] <0.254.0>  config file(s) : /etc/rabbitmq/conf.d/10-defaults.conf[0m
+verdemart_order_integration  | info: OrderIntegrationService.Services.OrderPlacedConsumer[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:29.817201+00:00 [info] <0.254.0>  cookie hash    : MAEDNQdgFe1b0V9rjlFhBQ==[0m
+verdemart_order_integration  |       OrderPlacedConsumer subscribed to order-integration.order-placed
+ospos_adapter                | info: Microsoft.Hosting.Lifetime[0]
+ospos_adapter                |       Hosting environment: Production
+nopcommerce_rabbitmq         | 2026-06-01 19:27:29.817201+00:00 [info] <0.254.0>  log(s)         : <stdout>[0m
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:29.817201+00:00 [info] <0.254.0>  data dir       : /var/lib/rabbitmq/mnesia/rabbit@884f8d6dc351[0m
+ospos_adapter                |       Polling interval: 30 seconds
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.054964+00:00 [info] <0.254.0> Running boot step pre_boot defined by app rabbit[0m
+ospos_adapter                | info: Microsoft.Hosting.Lifetime[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.055027+00:00 [info] <0.254.0> Running boot step rabbit_global_counters defined by app rabbit[0m
+ospos_adapter                |       Content root path: /app
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.055194+00:00 [info] <0.254.0> Running boot step rabbit_osiris_metrics defined by app rabbit[0m
+ospos_adapter                | info: OsposAdapter.Services.IdempotencyTracker[0]
+verdemart_order_integration  | info: OrderIntegrationService.Services.SaleCompletedConsumer[0]
+ospos_adapter                |       Idempotency database initialized at /app/data/idempotency.db
+verdemart_wms_stub           | INFO:     127.0.0.1:40310 - "GET /health HTTP/1.1" 200 OK
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_wms_stub           | INFO:     172.27.0.1:43590 - "GET /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:43908 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     172.27.0.1:43160 - "GET /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:31:32,362 [WMS] INFO Mode changed to: down
+verdemart_wms_stub           | INFO:     172.27.0.1:43168 - "POST /admin/mode HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:52816 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:60846 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:52996 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:50934 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:51410 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:35036 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:42426 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:51032 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:49296 - "GET /health HTTP/1.1" 200 OK
+verdemart_order_integration  |       SaleCompletedConsumer subscribed to order-integration.sale-completed
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+verdemart_order_integration  | fail: OrderIntegrationService.Services.OrderPlacedConsumer[0]
+verdemart_wms_stub           | INFO:     127.0.0.1:43496 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:54418 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:60656 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:46626 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:49128 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:38598 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:54140 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:59036 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:37876 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:59670 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:52208 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:42816 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:56866 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:51246 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:42114 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:48446 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:39730 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:39306 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:49092 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:41712 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:56754 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:59522 - "GET /health HTTP/1.1" 200 OK
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.055270+00:00 [info] <0.254.0> Running boot step rabbit_core_metrics defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.055989+00:00 [info] <0.254.0> Running boot step rabbit_alarm defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.067095+00:00 [info] <0.329.0> Memory high watermark set to 5444 MiB (5708903219 bytes) of 13611 MiB (14272258048 bytes) total[0m
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,765 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,765 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=96 eventId=91f1114b-5d36-477a-8c07-c718592555db
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,765 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,765 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691d7da0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,765 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691d7da0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,765 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+verdemart_wms_stub           | INFO:     127.0.0.1:50196 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,766 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=20, family=2, type=1, proto=6, laddr=('172.27.0.8', 46366), raddr=('172.27.0.5', 5672)>
+verdemart_erp_stub           | INFO:     127.0.0.1:48068 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:33376 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:51796 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:42906 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:40816 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:36832 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:45262 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:44896 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:41908 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:54590 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:57876 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | 2026-06-01 19:41:43,647 [ERP] INFO Order accepted: orderId=1101 eventId=wms-down-1 items=1
+verdemart_erp_stub           | INFO:     172.27.0.11:60890 - "POST /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:46766 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | 2026-06-01 19:41:47,761 [ERP] INFO Order accepted: orderId=1102 eventId=wms-down-2 items=1
+verdemart_erp_stub           | INFO:     172.27.0.11:60890 - "POST /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | 2026-06-01 19:41:51,874 [ERP] INFO Order accepted: orderId=1103 eventId=wms-down-3 items=1
+verdemart_erp_stub           | INFO:     172.27.0.11:60890 - "POST /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:47638 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:55904 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:50708 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:41672 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:58152 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:36886 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:55768 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | 2026-06-01 19:42:55,953 [ERP] INFO Order accepted: orderId=1104 eventId=wms-down-4 items=1
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.068796+00:00 [info] <0.331.0> Enabling free disk space monitoring (disk free space: 80362729472, total memory: 14272258048)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.068843+00:00 [info] <0.331.0> Disk free limit set to 50MB[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.069732+00:00 [info] <0.254.0> Running boot step code_server_cache defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.069793+00:00 [info] <0.254.0> Running boot step file_handle_cache defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.073173+00:00 [info] <0.334.0> Limiting to approx 927 file handles (832 sockets)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.073273+00:00 [info] <0.335.0> FHC read buffering: OFF[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.073316+00:00 [info] <0.335.0> FHC write buffering: ON[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.073664+00:00 [info] <0.254.0> Running boot step worker_pool defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.073720+00:00 [info] <0.315.0> Will use 16 processes for default worker pool[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.073745+00:00 [info] <0.315.0> Starting worker pool 'worker_pool' with 16 processes in it[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.074036+00:00 [info] <0.254.0> Running boot step database defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.074266+00:00 [info] <0.254.0> Peer discovery: configured backend: rabbit_peer_discovery_classic_config[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.074969+00:00 [notice] <0.316.0> Feature flags: attempt to enable `detailed_queues_endpoint`...[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.126648+00:00 [notice] <0.316.0> Feature flags: `detailed_queues_endpoint` enabled[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.126754+00:00 [notice] <0.316.0> Feature flags: attempt to enable `quorum_queue_non_voters`...[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.176920+00:00 [notice] <0.316.0> Feature flags: `quorum_queue_non_voters` enabled[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.177168+00:00 [notice] <0.316.0> Feature flags: attempt to enable `stream_update_config_command`...[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.225810+00:00 [notice] <0.316.0> Feature flags: `stream_update_config_command` enabled[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.225953+00:00 [notice] <0.316.0> Feature flags: attempt to enable `stream_filtering`...[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.273915+00:00 [notice] <0.316.0> Feature flags: `stream_filtering` enabled[0m
+verdemart_order_integration  |       order.placed: handler exception, nack-no-requeue. Body={"eventId":"baseline-001","orderId":"order-baseline-1","customerId":"cust-1","items":[{"sku":"P0001","quantity":2}],"total":50.0,"timestamp":"2026-06-01T19:30:37Z"}
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+verdemart_order_integration  |       System.Text.Json.JsonException: The JSON value could not be converted to System.Int32. Path: $.orderId | LineNumber: 0 | BytePositionInLine: 54.
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_order_integration  |        ---> System.InvalidOperationException: Cannot get the value of a token type 'String' as a number.
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,766 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=20, family=2, type=1, proto=6, laddr=('172.27.0.8', 46366), raddr=('172.27.0.5', 5672)>
+verdemart_order_integration  |          at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ExpectedNumber(JsonTokenType tokenType)
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,766 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=20, family=2, type=1, proto=6, laddr=('172.27.0.8', 46366), raddr=('172.27.0.5', 5672)>
+ospos_adapter                |       No new sales found
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.274046+00:00 [notice] <0.316.0> Feature flags: attempt to enable `stream_sac_coordinator_unblock_group`...[0m
+verdemart_wms_stub           | INFO:     127.0.0.1:45876 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:55456 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:33992 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:53806 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:32894 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:36978 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:42518 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:47596 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:42932 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:36082 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:53772 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:46478 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:45698 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:60128 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:38534 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:52450 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:44108 - "GET /health HTTP/1.1" 200 OK
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_erp_stub           | INFO:     172.27.0.11:56124 - "POST /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | 2026-06-01 19:42:59,056 [ERP] INFO Order accepted: orderId=1105 eventId=wms-down-5 items=1
+verdemart_order_integration  |          at System.Text.Json.Utf8JsonReader.TryGetInt32(Int32& value)
+verdemart_order_integration  |          at System.Text.Json.Utf8JsonReader.GetInt32()
+verdemart_order_integration  |          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.320809+00:00 [notice] <0.316.0> Feature flags: `stream_sac_coordinator_unblock_group` enabled[0m
+verdemart_erp_stub           | INFO:     172.27.0.11:56124 - "POST /orders HTTP/1.1" 200 OK
+verdemart_order_integration  |          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+verdemart_order_integration  |          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+verdemart_order_integration  |          at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+verdemart_order_integration  |          --- End of inner exception stack trace ---
+verdemart_wms_stub           | INFO:     127.0.0.1:43092 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:43928 - "GET /health HTTP/1.1" 200 OK
+verdemart_order_integration  |          at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, Utf8JsonReader& reader, Exception ex)
+verdemart_erp_stub           | 2026-06-01 19:43:02,160 [ERP] INFO Order accepted: orderId=1106 eventId=wms-down-6 items=1
+verdemart_erp_stub           | INFO:     172.27.0.11:56124 - "POST /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:43278 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | 2026-06-01 19:43:05,263 [ERP] INFO Order accepted: orderId=1107 eventId=wms-down-7 items=1
+verdemart_erp_stub           | INFO:     172.27.0.11:56124 - "POST /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | 2026-06-01 19:43:08,368 [ERP] INFO Order accepted: orderId=1108 eventId=wms-down-8 items=1
+verdemart_erp_stub           | INFO:     172.27.0.11:56124 - "POST /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:38384 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:53096 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:50642 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:32788 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:49144 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:40752 - "GET /health HTTP/1.1" 200 OK
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.320940+00:00 [notice] <0.316.0> Feature flags: attempt to enable `restart_streams`...[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.368153+00:00 [notice] <0.316.0> Feature flags: `restart_streams` enabled[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.368334+00:00 [notice] <0.316.0> Feature flags: attempt to enable `message_containers`...[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.415645+00:00 [notice] <0.316.0> Feature flags: `message_containers` enabled[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.415876+00:00 [notice] <0.316.0> Feature flags: attempt to enable `message_containers_deaths_v2`...[0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.462484+00:00 [notice] <0.316.0> Feature flags: `message_containers_deaths_v2` enabled[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.462716+00:00 [info] <0.254.0> DB: virgin node -> run peer discovery[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:27:30.462749+00:00 [warning] <0.254.0> Classic peer discovery backend: list of nodes does not contain the local node [][0m
+nopcommerce_rabbitmq         | [38;5;87m2026-06-01 19:27:30.467286+00:00 [notice] <0.44.0> Application mnesia exited with reason: stopped[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.505979+00:00 [info] <0.254.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.506040+00:00 [info] <0.254.0> Successfully synced tables from a peer[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.506082+00:00 [info] <0.254.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.506113+00:00 [info] <0.254.0> Successfully synced tables from a peer[0m
+verdemart_wms_stub           | INFO:     127.0.0.1:44862 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:45880 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:49504 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:34648 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:37970 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:53532 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:41:43,648 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1101
+verdemart_wms_stub           | INFO:     172.27.0.11:36226 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | INFO:     127.0.0.1:43572 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:41:44,667 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1101
+verdemart_wms_stub           | INFO:     172.27.0.11:36226 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+ospos_adapter                |       No new sales found
+verdemart_wms_stub           | 2026-06-01 19:41:47,762 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1102
+verdemart_wms_stub           | INFO:     172.27.0.11:36226 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:41:49,672 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1101
+verdemart_wms_stub           | INFO:     172.27.0.11:36226 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:41:51,875 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1103
+verdemart_wms_stub           | INFO:     172.27.0.11:36226 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | INFO:     127.0.0.1:59534 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:41:54,675 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1102
+verdemart_wms_stub           | INFO:     172.27.0.11:36226 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | INFO:     127.0.0.1:41970 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:42:04,684 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1103
+verdemart_wms_stub           | INFO:     172.27.0.11:60442 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,766 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_order_integration  |          at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+verdemart_order_integration  |          at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+verdemart_erp_stub           | INFO:     127.0.0.1:55862 - "GET /health HTTP/1.1" 200 OK
+verdemart_order_integration  |          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+verdemart_erp_stub           | INFO:     172.27.0.1:42392 - "GET /orders HTTP/1.1" 200 OK
+verdemart_order_integration  |          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.507696+00:00 [info] <0.254.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
+verdemart_wms_stub           | 2026-06-01 19:42:09,686 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1102
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.507765+00:00 [info] <0.254.0> Successfully synced tables from a peer[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.507851+00:00 [info] <0.254.0> Running boot step tracking_metadata_store defined by app rabbit[0m
+verdemart_wms_stub           | INFO:     172.27.0.11:45554 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.507911+00:00 [info] <0.570.0> Setting up a table for connection tracking on this node: tracked_connection[0m
+verdemart_wms_stub           | INFO:     127.0.0.1:38778 - "GET /health HTTP/1.1" 200 OK
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.507946+00:00 [info] <0.570.0> Setting up a table for per-vhost connection counting on this node: tracked_connection_per_vhost[0m
+verdemart_erp_stub           | INFO:     127.0.0.1:33582 - "GET /health HTTP/1.1" 200 OK
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.507976+00:00 [info] <0.570.0> Setting up a table for per-user connection counting on this node: tracked_connection_per_user[0m
+verdemart_order_integration  |          at OrderIntegrationService.Services.OrderPlacedConsumer.OnMessageAsync(Object sender, BasicDeliverEventArgs ea) in /src/Services/OrderPlacedConsumer.cs:line 93
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508005+00:00 [info] <0.570.0> Setting up a table for channel tracking on this node: tracked_channel[0m
+verdemart_wms_stub           | 2026-06-01 19:42:14,691 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1101
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+verdemart_wms_stub           | INFO:     172.27.0.11:45560 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_order_integration  |       ERP /orders OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_order_integration  |       WMS /reservations OK
+verdemart_erp_stub           | 2026-06-01 19:44:01,186 [ERP] INFO Mode changed to: down
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+verdemart_erp_stub           | INFO:     172.27.0.1:41104 - "POST /admin/mode HTTP/1.1" 200 OK
+verdemart_order_integration  |       ERP /orders OK
+verdemart_erp_stub           | 2026-06-01 19:44:01,266 [ERP] WARNING mode=down — rejecting POST /orders for orderId=2001
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+verdemart_erp_stub           | INFO:     172.27.0.11:37564 - "POST /orders HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:42:19,695 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1103
+verdemart_erp_stub           | 2026-06-01 19:44:02,270 [ERP] WARNING mode=down — rejecting POST /orders for orderId=2001
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508125+00:00 [info] <0.570.0> Setting up a table for channel tracking on this node: tracked_channel_per_user[0m
+verdemart_erp_stub           | INFO:     172.27.0.11:37564 - "POST /orders HTTP/1.1" 503 Service Unavailable
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508154+00:00 [info] <0.254.0> Running boot step networking_metadata_store defined by app rabbit[0m
+verdemart_erp_stub           | 2026-06-01 19:44:03,293 [ERP] INFO Mode changed to: normal
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508192+00:00 [info] <0.254.0> Running boot step feature_flags defined by app rabbit[0m
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_erp_stub           | INFO:     172.27.0.1:41114 - "POST /admin/mode HTTP/1.1" 200 OK
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_wms_stub           | INFO:     172.27.0.11:35298 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+verdemart_order_integration  |       ERP /orders OK
+verdemart_erp_stub           | 2026-06-01 19:44:04,273 [ERP] INFO Order accepted: orderId=2001 eventId=erp-flaky-1 items=1
+verdemart_erp_stub           | INFO:     172.27.0.11:37564 - "POST /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:46900 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,766 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,766 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=20, family=2, type=1, proto=6, laddr=('172.27.0.8', 46366), raddr=('172.27.0.5', 5672)>
+verdemart_wms_stub           | INFO:     127.0.0.1:58674 - "GET /health HTTP/1.1" 200 OK
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508253+00:00 [info] <0.254.0> Running boot step codec_correctness_check defined by app rabbit[0m
+verdemart_wms_stub           | 2026-06-01 19:42:24,699 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1102
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508266+00:00 [info] <0.254.0> Running boot step external_infrastructure defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508282+00:00 [info] <0.254.0> Running boot step rabbit_event defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508329+00:00 [info] <0.254.0> Running boot step rabbit_registry defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508356+00:00 [info] <0.254.0> Running boot step rabbit_auth_mechanism_amqplain defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508388+00:00 [info] <0.254.0> Running boot step rabbit_auth_mechanism_cr_demo defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508407+00:00 [info] <0.254.0> Running boot step rabbit_auth_mechanism_plain defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508435+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_direct defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508463+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_fanout defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508487+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_headers defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508510+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_topic defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508532+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_mode_all defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508553+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_mode_exactly defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508573+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_mode_nodes defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508592+00:00 [info] <0.254.0> Running boot step rabbit_priority_queue defined by app rabbit[0m
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508604+00:00 [info] <0.254.0> Priority queues enabled, real BQ is rabbit_variable_queue[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,766 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508636+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_client_local defined by app rabbit[0m
+verdemart_wms_stub           | INFO:     172.27.0.11:35300 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508658+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_min_masters defined by app rabbit[0m
+verdemart_wms_stub           | 2026-06-01 19:42:29,701 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1101
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508696+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_random defined by app rabbit[0m
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_erp_stub           | INFO:     172.27.0.1:40678 - "GET /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     172.27.0.1:40688 - "GET /orders HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:54110 - "GET /health HTTP/1.1" 200 OK
+verdemart_erp_stub           | INFO:     127.0.0.1:45978 - "GET /health HTTP/1.1" 200 OK
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508719+00:00 [info] <0.254.0> Running boot step kernel_ready defined by app rabbit[0m
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+verdemart_order_integration  |       ERP /orders OK
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:33390 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508730+00:00 [info] <0.254.0> Running boot step rabbit_sysmon_minder defined by app rabbit[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,767 [WMS-ADAPTER] INFO Pika version 1.3.2 connecting to ('172.27.0.5', 5672)
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.508791+00:00 [info] <0.254.0> Running boot step rabbit_epmd_monitor defined by app rabbit[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,767 [WMS-ADAPTER] INFO Socket connected: <socket.socket fd=20, family=2, type=1, proto=6, laddr=('172.27.0.8', 46370), raddr=('172.27.0.5', 5672)>
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.509137+00:00 [info] <0.578.0> epmd monitor knows us, inter-node communication (distribution) port: 25672[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,767 [WMS-ADAPTER] INFO Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a58e0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a58e0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.509224+00:00 [info] <0.254.0> Running boot step guid_generator defined by app rabbit[0m
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.509824+00:00 [info] <0.254.0> Running boot step rabbit_node_monitor defined by app rabbit[0m
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+ospos_adapter                |       No new sales found
+verdemart_wms_stub           | INFO:     172.27.0.11:52234 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.509917+00:00 [info] <0.582.0> Starting rabbit_node_monitor (in ignore mode)[0m
+verdemart_order_integration  |       WMS /reservations threw
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_order_integration  |       System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+verdemart_order_integration  |        ---> System.IO.IOException: Unable to read data from the transport connection: Connection reset by peer.
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,768 [WMS-ADAPTER] INFO AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a58e0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_order_integration  |        ---> System.Net.Sockets.SocketException (104): Connection reset by peer
+verdemart_order_integration  |          at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.CreateException(SocketError error, Boolean forAsyncThrow)
+verdemart_order_integration  |          at System.Net.Sockets.NetworkStream.ReadAsync(Memory`1 buffer, CancellationToken cancellationToken)
+verdemart_order_integration  |          at System.Net.Http.HttpConnection.<CheckUsabilityOnScavenge>g__ReadAheadWithZeroByteReadAsync|39_0()
+verdemart_order_integration  |          at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.ExecutionContextCallback(Object s)
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.509958+00:00 [info] <0.254.0> Running boot step delegate_sup defined by app rabbit[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,768 [WMS-ADAPTER] INFO AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a58e0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.510137+00:00 [info] <0.254.0> Running boot step rabbit_memory_monitor defined by app rabbit[0m
+verdemart_order_integration  |          at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,768 [WMS-ADAPTER] INFO Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a58e0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_order_integration  |          at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext(Thread threadPoolThread)
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,768 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=94 eventId=ce2d2898-cc11-4ca3-8e06-524e2140803c
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a58e0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a58e0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=20, family=2, type=1, proto=6, laddr=('172.27.0.8', 46370), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=20, family=2, type=1, proto=6, laddr=('172.27.0.8', 46370), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=20, family=2, type=1, proto=6, laddr=('172.27.0.8', 46370), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=20, family=2, type=1, proto=6, laddr=('172.27.0.8', 46370), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,769 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:33402 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,778 [WMS-ADAPTER] INFO Pika version 1.3.2 connecting to ('172.27.0.5', 5672)
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,778 [WMS-ADAPTER] INFO Socket connected: <socket.socket fd=26, family=2, type=1, proto=6, laddr=('172.27.0.8', 46372), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,779 [WMS-ADAPTER] INFO Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a5520>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a5520> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,779 [WMS-ADAPTER] INFO Pika version 1.3.2 connecting to ('172.27.0.5', 5672)
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,779 [WMS-ADAPTER] INFO Socket connected: <socket.socket fd=28, family=2, type=1, proto=6, laddr=('172.27.0.8', 46386), raddr=('172.27.0.5', 5672)>
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.510209+00:00 [info] <0.254.0> Running boot step rabbit_fifo_dlx_sup defined by app rabbit[0m
+verdemart_order_integration  |          at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.AsyncStateMachineBox`1.MoveNext()
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.510248+00:00 [info] <0.254.0> Running boot step core_initialized defined by app rabbit[0m
+verdemart_order_integration  |          at System.Net.Sockets.SocketAsyncEngine.System.Threading.IThreadPoolWorkItem.Execute()
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_order_integration  |          at System.Threading.ThreadPoolWorkQueue.Dispatch()
+verdemart_order_integration  |          at System.Threading.PortableThreadPool.WorkerThread.WorkerThreadStart()
+verdemart_order_integration  |          at System.Threading.Thread.StartCallback()
+verdemart_order_integration  |       --- End of stack trace from previous location ---
+verdemart_order_integration  |       
+verdemart_order_integration  |          --- End of inner exception stack trace ---
+verdemart_order_integration  |          at System.Net.Http.HttpConnection.<CheckUsabilityOnScavenge>g__ReadAheadWithZeroByteReadAsync|39_0()
+verdemart_order_integration  |          at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+verdemart_order_integration  |          --- End of inner exception stack trace ---
+verdemart_order_integration  |          at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+verdemart_order_integration  |          at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+verdemart_order_integration  |          at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+verdemart_order_integration  |          at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.<SendCoreAsync>g__Core|4_0(HttpRequestMessage request, Boolean useAsync, CancellationToken cancellationToken)
+verdemart_order_integration  |          at Microsoft.Extensions.Http.PolicyHttpMessageHandler.SendCoreAsync(HttpRequestMessage request, Context context, CancellationToken cancellationToken)
+verdemart_order_integration  |          at Polly.CircuitBreaker.AsyncCircuitBreakerEngine.ImplementationAsync[TResult](Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext, ExceptionPredicates shouldHandleExceptionPredicates, ResultPredicates`1 shouldHandleResultPredicates, ICircuitController`1 breakerController)
+verdemart_order_integration  |          at Polly.AsyncPolicy`1.ExecuteAsync(Func`3 action, Context context, CancellationToken cancellationToken, Boolean continueOnCapturedContext)
+verdemart_wms_stub           | INFO:     127.0.0.1:50914 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:42:34,706 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1103
+verdemart_wms_stub           | INFO:     172.27.0.11:52250 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:42:39,708 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1102
+verdemart_wms_stub           | INFO:     172.27.0.11:46190 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | INFO:     127.0.0.1:46094 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:42:44,710 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1101
+ospos_adapter                |       No new sales found
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.510261+00:00 [info] <0.254.0> Running boot step rabbit_channel_tracking_handler defined by app rabbit[0m
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.510282+00:00 [info] <0.254.0> Running boot step rabbit_connection_tracking_handler defined by app rabbit[0m
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.510298+00:00 [info] <0.254.0> Running boot step rabbit_definitions_hashing defined by app rabbit[0m
+verdemart_wms_stub           | INFO:     172.27.0.11:46198 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_wms_stub           | 2026-06-01 19:42:49,713 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1103
+ospos_adapter                |       No new sales found
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.510321+00:00 [info] <0.254.0> Running boot step rabbit_exchange_parameters defined by app rabbit[0m
+verdemart_wms_stub           | INFO:     172.27.0.11:57162 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.525532+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_misc defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.525839+00:00 [info] <0.254.0> Running boot step rabbit_policies defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.526005+00:00 [info] <0.254.0> Running boot step rabbit_policy defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.526030+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_validator defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.526055+00:00 [info] <0.254.0> Running boot step rabbit_quorum_memory_manager defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.526077+00:00 [info] <0.254.0> Running boot step rabbit_quorum_queue defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.526152+00:00 [info] <0.254.0> Running boot step rabbit_stream_coordinator defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.526275+00:00 [info] <0.254.0> Running boot step rabbit_vhost_limit defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.526313+00:00 [info] <0.254.0> Running boot step rabbit_federation_parameters defined by app rabbitmq_federation[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.526406+00:00 [info] <0.254.0> Running boot step rabbit_federation_supervisor defined by app rabbitmq_federation[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.530824+00:00 [info] <0.254.0> Running boot step rabbit_federation_queue defined by app rabbitmq_federation[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.530971+00:00 [info] <0.254.0> Running boot step rabbit_federation_upstream_exchange defined by app rabbitmq_federation[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.531037+00:00 [info] <0.254.0> Running boot step rabbit_mgmt_reset_handler defined by app rabbitmq_management[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.531083+00:00 [info] <0.254.0> Running boot step rabbit_mgmt_db_handler defined by app rabbitmq_management_agent[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.531113+00:00 [info] <0.254.0> Management plugin: using rates mode 'basic'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.531204+00:00 [info] <0.254.0> Running boot step recovery defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.537735+00:00 [info] <0.254.0> Running boot step empty_db_check defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.537789+00:00 [info] <0.254.0> Will seed default virtual host and user...[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,780 [WMS-ADAPTER] INFO Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35a00>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35a00> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+verdemart_order_integration  |          at Microsoft.Extensions.Http.PolicyHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.537840+00:00 [info] <0.254.0> Adding vhost '/' (description: 'Default virtual host', tags: [])[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.541527+00:00 [info] <0.642.0> Making sure data directory '/var/lib/rabbitmq/mnesia/rabbit@884f8d6dc351/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L' for vhost '/' exists[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.542037+00:00 [info] <0.642.0> Setting segment_entry_count for vhost '/' with 0 queues to '2048'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.545358+00:00 [info] <0.642.0> Starting message stores for vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.545436+00:00 [info] <0.651.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_transient": using rabbit_msg_store_ets_index to provide index[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,780 [WMS-ADAPTER] INFO Pika version 1.3.2 connecting to ('172.27.0.5', 5672)
+verdemart_order_integration  |          at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.<SendCoreAsync>g__Core|4_0(HttpRequestMessage request, Boolean useAsync, CancellationToken cancellationToken)
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,781 [WMS-ADAPTER] INFO Pika version 1.3.2 connecting to ('172.27.0.5', 5672)
+verdemart_order_integration  |          at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.545923+00:00 [info] <0.642.0> Started message store of type transient for vhost '/'[0m
+verdemart_order_integration  |          at OrderIntegrationService.Services.WmsAdapter.PostRawAsync(String path, String jsonBody, CancellationToken ct) in /src/Services/WmsAdapter.cs:line 51
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.545990+00:00 [info] <0.655.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": using rabbit_msg_store_ets_index to provide index[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:27:30.546167+00:00 [warning] <0.655.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": rebuilding indices from scratch[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.546448+00:00 [info] <0.642.0> Started message store of type persistent for vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.546491+00:00 [info] <0.642.0> Recovering 0 queues of type rabbit_classic_queue took 4ms[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.546513+00:00 [info] <0.642.0> Recovering 0 queues of type rabbit_quorum_queue took 0ms[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.546528+00:00 [info] <0.642.0> Recovering 0 queues of type rabbit_stream_queue took 0ms[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.547355+00:00 [info] <0.254.0> Created user 'guest'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.547732+00:00 [info] <0.254.0> Successfully set user tags for user 'guest' to [administrator][0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548124+00:00 [info] <0.254.0> Successfully set permissions for user 'guest' in virtual host '/' to '.*', '.*', '.*'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548148+00:00 [info] <0.254.0> Running boot step rabbit_observer_cli defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548185+00:00 [info] <0.254.0> Running boot step rabbit_looking_glass defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548197+00:00 [info] <0.254.0> Running boot step rabbit_core_metrics_gc defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548254+00:00 [info] <0.254.0> Running boot step background_gc defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548327+00:00 [info] <0.254.0> Running boot step routing_ready defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548341+00:00 [info] <0.254.0> Running boot step pre_flight defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548359+00:00 [info] <0.254.0> Running boot step notify_cluster defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548381+00:00 [info] <0.254.0> Running boot step networking defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548394+00:00 [info] <0.254.0> Running boot step rabbit_quorum_queue_periodic_membership_reconciliation defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548437+00:00 [info] <0.254.0> Running boot step definition_import_worker_pool defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548472+00:00 [info] <0.315.0> Starting worker pool 'definition_import_pool' with 16 processes in it[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,782 [WMS-ADAPTER] INFO Socket connected: <socket.socket fd=36, family=2, type=1, proto=6, laddr=('172.27.0.8', 46394), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,782 [WMS-ADAPTER] INFO AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a5520> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,782 [WMS-ADAPTER] INFO AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a5520> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,782 [WMS-ADAPTER] INFO Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a5520> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,782 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,782 [WMS-ADAPTER] INFO Pika version 1.3.2 connecting to ('172.27.0.5', 5672)
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,783 [WMS-ADAPTER] INFO Socket connected: <socket.socket fd=37, family=2, type=1, proto=6, laddr=('172.27.0.8', 46404), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,783 [WMS-ADAPTER] INFO Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36780>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36780> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,783 [WMS-ADAPTER] INFO Socket connected: <socket.socket fd=41, family=2, type=1, proto=6, laddr=('172.27.0.8', 46412), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,783 [WMS-ADAPTER] INFO Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35d90>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35d90> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,783 [WMS-ADAPTER] INFO Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36b70>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36b70> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,784 [WMS-ADAPTER] INFO AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35a00> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,784 [WMS-ADAPTER] INFO AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35a00> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,784 [WMS-ADAPTER] INFO Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35a00> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35d90> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35d90> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35d90> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO Pika version 1.3.2 connecting to ('172.27.0.5', 5672)
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO Socket connected: <socket.socket fd=42, family=2, type=1, proto=6, laddr=('172.27.0.8', 46422), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36c60>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36c60> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=92 eventId=7673b6df-4a6c-4b1e-ac5c-d6cc5f452a2a
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,785 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a5520> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=86 eventId=40478921-1188-4c9a-887f-d88999f4f943
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35d90> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548887+00:00 [info] <0.254.0> Running boot step cluster_name defined by app rabbit[0m
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.548927+00:00 [info] <0.254.0> Initialising internal cluster ID to 'rabbitmq-cluster-id-wqm7WJlr5ctLj9EGD3GtmQ'[0m
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+verdemart_wms_stub           | 2026-06-01 19:42:54,714 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1102
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+ospos_adapter                |       No new sales found
+verdemart_wms_stub           | INFO:     127.0.0.1:47214 - "GET /health HTTP/1.1" 200 OK
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_wms_stub           | 2026-06-01 19:42:55,954 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1104
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691a5520> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_stub           | 2026-06-01 19:42:59,057 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1105
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:42:59,716 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1101
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:43:02,161 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1106
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:43:04,717 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1103
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | INFO:     127.0.0.1:58108 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:05,264 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1107
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:43:08,368 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1108
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:43:09,717 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1102
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:43:14,718 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1104
+verdemart_wms_stub           | INFO:     172.27.0.11:57174 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | INFO:     127.0.0.1:42784 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:19,720 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1105
+verdemart_wms_stub           | INFO:     172.27.0.11:43202 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | INFO:     172.27.0.11:43208 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:43:24,726 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1101
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_wms_stub           | INFO:     127.0.0.1:35196 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:29,729 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1106
+verdemart_wms_stub           | INFO:     172.27.0.11:37248 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | 2026-06-01 19:43:34,732 [WMS] WARNING mode=down — rejecting POST /reservations for orderId=1103
+verdemart_wms_stub           | INFO:     172.27.0.11:37260 - "POST /reservations HTTP/1.1" 503 Service Unavailable
+verdemart_wms_stub           | INFO:     127.0.0.1:49236 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:35,831 [WMS] INFO Mode changed to: normal
+verdemart_wms_stub           | INFO:     172.27.0.1:58248 - "POST /admin/mode HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:39,736 [WMS] INFO Reserved productId=1 qty=2 → stock 98→96
+verdemart_wms_stub           | INFO:     172.27.0.11:44646 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:39,744 [WMS] INFO Reserved productId=1 qty=2 → stock 96→94
+verdemart_wms_stub           | INFO:     172.27.0.11:44646 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:39,749 [WMS] INFO Reserved productId=1 qty=2 → stock 94→92
+verdemart_wms_stub           | INFO:     172.27.0.11:44646 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     172.27.0.11:44646 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:39,754 [WMS] INFO Reserved productId=1 qty=2 → stock 92→90
+verdemart_wms_stub           | 2026-06-01 19:43:39,758 [WMS] INFO Reserved productId=1 qty=2 → stock 90→88
+verdemart_wms_stub           | INFO:     172.27.0.11:44646 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:39,762 [WMS] INFO Reserved productId=1 qty=2 → stock 88→86
+verdemart_wms_stub           | INFO:     172.27.0.11:44646 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:39,766 [WMS] INFO Reserved productId=1 qty=2 → stock 86→84
+verdemart_wms_stub           | INFO:     172.27.0.11:44646 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:43:39,771 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+verdemart_wms_stub           | 2026-06-01 19:43:39,771 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+verdemart_wms_stub           | 2026-06-01 19:43:39,771 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=96
+verdemart_wms_stub           | 2026-06-01 19:43:39,771 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=94
+verdemart_wms_stub           | 2026-06-01 19:43:39,771 [WMS] INFO Reserved productId=1 qty=2 → stock 84→82
+verdemart_wms_stub           | INFO:     172.27.0.11:44646 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.549369+00:00 [info] <0.254.0> Running boot step virtual_host_reconciliation defined by app rabbit[0m
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.549455+00:00 [info] <0.254.0> Running boot step direct_client defined by app rabbit[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.549497+00:00 [info] <0.254.0> Running boot step rabbit_federation_exchange defined by app rabbitmq_federation[0m
+verdemart_wms_stub           | 2026-06-01 19:43:39,789 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.549572+00:00 [info] <0.254.0> Running boot step rabbit_management_load_definitions defined by app rabbitmq_management[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36b70> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_stub           | 2026-06-01 19:43:39,789 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=92
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36b70> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_stub           | 2026-06-01 19:43:39,791 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36b70> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_stub           | 2026-06-01 19:43:39,791 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=86
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_stub           | 2026-06-01 19:43:39,791 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_wms_stub           | 2026-06-01 19:43:39,791 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=90
+verdemart_wms_stub           | 2026-06-01 19:43:39,792 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+verdemart_wms_stub           | 2026-06-01 19:43:39,792 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=82
+verdemart_wms_stub           | 2026-06-01 19:43:39,792 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+verdemart_wms_stub           | 2026-06-01 19:43:39,793 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=88
+verdemart_wms_stub           | 2026-06-01 19:43:39,793 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+verdemart_wms_stub           | 2026-06-01 19:43:39,793 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=84
+verdemart_wms_stub           | INFO:     127.0.0.1:48296 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     172.27.0.1:60986 - "GET /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     172.27.0.1:60988 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:59594 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:44:04,276 [WMS] INFO Reserved productId=1 qty=2 → stock 82→80
+verdemart_wms_stub           | INFO:     172.27.0.11:58702 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:44:04,289 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+verdemart_wms_stub           | 2026-06-01 19:44:04,289 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=80
+verdemart_wms_stub           | INFO:     127.0.0.1:55874 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | INFO:     127.0.0.1:33050 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:44:20,235 [WMS] INFO Reserved productId=1 qty=1 → stock 80→79
+verdemart_wms_stub           | INFO:     172.27.0.1:36262 - "POST /reservations HTTP/1.1" 200 OK
+verdemart_wms_stub           | 2026-06-01 19:44:20,245 [WMS] INFO HTTP Request: POST http://wms-event-adapter:8085/webhooks/stock-changed "HTTP/1.1 200 OK"
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       Polling OSPOS for sales after 05/29/2026 10:45:14
+ospos_adapter                | info: OsposAdapter.Services.OsposPollingService[0]
+ospos_adapter                |       No new sales found
+verdemart_wms_stub           | 2026-06-01 19:44:20,245 [WMS] INFO Webhook → http://wms-event-adapter:8085/webhooks/stock-changed status=200 productId=1 newQty=79
+verdemart_wms_stub           | INFO:     127.0.0.1:43342 - "GET /health HTTP/1.1" 200 OK
+nopcommerce_rabbitmq         | 2026-06-01 19:27:30.549629+00:00 [info] <0.704.0> Resetting node maintenance status[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:27:30.622721+00:00 [warning] <0.733.0> Deprecated features: `management_metrics_collection`: Feature `management_metrics_collection` is deprecated.[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:27:30.622721+00:00 [warning] <0.733.0> By default, this feature can still be used for now.[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:27:30.622721+00:00 [warning] <0.733.0> Its use will not be permitted by default in a future minor RabbitMQ version and the feature will be removed from a future major RabbitMQ version; actual versions to be determined.[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:27:30.622721+00:00 [warning] <0.733.0> To continue using this feature when it is not permitted by default, set the following parameter in your configuration:[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:27:30.622721+00:00 [warning] <0.733.0>     "deprecated_features.permit.management_metrics_collection = true"[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:27:30.622721+00:00 [warning] <0.733.0> To test RabbitMQ as if the feature was removed, set this in your configuration:[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:27:30.622721+00:00 [warning] <0.733.0>     "deprecated_features.permit.management_metrics_collection = false"[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.785494+00:00 [info] <0.770.0> Management plugin: HTTP (non-TLS) listener started on port 15672[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.785608+00:00 [info] <0.800.0> Statistics database started.[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.785691+00:00 [info] <0.799.0> Starting worker pool 'management_worker_pool' with 3 processes in it[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.790519+00:00 [info] <0.818.0> Prometheus metrics: HTTP (non-TLS) listener started on port 15692[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.790635+00:00 [info] <0.704.0> Ready to start client connection listeners[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.791447+00:00 [info] <0.862.0> started TCP listener on [::]:5672[0m
+nopcommerce_rabbitmq         |  completed with 5 plugins.
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.822136+00:00 [info] <0.704.0> Server startup complete; 5 plugins started.[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.822136+00:00 [info] <0.704.0>  * rabbitmq_prometheus[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.822136+00:00 [info] <0.704.0>  * rabbitmq_federation[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.822136+00:00 [info] <0.704.0>  * rabbitmq_management[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.822136+00:00 [info] <0.704.0>  * rabbitmq_management_agent[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.822136+00:00 [info] <0.704.0>  * rabbitmq_web_dispatch[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:27:31.960703+00:00 [info] <0.9.0> Time to start RabbitMQ: 4181 ms[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:29:49.608558+00:00 [info] <0.923.0> accepting AMQP connection <0.923.0> (172.27.0.11:49200 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:29:49.608779+00:00 [info] <0.920.0> accepting AMQP connection <0.920.0> (172.27.0.11:49202 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:29:49.626092+00:00 [info] <0.923.0> connection <0.923.0> (172.27.0.11:49200 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36780> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36780> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,786 [WMS-ADAPTER] INFO Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36780> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35d90> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=26, family=2, type=1, proto=6, laddr=('172.27.0.8', 46372), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=26, family=2, type=1, proto=6, laddr=('172.27.0.8', 46372), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=26, family=2, type=1, proto=6, laddr=('172.27.0.8', 46372), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36c60> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36c60> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36c60> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,787 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=26, family=2, type=1, proto=6, laddr=('172.27.0.8', 46372), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=90 eventId=9a6b8529-13d0-457d-b3cb-37bb28d6a679
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35a00> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=37, family=2, type=1, proto=6, laddr=('172.27.0.8', 46404), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=37, family=2, type=1, proto=6, laddr=('172.27.0.8', 46404), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=37, family=2, type=1, proto=6, laddr=('172.27.0.8', 46404), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e35a00> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=88 eventId=86eeda7b-f044-4a2d-8791-8900e5bb0c23
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:33406 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+nopcommerce_rabbitmq         | 2026-06-01 19:29:49.626202+00:00 [info] <0.920.0> connection <0.920.0> (172.27.0.11:49202 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | [38;5;214m2026-06-01 19:30:37.858761+00:00 [warning] <0.993.0> AMQP 0-9-1 client call timeout was 70000 ms, is updated to a safe effective value of 130000 ms[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:31:10.560662+00:00 [info] <0.1045.0> accepting AMQP connection <0.1045.0> (172.27.0.8:46034 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:31:10.562003+00:00 [info] <0.1045.0> connection <0.1045.0> (172.27.0.8:46034 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:31:10.563972+00:00 [info] <0.1045.0> closing AMQP connection <0.1045.0> (172.27.0.8:46034 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.764102+00:00 [info] <0.1429.0> accepting AMQP connection <0.1429.0> (172.27.0.8:46366 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.765047+00:00 [info] <0.1429.0> connection <0.1429.0> (172.27.0.8:46366 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.766674+00:00 [info] <0.1429.0> closing AMQP connection <0.1429.0> (172.27.0.8:46366 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.767829+00:00 [info] <0.1446.0> accepting AMQP connection <0.1446.0> (172.27.0.8:46370 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.768538+00:00 [info] <0.1446.0> connection <0.1446.0> (172.27.0.8:46370 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.769588+00:00 [info] <0.1446.0> closing AMQP connection <0.1446.0> (172.27.0.8:46370 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.779188+00:00 [info] <0.1463.0> accepting AMQP connection <0.1463.0> (172.27.0.8:46372 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.780359+00:00 [info] <0.1466.0> accepting AMQP connection <0.1466.0> (172.27.0.8:46386 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.782402+00:00 [info] <0.1463.0> connection <0.1463.0> (172.27.0.8:46372 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.783671+00:00 [info] <0.1472.0> accepting AMQP connection <0.1472.0> (172.27.0.8:46394 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.783902+00:00 [info] <0.1481.0> accepting AMQP connection <0.1481.0> (172.27.0.8:46404 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.784062+00:00 [info] <0.1485.0> accepting AMQP connection <0.1485.0> (172.27.0.8:46412 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.784752+00:00 [info] <0.1481.0> connection <0.1481.0> (172.27.0.8:46404 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.784761+00:00 [info] <0.1466.0> connection <0.1466.0> (172.27.0.8:46386 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.785454+00:00 [info] <0.1472.0> connection <0.1472.0> (172.27.0.8:46394 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.785806+00:00 [info] <0.1513.0> accepting AMQP connection <0.1513.0> (172.27.0.8:46422 -> 172.27.0.5:5672)[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.786249+00:00 [info] <0.1485.0> connection <0.1485.0> (172.27.0.8:46412 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.787609+00:00 [info] <0.1513.0> connection <0.1513.0> (172.27.0.8:46422 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.788004+00:00 [info] <0.1463.0> closing AMQP connection <0.1463.0> (172.27.0.8:46372 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.789958+00:00 [info] <0.1481.0> closing AMQP connection <0.1481.0> (172.27.0.8:46404 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.791062+00:00 [info] <0.1466.0> closing AMQP connection <0.1466.0> (172.27.0.8:46386 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.791947+00:00 [info] <0.1513.0> closing AMQP connection <0.1513.0> (172.27.0.8:46422 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.792047+00:00 [info] <0.1472.0> closing AMQP connection <0.1472.0> (172.27.0.8:46394 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,788 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=84 eventId=833eac78-6fb1-461e-9da6-5d657ab2ac2e
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=82 eventId=4253aca3-5cc1-449c-ae25-ec6799e4d694
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36780> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=28, family=2, type=1, proto=6, laddr=('172.27.0.8', 46386), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=37, family=2, type=1, proto=6, laddr=('172.27.0.8', 46404), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36b70> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36c60> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=28, family=2, type=1, proto=6, laddr=('172.27.0.8', 46386), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,789 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36780> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36b70> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e36c60> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=28, family=2, type=1, proto=6, laddr=('172.27.0.8', 46386), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=28, family=2, type=1, proto=6, laddr=('172.27.0.8', 46386), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=42, family=2, type=1, proto=6, laddr=('172.27.0.8', 46422), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:33432 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,790 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=41, family=2, type=1, proto=6, laddr=('172.27.0.8', 46412), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=36, family=2, type=1, proto=6, laddr=('172.27.0.8', 46394), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=42, family=2, type=1, proto=6, laddr=('172.27.0.8', 46422), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=41, family=2, type=1, proto=6, laddr=('172.27.0.8', 46412), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:33412 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=36, family=2, type=1, proto=6, laddr=('172.27.0.8', 46394), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=42, family=2, type=1, proto=6, laddr=('172.27.0.8', 46422), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=41, family=2, type=1, proto=6, laddr=('172.27.0.8', 46412), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=36, family=2, type=1, proto=6, laddr=('172.27.0.8', 46394), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=42, family=2, type=1, proto=6, laddr=('172.27.0.8', 46422), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,791 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=36, family=2, type=1, proto=6, laddr=('172.27.0.8', 46394), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,792 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,792 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,792 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,792 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,792 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=41, family=2, type=1, proto=6, laddr=('172.27.0.8', 46412), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:43:39,792 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:33448 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:33418 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:33444 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | INFO:     127.0.0.1:36070 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | INFO:     127.0.0.1:56246 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,284 [WMS-ADAPTER] INFO Pika version 1.3.2 connecting to ('172.27.0.5', 5672)
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,285 [WMS-ADAPTER] INFO Socket connected: <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 52254), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,285 [WMS-ADAPTER] INFO Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691d7da0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691d7da0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,286 [WMS-ADAPTER] INFO AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691d7da0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,286 [WMS-ADAPTER] INFO AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691d7da0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,286 [WMS-ADAPTER] INFO Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691d7da0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,286 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,287 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=80 eventId=f58926f7-d959-4c34-8caf-fc26885f2a75
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,287 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+nopcommerce_rabbitmq         | 2026-06-01 19:43:39.792275+00:00 [info] <0.1485.0> closing AMQP connection <0.1485.0> (172.27.0.8:46412 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+nopcommerce_rabbitmq         | 2026-06-01 19:44:04.285706+00:00 [info] <0.1592.0> accepting AMQP connection <0.1592.0> (172.27.0.8:52254 -> 172.27.0.5:5672)[0m
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,287 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691d7da0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+nopcommerce_rabbitmq         | 2026-06-01 19:44:04.286879+00:00 [info] <0.1592.0> connection <0.1592.0> (172.27.0.8:52254 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,287 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc6691d7da0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+nopcommerce_rabbitmq         | 2026-06-01 19:44:04.288500+00:00 [info] <0.1592.0> closing AMQP connection <0.1592.0> (172.27.0.8:52254 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,287 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+nopcommerce_rabbitmq         | 2026-06-01 19:44:20.242589+00:00 [info] <0.1613.0> accepting AMQP connection <0.1613.0> (172.27.0.8:38558 -> 172.27.0.5:5672)[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,288 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 52254), raddr=('172.27.0.5', 5672)>
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+nopcommerce_rabbitmq         | 2026-06-01 19:44:20.243558+00:00 [info] <0.1613.0> connection <0.1613.0> (172.27.0.8:38558 -> 172.27.0.5:5672): user 'guest' authenticated and granted access to vhost '/'[0m
+nopcommerce_rabbitmq         | 2026-06-01 19:44:20.244678+00:00 [info] <0.1613.0> closing AMQP connection <0.1613.0> (172.27.0.8:38558 -> 172.27.0.5:5672, vhost: '/', user: 'guest')[0m
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,288 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 52254), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,288 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 52254), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,288 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,288 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,288 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 52254), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:04,288 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:38896 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | INFO:     127.0.0.1:46282 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | INFO:     127.0.0.1:34638 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,242 [WMS-ADAPTER] INFO Pika version 1.3.2 connecting to ('172.27.0.5', 5672)
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,242 [WMS-ADAPTER] INFO Socket connected: <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 38558), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,242 [WMS-ADAPTER] INFO Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e07ce0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e07ce0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>).
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,243 [WMS-ADAPTER] INFO AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e07ce0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,243 [WMS-ADAPTER] INFO AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e07ce0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,243 [WMS-ADAPTER] INFO Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e07ce0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,243 [WMS-ADAPTER] INFO Created channel=1
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO Published stock.updated → exchange=verdemart.events productId=1 newQty=79 eventId=80274ed6-44ad-4f32-9bf5-1ee52849be41
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO Closing connection (200): Normal shutdown
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e07ce0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fc666e07ce0> params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO Closing connection (200): 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO Aborting transport connection: state=1; <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 38558), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 38558), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO Deactivating transport: state=1; <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 38558), raddr=('172.27.0.5', 5672)>
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_order_integration  |       ERP /orders OK
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+verdemart_order_integration  |       ERP /orders OK
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+verdemart_order_integration  |       ERP /orders OK
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO Closing transport socket and unlinking: state=3; <socket.socket fd=17, family=2, type=1, proto=6, laddr=('172.27.0.8', 38558), raddr=('172.27.0.5', 5672)>
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+verdemart_order_integration  |       ERP /orders OK
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+verdemart_order_integration  |       ERP /orders OK
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | warn: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations failed HTTP 503
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.ReconciliationService[0]
+verdemart_order_integration  |       Reconciled DLQ entry eventId=wms-down-7 target=WMS after 0 retries
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations OK
+verdemart_wms_event_adapter  | 2026-06-01 19:44:20,244 [WMS-ADAPTER] INFO User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=rabbitmq port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+verdemart_wms_event_adapter  | INFO:     172.27.0.10:54416 - "POST /webhooks/stock-changed HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | INFO:     172.27.0.1:40428 - "GET /health HTTP/1.1" 200 OK
+verdemart_wms_event_adapter  | INFO:     127.0.0.1:43116 - "GET /health HTTP/1.1" 200 OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.ReconciliationService[0]
+verdemart_order_integration  |       Reconciled DLQ entry eventId=wms-down-8 target=WMS after 0 retries
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.ReconciliationService[0]
+verdemart_order_integration  |       Reconciled DLQ entry eventId=wms-down-2 target=WMS after 6 retries
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.ReconciliationService[0]
+verdemart_order_integration  |       Reconciled DLQ entry eventId=wms-down-4 target=WMS after 1 retries
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.ReconciliationService[0]
+verdemart_order_integration  |       Reconciled DLQ entry eventId=wms-down-5 target=WMS after 1 retries
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.ReconciliationService[0]
+verdemart_order_integration  |       Reconciled DLQ entry eventId=wms-down-1 target=WMS after 8 retries
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.ReconciliationService[0]
+verdemart_order_integration  |       Reconciled DLQ entry eventId=wms-down-6 target=WMS after 1 retries
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.ReconciliationService[0]
+verdemart_order_integration  |       Reconciled DLQ entry eventId=wms-down-3 target=WMS after 6 retries
+verdemart_order_integration  | info: OrderIntegrationService.Services.ErpAdapter[0]
+verdemart_order_integration  |       ERP /orders OK
+verdemart_order_integration  | info: OrderIntegrationService.Services.WmsAdapter[0]
+verdemart_order_integration  |       WMS /reservations OK

@@ -1,4 +1,4 @@
-# ADR-002: Reliability Pattern — Outbox vs Direct Publish
+# ADR-002: Reliability Pattern - Outbox vs Direct Publish
 
 **Status:** Accepted  
 **Date:** 2026-04-26  
@@ -17,7 +17,7 @@ When an order is placed in nopCommerce, we need to reliably publish an `order.pl
 
 **Use the Transactional Outbox Pattern.**
 
-An `IntegrationEvent` row is written to the nopCommerce PostgreSQL database in the same transaction that saves the `Order`. A separate background service (`OutboxPublisherBackgroundService`) reads pending rows and publishes them to RabbitMQ, marking each as published after acknowledgement.
+An `IntegrationEvent` row is written to the nopCommerce database (MSSQL in the reference deployment; any LINQ2DB-supported relational DB is fine) inside the same logical request that saves the `Order`. A recurring nopCommerce `IScheduleTask` (`OutboxPublisherTask`) reads pending rows and publishes them to RabbitMQ, marking each as published after acknowledgement.
 
 ---
 
@@ -31,8 +31,8 @@ BEGIN TRANSACTION
   INSERT OrderItems
   AdjustInventory
 COMMIT TRANSACTION
-  ↓ (transaction committed — order is saved)
-PublishAsync(order.placed)   ← WHAT IF THIS FAILS?
+  v (transaction committed - order is saved)
+PublishAsync(order.placed)   <- WHAT IF THIS FAILS?
 ```
 
 If RabbitMQ is unavailable at commit time, or the process crashes between commit and publish, the order is saved but the event is **silently lost**. ERP and WMS never receive it. There is no recovery path short of manual intervention.
@@ -44,14 +44,14 @@ BEGIN TRANSACTION
   INSERT Order
   INSERT OrderItems
   AdjustInventory
-  INSERT IntegrationEvent (status = Pending)   ← atomic with order
+  INSERT IntegrationEvent (status = Pending)   <- atomic with order
 COMMIT TRANSACTION
-  ↓
-OutboxPublisherBackgroundService (polling loop)
-  → reads Pending rows
-  → publishes to RabbitMQ
-  → marks as Published (on ACK)
-  → retries on failure (row stays Pending)
+  v
+OutboxPublisherTask (IScheduleTask, ~10 s)
+  -> reads Pending rows
+  -> publishes to RabbitMQ
+  -> marks as Published (on ACK)
+  -> retries on failure (row stays Pending)
 ```
 
 The event is guaranteed to be published eventually as long as the nopCommerce process is running, regardless of broker availability at order time.
@@ -70,7 +70,7 @@ Rejected because:
 ## Rejected Alternative: nopCommerce IEventPublisher + persistent consumer
 
 The existing `IEventPublisher` / `IConsumer<OrderPlacedEvent>` system publishes in-process. We could implement a persistent consumer that writes to RabbitMQ. However:
-- Still a direct publish at consumer execution time — same reliability gap as above
+- Still a direct publish at consumer execution time - same reliability gap as above
 - nopCommerce's event system has no retry or persistence mechanism
 
 ---
@@ -78,7 +78,7 @@ The existing `IEventPublisher` / `IConsumer<OrderPlacedEvent>` system publishes 
 ## Consequences
 
 - New `IntegrationEvent` entity + FluentMigrator migration required
-- `OutboxPublisherBackgroundService` must be registered as a hosted service via `INopStartup`
-- Polling interval of the background service introduces latency (target: < 5 s)
+- `OutboxPublisherTask` is registered as a nopCommerce `IScheduleTask` (recurring scheduler entry), which avoids the Autofac wiring friction of the `IHostedService`/`INopStartup` route
+- Polling interval of the scheduled task introduces latency (seeded at 10 s by `OutboxPublisherTaskMigration`)
 - At-least-once delivery: Integration Service must be idempotent on `eventId` (see ADR-003)
 - Outbox table must be periodically cleaned of old Published rows (background cleanup task)

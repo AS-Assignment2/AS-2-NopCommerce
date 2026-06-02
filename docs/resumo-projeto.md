@@ -1,18 +1,18 @@
-# Resumo do Projeto — Arquitetura de Software (AS)
+# Resumo do Projeto - Arquiteturas de Software
 
-**Disciplina:** Arquiteturas de Software — Mestrado em Engenharia Informática  
+**Disciplina:** Arquiteturas de Software - Mestrado em Engenharia Informática  
 **Docente:** Cláudio Teixeira (claudio@ua.pt)  
 **Grupo:** Henrique, Martim, Duarte, Sebastião  
 **Peso:** 50% da nota final  
-**Cenário escolhido:** Cenário C — Omnichannel Commerce Core (VerdeMart Retail)
+**Cenário escolhido:** Cenário C - Omnichannel Commerce Core (VerdeMart Retail)
 
 ---
 
 ## 1. O que é este projeto
 
-Este é o Trabalho de Grupo 2 da disciplina de Arquiteturas de Software. O objetivo **não** é construir uma aplicação nova do zero. O objetivo é pegar num sistema real já existente — o **nopCommerce** — e fazê-lo evoluir arquiteturalmente para responder a um cenário de negócio exigente.
+Este é o Trabalho de Grupo 2 da disciplina de Arquiteturas de Software. O objetivo **não** é construir uma aplicação nova do zero. O objetivo é pegar num sistema real já existente - o **nopCommerce** - e fazê-lo evoluir arquiteturalmente para responder a um cenário de negócio exigente.
 
-O professor avalia principalmente:
+A avaliação centra-se em:
 
 - A qualidade das **decisões arquiteturais** e a sua justificação
 - A **rastreabilidade** dessas decisões (desde os requisitos de negócio até ao código)
@@ -22,8 +22,8 @@ O trabalho divide-se em duas partes:
 
 | Parte | Data | Formato | Peso |
 |-------|------|---------|------|
-| Parte 1 — Architecture Checkpoint | 5–6 de maio de 2026 | Apresentação de 7 minutos | 20% |
-| Parte 2 — Entrega Final + Demo | 2–3 de junho de 2026 | Apresentação de 15 minutos com demo ao vivo | 80% |
+| Parte 1 - Architecture Checkpoint | 5-6 de maio de 2026 | Apresentação de 7 minutos | 20% |
+| Parte 2 - Entrega Final + Demo | 2-3 de junho de 2026 | Apresentação de 15 minutos com demo ao vivo | 80% |
 
 ---
 
@@ -33,28 +33,28 @@ O **nopCommerce** é uma plataforma de e-commerce open-source, escrita em C# com
 
 ```
 src/Libraries/
-  Nop.Core/       — Entidades de domínio (BaseEntity), caching, eventos, helpers
-  Nop.Data/       — ORM (LINQ2DB), migrações (FluentMigrator), suporte multi-BD
-  Nop.Services/   — 40+ serviços de negócio (Catalog, Orders, Customers, Logging, etc.)
+  Nop.Core/       - Entidades de domínio (BaseEntity), caching, eventos, helpers
+  Nop.Data/       - ORM (LINQ2DB), migrações (FluentMigrator), suporte multi-BD
+  Nop.Services/   - 40+ serviços de negócio (Catalog, Orders, Customers, Logging, etc.)
 
 src/Presentation/
-  Nop.Web.Framework/  — Infraestrutura MVC partilhada: routing, auth, validators
-  Nop.Web/            — Ponto de entrada ASP.NET Core; controllers, Razor views, Program.cs
+  Nop.Web.Framework/  - Infraestrutura MVC partilhada: routing, auth, validators
+  Nop.Web/            - Ponto de entrada ASP.NET Core; controllers, Razor views, Program.cs
 
-src/Plugins/        — 30+ plugins dinâmicos (Pagamentos, Expedição, Impostos, Widgets, etc.)
+src/Plugins/        - 30+ plugins dinâmicos (Pagamentos, Expedição, Impostos, Widgets, etc.)
 ```
 
 No estado base (sem modificações), o nopCommerce:
-- Gere o ciclo de vida completo das encomendas (carrinho → checkout → pagamento → confirmação)
+- Gere o ciclo de vida completo das encomendas (carrinho -> checkout -> pagamento -> confirmação)
 - Gere o catálogo de produtos, preços e descontos
 - Controla o stock internamente, na sua própria base de dados
-- **Não comunica com nenhum sistema externo** — é completamente autónomo
+- **Não comunica com nenhum sistema externo** - é completamente autónomo
 
 É exatamente este isolamento que o cenário escolhido pretende resolver.
 
 ---
 
-## 3. O Cenário Escolhido — Cenário C: Omnichannel Commerce Core
+## 3. O Cenário Escolhido - Cenário C: Omnichannel Commerce Core
 
 ### 3.1 O contexto fictício
 
@@ -66,50 +66,63 @@ O problema arquitetural não é simplesmente "ligar mais sistemas". O problema �
 
 O enunciado exige a demonstração de dois casos de uso:
 
-**Caso de uso 1 — Compra online / fulfillment por outro canal:**
+**Caso de uso 1 - Compra online / fulfillment por outro canal:**
 - O cliente compra na loja online (nopCommerce)
-- O ERP deve ser notificado para registo financeiro e faturação
-- O WMS deve ser notificado para reserva de stock no armazém
+- O ERP é notificado para registo financeiro e faturação
+- O WMS é notificado para reserva de stock no armazém
 - O nopCommerce confirma a encomenda ao cliente sem esperar pelos sistemas externos
 
-**Caso de uso 2 — Visibilidade de stock entre canais:**
-- Uma venda na loja física reduz o stock no armazém (WMS)
-- O nopCommerce deve refletir automaticamente o novo nível de stock
+**Caso de uso 2 - Visibilidade de stock entre canais:**
+- Uma venda na loja física (OSPOS) reduz o stock no armazém
+- O evento `sale.completed` é publicado pelo OSPOS Adapter
+- O nopCommerce reflete automaticamente o novo nível de stock
 - O cliente na loja online vê o stock atualizado
 
-### 3.3 O ponto de pressão obrigatório
+### 3.3 Os três pontos de pressão
+
+O Cenário C destila-se em três pontos de pressão concretos, que conduzem todas as decisões estruturais:
+
+- **Lost Sales.** A indisponibilidade do WMS não pode bloquear a aceitação de encomendas. As encomendas ficam em fila local e sincronizam quando o sistema recupera. Mapeia para QA-1 (Disponibilidade) e para a táctica outbox / DLQ / reconciliation.
+- **Overselling.** Alterações de stock em lojas físicas têm de se reflectir no site em segundos, prevenindo overselling. Mapeia para QA-2 (Consistência) e para o consumer de `stock.updated` no nopCommerce.
+- **Operational Blindness.** Toda a encomenda online tem de chegar ao ERP e ao WMS de forma fiável, com rastreabilidade completa entre fronteiras de sistemas. Mapeia para QA-4 (Observabilidade) e QA-5 (Fiabilidade), e para o endpoint `/health` do Order Integration Service e o dashboard.
+
+### 3.4 O ponto de pressão obrigatório
 
 O enunciado exige ainda a demonstração de uma falha real com recuperação:
 
-> O WMS fica indisponível. O nopCommerce continua a aceitar encomendas. As mensagens acumulam-se numa fila. Quando o WMS recupera, todas as encomendas são processadas automaticamente — sem perda de dados e sem intervenção manual.
+> O WMS fica indisponível. O nopCommerce continua a aceitar encomendas. As mensagens acumulam-se numa dead-letter queue interna. Quando o WMS recupera, todas as encomendas são processadas automaticamente pelo reconciliation loop - sem perda de dados e sem intervenção manual.
 
-A demonstração deve mostrar:
-1. Como a degradação se torna visível (dashboard)
-2. Como a arquitetura isola e contém o problema (circuit breaker + dead-letter queue)
-3. Como o sistema recupera (reconciliation loop)
+A demonstração mostra:
+1. Como a degradação se torna visível (dashboard, `/health`, `/dlq`)
+2. Como a arquitetura isola e contém o problema (bulkhead entre ERP e WMS, circuit breaker, dead-letter queue)
+3. Como o sistema recupera (reconciliation loop drena a DLQ assim que o WMS volta ao modo `normal`)
 
 ---
 
-## 4. A Arquitetura Alvo — Como o Sistema Funciona
+## 4. A Arquitetura Alvo - Como o Sistema Funciona
 
 ### 4.1 Visão geral
 
-O nopCommerce mantém-se como monólito central — **não é decomposto em microserviços**. O que muda é a sua **fronteira de integração**: é adicionada uma camada fina de integração assíncrona que desacopla o nopCommerce dos sistemas externos.
+O nopCommerce mantém-se como monólito central - **não é decomposto em microserviços**. O que muda é a sua **fronteira de integração**: é adicionada uma camada fina de integração assíncrona que desacopla o nopCommerce dos sistemas externos.
 
-Os componentes do sistema são:
+Os componentes da entrega final são:
 
-| Componente | Tecnologia | Responsabilidade |
-|-----------|-----------|-----------------|
-| nopCommerce | ASP.NET Core + PostgreSQL | Commerce core — encomendas, catálogo, clientes, pagamentos |
-| RabbitMQ | `rabbitmq:management` Docker | Corretor de mensagens — transporte assíncrono de eventos |
-| Order Integration Service | .NET Worker Service | Coordenação entre nopCommerce e ERP/WMS |
-| ERP Stub | Serviço HTTP leve | Simula receção de encomendas para faturação |
-| WMS Stub | Serviço HTTP leve | Simula reservas de armazém; publica eventos de stock |
-| Observability Dashboard | HTML/JS (single-page) | Monitorização ao vivo do estado da integração |
+| Componente | Tecnologia | Porta | Responsabilidade |
+|-----------|-----------|-------|-----------------|
+| nopCommerce | ASP.NET Core + MSSQL | 80/443 | Commerce core - encomendas, catálogo, clientes, pagamentos; tabela outbox; `OutboxPublisherTask`; `StockUpdateConsumerBackgroundService`; `/integration/health` |
+| RabbitMQ | `rabbitmq:3-management` | 5672 / 15672 | Corretor de mensagens; exchange `verdemart.events`; routing keys `order.placed`, `sale.completed`, `stock.updated`, `order.cancelled` |
+| Order Integration Service | .NET 10 Worker | 8083 | Coordenação entre nopCommerce e ERP/WMS; consumidores `order.placed` e `sale.completed`; `/health`, `/dlq`, `/dlq/clear`, `/webhooks/stock-changed` |
+| ERP Stub | Python FastAPI | 8001 | `POST /orders`, `GET /orders`, `POST /admin/mode {normal,down}`, `POST /admin/reset`, `GET /health`; idempotência por `eventId` |
+| WMS Stub | Python FastAPI | 8002 | `POST /reservations`, `GET /reservations`, `GET /stock/{productId}`, `POST /admin/mode {normal,slow,down}`, `POST /admin/reset`, `GET /health`; idempotência por `orderId` |
+| WMS Event Adapter | Python FastAPI | 8085 | `POST /webhooks/stock-changed`, `GET /health`. Mantido como fallback; o cabeamento final usa o endpoint equivalente no Integration Service |
+| OSPOS | `jekkos/opensourcepos` | 8080 | Sistema de loja física |
+| OSPOS MySQL | MySQL 5.7 | interno | Base de dados do OSPOS |
+| OSPOS Adapter | .NET 10 Worker | sem porta exposta | Sondagem da tabela `ospos_sales`; publica `sale.completed`; idempotência em SQLite em `/app/data/idempotency.db` |
+| Observability Dashboard | React + Vite (servido por nginx) | 8090 | Monitorização ao vivo do estado da integração |
 
 ### 4.2 O padrão Outbox (Transactional Outbox Pattern)
 
-Este é o mecanismo central de fiabilidade do sistema. O problema que resolve é o seguinte:
+Este é o mecanismo central de fiabilidade do sistema. O problema que resolve é o seguinte.
 
 **Sem outbox (problema):**
 ```
@@ -117,38 +130,38 @@ BEGIN TRANSACTION
   INSERT Order
   INSERT OrderItems
 COMMIT TRANSACTION
-↓
-PublishAsync(order.placed)  ← e se isto falhar? A encomenda foi guardada mas o ERP/WMS nunca sabe.
+v
+PublishAsync(order.placed)  <- se isto falhar, a encomenda foi guardada mas o ERP/WMS nunca sabe
 ```
 
-Se o RabbitMQ estiver indisponível no momento em que a encomenda é confirmada, o evento perde-se silenciosamente. O ERP e o WMS nunca recebem a notificação. Não há forma de recuperar sem intervenção manual.
+Se o RabbitMQ estiver indisponível no momento em que a encomenda é confirmada, o evento perde-se silenciosamente. O ERP e o WMS nunca recebem a notificação e não há forma de recuperar sem intervenção manual.
 
 **Com outbox (solução):**
 ```
 BEGIN TRANSACTION
   INSERT Order
   INSERT OrderItems
-  INSERT IntegrationEvent (status = Pending)  ← atómico com a encomenda
+  INSERT IntegrationEvent (status = Pending)  <- atómico com a encomenda
 COMMIT TRANSACTION
-↓
-OutboxPublisherBackgroundService (loop de polling a cada ~3s)
-  → lê filas Pending
-  → publica no RabbitMQ
-  → marca como Published (após confirmação)
-  → se falhar, a fila fica Pending e é retentada
+v
+OutboxPublisherTask (polling a cada ~10s)
+  -> lê eventos Pending
+  -> publica no RabbitMQ
+  -> marca como Published (após confirmação)
+  -> se falhar, o evento fica Pending e é retentado
 ```
 
 A encomenda e o evento são escritos **na mesma transação de base de dados**. Se a base de dados confirmar, o evento existe. Se o RabbitMQ estiver em baixo, o evento fica pendente e é publicado logo que o broker esteja disponível. Nunca há perda de eventos.
 
-### 4.3 O fluxo completo — Caso de uso 1 (Happy Path)
+### 4.3 O fluxo completo - Caso de uso 1 (Happy Path)
 
 ```mermaid
 sequenceDiagram
     actor Cliente
     participant NOP as nopCommerce
-    participant DB as PostgreSQL
+    participant DB as MSSQL
     participant RMQ as RabbitMQ
-    participant IntSvc as Integration Service
+    participant OIS as Order Integration Service
     participant ERP as ERP Stub
     participant WMS as WMS Stub
 
@@ -156,29 +169,31 @@ sequenceDiagram
     NOP->>DB: Guardar Order + IntegrationEvent (mesma transação)
     NOP-->>Cliente: Encomenda confirmada
 
-    loop OutboxPublisher (a cada ~3s)
+    loop OutboxPublisherTask (a cada ~10s)
         NOP->>DB: Ler eventos IntegrationEvent pendentes
         NOP->>RMQ: Publicar order.placed
         NOP->>DB: Marcar evento como Published
     end
 
-    RMQ->>IntSvc: Entregar order.placed
-    IntSvc->>ERP: POST /orders (+ retry em falha)
-    ERP-->>IntSvc: 200 OK
-    IntSvc->>WMS: POST /reservations (+ circuit breaker)
-    WMS-->>IntSvc: 200 OK
+    RMQ->>OIS: Entregar order.placed
+    OIS->>ERP: POST /orders (Polly retry: 3 tentativas, backoff 1s/2s/4s)
+    ERP-->>OIS: 200 OK
+    OIS->>WMS: POST /reservations (Polly circuit breaker)
+    WMS-->>OIS: 200 OK
     WMS->>RMQ: Publicar stock.updated
     RMQ->>NOP: Entregar stock.updated
-    NOP->>DB: AdjustInventoryAsync() — atualizar stock
+    NOP->>DB: AdjustInventoryAsync() - atualizar stock
 ```
 
-### 4.4 O circuit breaker e a recuperação — Ponto de pressão
+### 4.4 O circuit breaker e a recuperação - Ponto de pressão
 
 O **circuit breaker** é um padrão de resiliência que protege o sistema de chamadas repetidas a um serviço indisponível. Funciona como um disjuntor elétrico:
 
 - **Fechado (CLOSED):** tudo normal, as chamadas passam
-- **Aberto (OPEN):** após N falhas consecutivas, o circuito abre; as chamadas são bloqueadas e vão para a dead-letter queue
-- **Meio-aberto (HALF-OPEN):** após um timeout, o circuito testa com uma chamada; se passar, fecha; se falhar, reabre
+- **Aberto (OPEN):** após 3 falhas consecutivas, o circuito abre durante 30 segundos; as chamadas são bloqueadas e vão para a dead-letter queue
+- **Meio-aberto (HALF-OPEN):** após o timeout, o circuito testa com uma chamada; se passar, fecha; se falhar, reabre
+
+> Nota honesta: no evidence pack o estado do breaker manteve-se `CLOSED` apesar das 503s do WMS - a causa provável é a reconstrução por pedido do `HttpMessageHandler` em `AddHttpClient<T>.AddPolicyHandler`. O DLQ + reconciliation loop garantiram o mesmo comportamento externamente observável (bulkhead + drenagem). Detalhes em `docs/evidence/README.md`.
 
 ```mermaid
 sequenceDiagram
@@ -186,7 +201,7 @@ sequenceDiagram
     actor Cliente
     participant NOP as nopCommerce
     participant RMQ as RabbitMQ
-    participant IntSvc as Integration Service
+    participant OIS as Order Integration Service
     participant WMS as WMS Stub
     participant DLQ as Dead-Letter Queue
     participant Dashboard as Observability Dashboard
@@ -198,40 +213,40 @@ sequenceDiagram
     NOP->>RMQ: Publicar order.placed ×N (via outbox)
 
     loop Para cada order.placed
-        RMQ->>IntSvc: Entregar order.placed
-        IntSvc->>WMS: POST /reservations
-        WMS-->>IntSvc: 500 / timeout
-        Note over IntSvc: Após 3ª falha consecutiva — circuito ABRE
-        IntSvc->>DLQ: Enviar para dead-letter queue
+        RMQ->>OIS: Entregar order.placed
+        OIS->>WMS: POST /reservations
+        WMS-->>OIS: 503 / timeout
+        Note over OIS: Desenho: após 3 falhas o circuito ABRE.<br/>Observado no evidence pack: o breaker manteve-se CLOSED - a DLQ capturou todas as falhas.
+        OIS->>DLQ: Enviar para dead-letter queue interna
     end
 
-    Dashboard->>IntSvc: GET /health
-    IntSvc-->>Dashboard: circuit=OPEN, dlq_depth=N
-    Note over Dashboard: Operador vê a degradação
+    Dashboard->>OIS: GET /health
+    OIS-->>Dashboard: status=degraded, dlqDepth=N
+    Note over Dashboard: Operador observa a degradação
 
     Operador->>WMS: POST /admin/mode {normal}
     Note over WMS: WMS recupera
 
-    Note over IntSvc: Circuito → HALF-OPEN → CLOSED
+    Note over OIS: Reconciliation loop retoma a entrega ao WMS
 
     loop Reconciliation loop
-        IntSvc->>DLQ: Ler mensagem pendente
-        IntSvc->>WMS: POST /reservations
-        WMS-->>IntSvc: 200 OK
-        IntSvc->>RMQ: Publicar stock.updated
+        OIS->>DLQ: Ler mensagem pendente
+        OIS->>WMS: POST /reservations
+        WMS-->>OIS: 200 OK
+        OIS->>RMQ: Publicar stock.updated
         RMQ->>NOP: Entregar stock.updated
         NOP->>NOP: AdjustInventoryAsync()
     end
 
-    Dashboard->>IntSvc: GET /health
-    IntSvc-->>Dashboard: circuit=CLOSED, dlq_depth=0
+    Dashboard->>OIS: GET /health
+    OIS-->>Dashboard: status=healthy, dlqDepth=0
 ```
 
-### 4.5 Os contratos de mensagem (fixos desde o início)
+### 4.5 Os contratos de mensagem
 
-Para que todos os elementos do grupo possam trabalhar em paralelo, os contratos de mensagem foram definidos e fixados no plano do projeto:
+Os contratos de mensagem foram fixados no plano do projeto para permitir trabalho em paralelo.
 
-**Evento `order.placed`** (nopCommerce → Integration Service):
+**Evento `order.placed`** (nopCommerce -> Integration Service):
 ```json
 {
   "eventId": "uuid",
@@ -243,7 +258,17 @@ Para que todos os elementos do grupo possam trabalhar em paralelo, os contratos 
 }
 ```
 
-**Evento `stock.updated`** (WMS Stub → nopCommerce):
+**Evento `sale.completed`** (OSPOS Adapter -> Integration Service):
+```json
+{
+  "eventId": "uuid",
+  "saleId": 4242,
+  "items": [{ "productId": 789, "sku": "ABC", "quantity": 1 }],
+  "occurredAt": "2026-05-30T11:00:00Z"
+}
+```
+
+**Evento `stock.updated`** (WMS / Integration Service -> nopCommerce):
 ```json
 {
   "eventId": "uuid",
@@ -256,251 +281,142 @@ Para que todos os elementos do grupo possam trabalhar em paralelo, os contratos 
 
 ---
 
-## 5. O que há para fazer no total — Divisão de trabalho
+## 5. Implementation status
 
-### 5.1 Parte 1 — Architecture Checkpoint (entrega: 5–6 maio 2026)
+### 5.1 Documentação de arquitetura (Parte 1)
 
-Todos os elementos trabalham em paralelo em documentos independentes:
+| Documento | Estado |
+|----------|--------|
+| `docs/architecture/current-state-analysis.md` | Concluído |
+| `docs/architecture/target-architecture.md` | Concluído |
+| `docs/architecture/drivers-and-qa-scenarios.md` | Concluído |
+| `docs/architecture/bounded-contexts.md` | Concluído |
+| `docs/architecture/evolution-roadmap.md` | Concluído |
+| `docs/adr/ADR-001` a `ADR-004` | Concluído |
+| `docs/architecture/risk-plan.md` | Concluído |
 
-| Elemento | Ficheiro(s) a produzir | Estado |
-|---------|----------------------|--------|
-| Henrique | `docs/architecture/current-state-analysis.md` | Completo ✅ |
-| Henrique | `docs/architecture/target-architecture.md` | Completo ✅ |
-| Martim | `docs/architecture/drivers-and-qa-scenarios.md` | Com TODOs ⚠️ |
-| Duarte | `docs/architecture/bounded-contexts.md` | Completo ✅ |
-| Duarte | `docs/architecture/evolution-roadmap.md` | Completo ✅ |
-| Sebastião | `docs/adr/ADR-001` a `ADR-004` | Completo ✅ |
-| Sebastião | `docs/architecture/risk-plan.md` | Completo ✅ |
+### 5.2 Implementação (Parte 2)
 
-### 5.2 Parte 2 — Implementação (7 maio → 1 junho 2026)
-
-| Elemento | Componente | O que implementa |
-|---------|-----------|-----------------|
-| Henrique | nopCommerce (monólito) | Tabela outbox + migration, OutboxPublisherBackgroundService, hook em PlaceOrderAsync, StockUpdateConsumerBackgroundService, endpoint /integration/health |
-| Martim | Order Integration Service | Consumer RabbitMQ, ErpAdapter (retry), WmsAdapter (circuit breaker), reconciliation loop, Serilog, /health endpoint |
-| Duarte | ERP Stub | Serviço HTTP com POST /orders e POST /admin/mode |
-| Duarte | WMS Stub | Serviço HTTP com POST /reservations, GET /stock/{id}, POST /admin/mode; publica stock.updated |
-| Duarte | Observability Dashboard | Página HTML/JS com polling de /health, visualização de estado, botões de controlo da demo |
-| Duarte | docker-compose.yml | Um único `docker compose up` sobe tudo |
-| Sebastião | Testes de integração | Testes end-to-end (happy path + WMS down + recuperação) |
-| Sebastião | Relatório de arquitetura | `docs/architecture-report.md` |
-| Sebastião | Evidence pack | `docs/evidence/` — logs, screenshots, medições |
-| Sebastião | Demo script | `docs/demo-script.md` |
+| Componente | Estado |
+|-----------|--------|
+| nopCommerce - tabela outbox + migração, `OutboxPublisherTask`, hook em `PlaceOrderAsync`, `StockUpdateConsumerBackgroundService`, `/integration/health` | Concluído |
+| Order Integration Service (.NET 10 Worker, porta 8083) - consumidores `order.placed` e `sale.completed`, `ErpAdapter` (Polly retry), `WmsAdapter` (Polly circuit breaker), `DeadLetterQueue`, `ReconciliationService`, `HealthState`, `/health`, `/dlq`, `/dlq/clear`, `/webhooks/stock-changed` | Concluído |
+| ERP Stub (Python FastAPI, porta 8001) | Concluído |
+| WMS Stub (Python FastAPI, porta 8002) | Concluído |
+| WMS Event Adapter (Python FastAPI, porta 8085) - mantido como fallback | Concluído |
+| OSPOS + ospos_mysql (porta 8080) | Concluído |
+| OSPOS Adapter (.NET 10 Worker, sem porta exposta) - sondagem de `ospos_sales`, publicação de `sale.completed`, idempotência em SQLite | Concluído |
+| Observability Dashboard (React + Vite, servido por nginx na porta 8090) | Concluído |
+| `docker-compose.yml` - orquestra todos os serviços com `docker compose up` | Concluído |
+| Testes de integração end-to-end (happy path, WMS em baixo, recuperação) | Concluído |
+| Relatório de arquitetura, evidence pack, demo script | Concluído |
 
 ---
 
-## 6. As responsabilidades do Duarte — detalhe completo
+## 6. Implementação detalhada (Parte 2)
 
-O Duarte tem responsabilidades em ambas as partes. Segue uma descrição detalhada de cada uma.
+### 6.1 nopCommerce (monólito modular)
 
-### 6.1 Parte 1 — Documentação de arquitetura
+- Adicionada a tabela `IntegrationEvent` ao MSSQL via FluentMigrator
+- `OutboxPublisherTask` (nopCommerce `IScheduleTask`) faz polling da outbox a cada ~10s (configurado por `OutboxPublisherTaskMigration`) e publica no RabbitMQ
+- Hook em `PlaceOrderAsync` insere o evento `order.placed` na mesma transação que a encomenda
+- `StockUpdateConsumerBackgroundService` subscreve `stock.updated` e chama `AdjustInventoryAsync()`
+- Endpoint `/integration/health` expõe o estado da outbox (eventos pendentes, último publicado)
 
-#### 6.1.1 `docs/architecture/bounded-contexts.md`
+Nota: o contentor do nopCommerce apresentou uma falha de inicialização (status 139, segfault durante inicialização do EF Core sobre MSSQL) durante a captura do evidence pack. A limitação está documentada em `docs/evidence/README.md`.
 
-Este documento define os **contextos delimitados** (bounded contexts) do sistema — ou seja, as fronteiras dentro das quais cada modelo de domínio é válido e coerente.
+### 6.2 Order Integration Service (.NET 10, porta 8083)
 
-O conceito vem do **Domain-Driven Design (DDD)**. A ideia fundamental é que em sistemas complexos, a mesma palavra pode significar coisas diferentes em contextos diferentes. Por exemplo, "encomenda" para o nopCommerce é um registo de compra com pagamento e endereço; para o ERP é uma transação financeira a faturar; para o WMS é uma tarefa de picking/packing no armazém. Cada um é um contexto diferente com o seu próprio modelo.
+- Consumidores `order.placed` e `sale.completed` sobre a exchange `verdemart.events`
+- `ErpAdapter` com Polly retry: 3 tentativas, backoff exponencial 1s/2s/4s
+- `WmsAdapter` com Polly circuit breaker: 3 falhas consecutivas abrem o circuito durante 30s
+- `DeadLetterQueue` em memória com endpoint `/dlq` e `/dlq/clear`
+- `ReconciliationService` drena a DLQ assim que o WMS volta a responder
+- `HealthState` agrega contadores (`eventsProcessed`, `lastProcessedAt`, `dlqDepth`, `circuitState`) expostos em `/health`
+- Endpoint `/webhooks/stock-changed` substitui o WMS Event Adapter no cabeamento final
 
-**O que o documento define:**
+### 6.3 ERP Stub (Python FastAPI, porta 8001)
 
-| Contexto | Sistema | Tipo de subdomínio |
-|---------|--------|-------------------|
-| Order Management | nopCommerce | Core Domain |
-| Catalog & Pricing | nopCommerce | Core Domain |
-| Fulfillment Coordination | Order Integration Service | Supporting Subdomain |
-| ERP / Back-Office | ERP Stub | Generic Subdomain |
-| Warehouse / Inventory | WMS Stub | Supporting Subdomain |
+- `POST /orders` - recebe e armazena (em memória) a confirmação de uma encomenda
+- `GET /orders` - devolve todas as encomendas aceites
+- `POST /admin/mode` - modo `normal` ou `down`
+- `POST /admin/reset` - limpa o estado para reproduzir cenários
+- `GET /health` - devolve o modo atual e o número de encomendas
+- Idempotência por `eventId`
 
-A classificação dos subdomínios é importante porque determina onde investir esforço arquitetural:
-- **Core Domain** — é aqui que a VerdeMart compete. Deve ser protegido e bem modelado.
-- **Supporting Subdomain** — necessário mas não diferenciador. Pode ser simplificado.
-- **Generic Subdomain** — podia ser comprado "off the shelf" (como o SAP ou o Odoo). Não vale a pena investir muito.
+Justificação (ADR-004): um ERP real (ERPNext / Odoo) exigiria imagens grandes, configuração complexa e não permitiria injeção controlada de falhas. O stub produz a mesma pressão arquitetural com controlo total.
 
-O documento inclui também o **context map** — um diagrama que mostra como os contextos se relacionam entre si, com os padrões DDD aplicados a cada relação:
+### 6.4 WMS Stub (Python FastAPI, porta 8002)
 
-- **Upstream/Downstream** — nopCommerce publica eventos sem saber quem os consome; o Integration Service adapta-se ao schema do upstream
-- **Customer/Supplier** — o Integration Service chama o ERP via HTTP; o ERP é o fornecedor
-- **Customer/Supplier + Anti-Corruption Layer (ACL)** — o Integration Service chama o WMS, mas o circuit breaker protege o sistema core do comportamento instável do WMS
-- **Published Language** — o WMS publica eventos `stock.updated` com um schema bem definido e estável; o nopCommerce consome sem saber nada dos internos do WMS
+- `POST /reservations` - recebe uma reserva de stock; em modo normal publica `stock.updated`
+- `GET /reservations` - devolve todas as reservas
+- `GET /stock/{productId}` - devolve o nível de stock atual
+- `POST /admin/mode` - modo `normal`, `slow` (degradação artificial) ou `down` (falha total)
+- `POST /admin/reset` - limpa o estado
+- `GET /health` - devolve o modo, número de reservas e contador `duplicates_skipped`
+- Idempotência por `orderId`
 
-Por fim, o documento define as **regras de propriedade de dados** — quem é o dono autoritativo de cada dado e como os outros contextos acedem a ele. Nenhum sistema externo escreve diretamente na base de dados do nopCommerce — só através de eventos.
+### 6.5 OSPOS Adapter (.NET 10, sem porta exposta)
 
-#### 6.1.2 `docs/architecture/evolution-roadmap.md`
+- Sonda a tabela `ospos_sales` no MySQL do OSPOS
+- Publica eventos `sale.completed` na exchange `verdemart.events`
+- Idempotência local em SQLite em `/app/data/idempotency.db`
+- Permite que vendas em loja física apareçam como eventos no mesmo backbone que as encomendas online
 
-Este documento descreve o **caminho de evolução** do estado atual (monólito isolado) até ao estado alvo (commerce core integrado com ERP e WMS), dividido em fases.
+### 6.6 Observability Dashboard (React + Vite, porta 8090)
 
-Cada fase define:
-- O que muda (e apenas isso — sem "big bang")
-- O que coexiste durante a transição
-- Os atributos de qualidade que cada fase endereça
-- As restrições de transição (o que não pode quebrar)
+O dashboard é o centro visual da demonstração. Sem ele, o ponto de pressão seria invisível para quem assiste à apresentação.
 
-**Fase 0 — Estado atual:**
-O nopCommerce funciona completamente isolado. Não notifica nenhum sistema externo. O stock é gerido internamente. Não há visibilidade de integração.
-
-**Fase 1 — Outbox e Message Backbone:**
-Adição da tabela `IntegrationEvent` (outbox) ao PostgreSQL do nopCommerce e do `OutboxPublisherBackgroundService`. O nopCommerce escreve eventos na mesma transação que a encomenda. O RabbitMQ é adicionado à infraestrutura. Nesta fase, o nopCommerce funciona normalmente mesmo sem o Integration Service — os eventos acumulam-se na outbox e serão entregues quando um consumidor aparecer.
-
-**Fase 2 — Fulfillment Coordination (Happy Path):**
-Implementação do Order Integration Service, dos stubs ERP e WMS, e do `StockUpdateConsumerBackgroundService` no nopCommerce. O fluxo completo funciona: encomenda → ERP + WMS → stock atualizado de volta no nopCommerce.
-
-**Fase 3 — Resiliência e Ponto de Pressão:**
-Ativação completa do circuit breaker no WMS adapter, da dead-letter queue, do reconciliation loop e do dashboard de observabilidade. Esta fase é o ponto central da demonstração obrigatória.
-
-O documento inclui também uma tabela de **restrições de transição** (o que não pode ser violado durante nenhuma fase) e uma justificação de **o que fica dentro do monólito e porquê**.
-
-### 6.2 Parte 2 — Implementação
-
-#### 6.2.1 ERP Stub (`services/erp-stub/`)
-
-O ERP Stub é um serviço HTTP leve que simula o comportamento de um sistema ERP para fins de demonstração. Não é um ERP real — o objetivo é criar a pressão arquitetural correta sem a complexidade operacional de instalar o ERPNext ou o Odoo.
-
-**O que implementa:**
-- `POST /orders` — recebe e armazena (em memória) a confirmação de uma encomenda; retorna 200 OK em modo normal
-- `POST /admin/mode` — permite ao operador colocar o ERP em modo `normal` ou `down` durante a demo
-
-**Porquê não usar o ERPNext real:**
-Conforme justificado no ADR-004, um ERPNext real exigiria uma imagem Docker de ~2 GB, base de dados própria, configuração complexa, e não teria capacidade nativa de injeção de falhas. O stub produz a mesma pressão arquitetural com uma imagem de menos de 50 MB e controlo total sobre o comportamento.
-
-#### 6.2.2 WMS Stub (`services/wms-stub/`)
-
-O WMS Stub é o componente mais importante da responsabilidade do Duarte, pois é ele que cria o **ponto de pressão obrigatório** da demonstração.
-
-**O que implementa:**
-- `POST /reservations` — recebe uma reserva de stock; em modo normal, confirma e publica um evento `stock.updated` no RabbitMQ
-- `GET /stock/{productId}` — devolve o nível de stock atual no armazém
-- `POST /admin/mode` — permite ao operador mudar o modo do WMS:
-  - `normal` — responde normalmente
-  - `slow` — introduz um atraso artificial de vários segundos (simula degradação)
-  - `down` — retorna 500 / timeout (simula falha total)
-
-**A interação crítica:** quando o WMS está em modo `down`, o Integration Service recebe erros repetidos, o circuit breaker abre ao 3.º erro consecutivo, e as mensagens vão para a dead-letter queue. Quando o operador coloca o WMS em modo `normal`, o circuit breaker fecha, e o reconciliation loop drena a fila — enviando todas as reservas acumuladas ao WMS e publicando os eventos `stock.updated` correspondentes.
-
-#### 6.2.3 Observability Dashboard (`services/dashboard/`)
-
-O dashboard é uma página web simples (HTML/JavaScript) que funciona como o **centro visual da demonstração**. Sem ele, o ponto de pressão seria invisível para quem está a assistir à apresentação.
-
-**O que mostra (em tempo real, polling a cada 2 segundos):**
-- Estado do circuit breaker: `CLOSED` / `OPEN` / `HALF_OPEN`
-- Modo atual do WMS: `normal` / `slow` / `down`
+Mostra (polling a cada 2s):
+- Estado agregado do Integration Service (`healthy` / `degraded`)
+- Estado do circuit breaker (`CLOSED` / `OPEN` / `HALF_OPEN`)
+- Modo atual do WMS (`normal` / `slow` / `down`)
 - Número de eventos pendentes na outbox do nopCommerce
-- Profundidade da dead-letter queue (quantas mensagens estão acumuladas)
+- Profundidade da dead-letter queue
 
-**O que permite ao operador fazer:**
-- Botões para mudar o modo do WMS (`normal` / `slow` / `down`) diretamente na página — sem ter de abrir um terminal durante a demo
+Permite ao operador:
+- Mudar o modo do WMS (`normal` / `slow` / `down`) e do ERP (`normal` / `down`)
+- Drenar a DLQ manualmente (`/dlq/clear`)
+- Forçar `reset` no estado dos stubs
 
-**Porquê é importante:** sem este dashboard, a demo seria cega — o público não veria o circuit breaker abrir, não veria as mensagens a acumular-se, e não veria a recuperação a acontecer. Com o dashboard, o operador pode narrar exatamente o que está a acontecer na arquitetura enquanto acontece.
+### 6.7 `docker-compose.yml`
 
-#### 6.2.4 `docker-compose.yml`
-
-O ficheiro `docker-compose.yml` garante que a demonstração completa pode ser iniciada com **um único comando**:
-
-```bash
-docker compose up
-```
-
-Este ficheiro orquestra todos os serviços:
-- nopCommerce + PostgreSQL
-- RabbitMQ (com management UI)
-- Order Integration Service
-- ERP Stub
-- WMS Stub
-- Observability Dashboard
-
-**Porquê é importante:** numa demo ao vivo de 15 minutos, não há tempo para iniciar serviços manualmente. Um único `docker compose up` elimina pontos de falha na apresentação e garante que o ambiente é reproduzível por qualquer avaliador.
+Um único `docker compose up` sobe toda a topologia: nopCommerce, MSSQL, RabbitMQ, Order Integration Service, ERP Stub, WMS Stub, WMS Event Adapter, OSPOS, ospos_mysql, OSPOS Adapter e Dashboard.
 
 ---
 
-## 7. O que foi feito até agora (pelo Claude Code, a pedido do Duarte)
+## 7. Cenários de qualidade - resultados do evidence pack
 
-### 7.1 `docs/architecture/bounded-contexts.md` — completado
+O evidence pack está em `docs/evidence/` e inclui `README.md`, `health-snapshots.txt`, `scenario-trace.txt`, `service-logs.txt`, `final-health.json`, `dashboard-states.md` e `timings.md`.
 
-**O que existia:** o ficheiro tinha estrutura mas dois TODO markers sem conteúdo real.
+| Cenário | Atributo | Resultado |
+|--------|----------|-----------|
+| QA-1 | Availability | Concluído. `order.placed` propagou-se ao ERP e ao WMS em ~1s; `eventsProcessed=1`, `lastProcessedAt` populado, DLQ a zero. |
+| QA-2 | Consistency / Bulkhead | Parcial. O bulkhead foi validado: o ERP aceitou as 8 encomendas enquanto o WMS estava em baixo e a DLQ capturou todas as falhas (profundidade cresceu monotonicamente de 1 para 8, estado `degraded`). A transição do circuit breaker para OPEN ficou inconclusiva: apesar de 13+ respostas 503 consecutivas, `/health` continuou a reportar `CLOSED`. A causa provável é o `AddHttpClient` typed-client reconstruir o handler por pedido, impedindo a partilha do estado Polly. O DLQ backstop tornou o comportamento externamente observável equivalente ao esperado. |
+| QA-3 | Recoverability | Concluído. A DLQ drenou de 8 para 0 em 5,026s após o WMS voltar a `normal`; os 9 `orderId` distintos apareceram exatamente uma vez em `/reservations`; `duplicates_skipped=0` confirma o tracker de idempotência. |
+| QA-4 | Observability | Concluído. ERP colocado em baixo a 19:44:01.177Z, restaurado a 19:44:03.285Z; o Polly retry (backoff 1s/2s/4s) teve sucesso e o ERP registou `erp-flaky-1` a 19:44:06.312Z (3,0s após a recuperação, transparente para o publisher). |
+| QA-5 | Reliability | Parcial. O lado produtor (reserva no WMS, webhook, publicação no RabbitMQ via WMS Event Adapter) foi verificado: o contador `events_published` incrementou de 10 para 11 em 3s. O lado consumidor (StockUpdateConsumer no nopCommerce) ficou inconclusivo porque o contentor do nopCommerce saiu com status 139. |
 
-**O que foi preenchido:**
+### Limitações conhecidas (documentadas em `docs/evidence/README.md`)
 
-**TODO 1 — Classificação de subdomínios:**
-Foi adicionado um cabeçalho que define os três tipos de subdomínio (Core, Supporting, Generic) com explicação contextualizada para a VerdeMart. Cada um dos cinco contextos foi expandido com:
-- O tipo de subdomínio e a justificação específica (não genérica)
-- As entidades-chave que o contexto possui
-- As relações com outros contextos
-- A nota de isolamento do data store
-
-Exemplo do que foi adicionado ao contexto do WMS:
-> "Supporting Subdomain — warehouse execution and stock management are operationally critical but not a differentiator; the value is in the integration, not the WMS itself. (...) this is the mandatory pressure point — the WMS can become slow, unavailable, or contradictory; the architecture must isolate this failure from the Order Management and Catalog contexts"
-
-Isto é importante para a avaliação porque o professor avalia a **qualidade do boundary modeling** — saber que o WMS é Supporting (e não Core) justifica arquiteturalmente por que o isolamos com um circuit breaker em vez de integrar mais profundamente.
-
-**TODO 2 — Context Map:**
-O diagrama ASCII foi convertido para **Mermaid** (formato gráfico renderizável no GitHub e em ferramentas de documentação). Foram adicionadas descrições detalhadas de cada relação com os padrões DDD corretos nomeados:
-
-- **Upstream/Downstream** — nopCommerce não conhece os consumidores; o Integration Service adapta-se
-- **Customer/Supplier** — Integration Service chama o ERP; relação direta com retry
-- **Customer/Supplier + ACL** — o circuit breaker é a camada anti-corrupção que protege o core do comportamento instável do WMS
-- **Published Language** — o WMS publica com schema fixo; o nopCommerce consome sem acoplar aos internos do WMS
-
-Estas classificações têm peso na avaliação porque o professor espera que o grupo mostre **domínio de vocabulário DDD** e que as fronteiras sejam arquiteturalmente justificadas.
-
-**TODO 3 (implícito) — Evolution Roadmap:**
-O terceiro TODO estava na secção "Evolution Roadmap" dentro do mesmo ficheiro. O texto introdutório do TODO foi removido; o conteúdo das fases já existia e ficou limpo.
-
-### 7.2 `docs/architecture/evolution-roadmap.md` — criado de raiz
-
-Este ficheiro **não existia**. O plano do projeto indicava-o como entrega do Duarte para a Parte 1, mas não tinha sido criado.
-
-**O que foi escrito:**
-
-**Enquadramento (Starting Point and End Goal):**
-Uma descrição clara do estado atual vs. estado alvo, e da filosofia de evolução seletiva (não reescrever, não decompor desnecessariamente).
-
-**Fase 0 — Baseline:**
-Documenta exatamente o que o nopCommerce é hoje e o que falta do ponto de vista do cenário. Inclui a nota crítica de que sem a evolução, qualquer integração seria síncrona no checkout (acoplaria a experiência do cliente à disponibilidade do WMS).
-
-**Fase 1 — Outbox e Message Backbone:**
-Descreve as mudanças concretas ao nopCommerce (tabela `IntegrationEvent`, `OutboxPublisherBackgroundService`, hook em `PlaceOrderAsync`), a infraestrutura adicionada (RabbitMQ, exchanges, DLX), o que coexiste durante a transição, e a restrição de transição crítica: **o write na outbox tem de ser atómico com a encomenda** — se não for, há risco de perda silenciosa de eventos.
-
-**Fase 2 — Fulfillment Coordination:**
-Descreve os novos componentes (Integration Service, ERP Stub, WMS Stub, StockUpdateConsumerBackgroundService), com os dois casos de uso obrigatórios representados em diagramas de sequência Mermaid. Cada diagrama mostra o fluxo completo desde o cliente até ao WMS e de volta ao nopCommerce.
-
-**Fase 3 — Resiliência e Ponto de Pressão:**
-Descreve o comportamento do circuit breaker, a dead-letter queue, o reconciliation loop e o dashboard. Inclui um diagrama de sequência Mermaid completo da sequência de pressão obrigatória da demo.
-
-**Restrições de transição:**
-Uma tabela com cinco restrições que se aplicam a todas as fases — cada uma com a justificação do porquê (p.ex., "o eventId tem de ser propagado end-to-end — necessário para reconciliação idempotente e correlação de logs entre fronteiras de serviço").
-
-**O que fica no monólito e porquê:**
-Uma tabela que justifica explicitamente por que o ciclo de encomendas, o catálogo, os clientes e o stock ficam dentro do nopCommerce — responde diretamente a um requisito do enunciado ("Justify what remains inside the monolith and why").
+- O contentor do nopCommerce sai com status 139 (segfault durante a inicialização do EF Core sobre MSSQL). Bloqueia evidências que dependam da storefront/admin ao vivo (QA-5 lado consumidor, capturas de UI).
+- O Polly circuit breaker no `WmsAdapter` não transita para OPEN apesar das 503s consecutivas. A causa suspeita é a reconstrução por pedido do `HttpMessageHandler` em `AddHttpClient<T>.AddPolicyHandler`. Registado como achado arquitetural; o DLQ + reconciliation loop forneceram comportamento externamente observável equivalente, pelo que QA-3 passou.
 
 ---
 
-## 8. O que falta fazer (estado atual — 3 de maio de 2026)
+## 8. Referências e documentos do projeto
 
-### Urgente (Parte 1 — apresentação em 2 dias)
-
-- [ ] **Martim** — completar os TODOs em `drivers-and-qa-scenarios.md` (QA-5 + justificação ADD)
-- [ ] Todos — rever os documentos da Parte 1 antes da apresentação de 5–6 maio
-
-### Parte 2 (implementação — maio → junho)
-
-- [ ] **Henrique** — implementar integração no monólito (tabela outbox, OutboxPublisher, StockUpdateConsumer, /integration/health)
-- [ ] **Martim** — implementar Order Integration Service (.NET Worker, RabbitMQ consumer, ErpAdapter, WmsAdapter, reconciliation, /health)
-- [ ] **Duarte** — implementar ERP Stub, WMS Stub, Dashboard e docker-compose.yml
-- [ ] **Sebastião** — testes de integração, relatório de arquitetura, evidence pack, demo script
-
----
-
-## 9. Referências e documentos do projeto
-
-| Documento | Localização | Autor |
-|---------|-----------|-------|
-| Plano do projeto | `docs/project-plan.md` | Grupo |
-| Análise do estado atual | `docs/architecture/current-state-analysis.md` | Henrique |
-| Arquitetura alvo | `docs/architecture/target-architecture.md` | Henrique |
-| Drivers e cenários QA | `docs/architecture/drivers-and-qa-scenarios.md` | Martim |
-| Contextos delimitados | `docs/architecture/bounded-contexts.md` | Duarte |
-| Roadmap de evolução | `docs/architecture/evolution-roadmap.md` | Duarte |
-| ADR-001 (RabbitMQ vs Kafka) | `docs/adr/ADR-001-messaging-rabbitmq-vs-kafka.md` | Sebastião |
-| ADR-002 (Outbox vs Direct Publish) | `docs/adr/ADR-002-reliability-outbox-vs-direct-publish.md` | Sebastião |
-| ADR-003 (.NET vs Python) | `docs/adr/ADR-003-integration-service-runtime.md` | Sebastião |
-| ADR-004 (Stubs vs Sistemas Reais) | `docs/adr/ADR-004-wms-real-vs-stub.md` | Sebastião |
-| Plano de riscos | `docs/architecture/risk-plan.md` | Sebastião |
+| Documento | Localização |
+|---------|-----------|
+| Plano do projeto | `docs/project-plan.md` |
+| Análise do estado atual | `docs/architecture/current-state-analysis.md` |
+| Arquitetura alvo | `docs/architecture/target-architecture.md` |
+| Drivers e cenários QA | `docs/architecture/drivers-and-qa-scenarios.md` |
+| Contextos delimitados | `docs/architecture/bounded-contexts.md` |
+| Roadmap de evolução | `docs/architecture/evolution-roadmap.md` |
+| ADR-001 (RabbitMQ vs Kafka) | `docs/adr/ADR-001-messaging-rabbitmq-vs-kafka.md` |
+| ADR-002 (Outbox vs Direct Publish) | `docs/adr/ADR-002-reliability-outbox-vs-direct-publish.md` |
+| ADR-003 (.NET vs Python) | `docs/adr/ADR-003-integration-service-runtime.md` |
+| ADR-004 (Stubs vs Sistemas Reais) | `docs/adr/ADR-004-wms-real-vs-stub.md` |
+| Plano de riscos | `docs/architecture/risk-plan.md` |
+| Evidence pack | `docs/evidence/` |

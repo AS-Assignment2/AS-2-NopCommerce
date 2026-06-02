@@ -1,6 +1,6 @@
 # OSPOS Adapter
 
-Worker service that polls the OSPOS MySQL database for completed sales and publishes `sale.completed` events to RabbitMQ.
+The OSPOS Adapter is a .NET 10 worker that polls the OSPOS MySQL database for completed sales and publishes `sale.completed` events to RabbitMQ on the `verdemart.events` topic exchange. The container exposes no ports.
 
 ## Event Flow
 
@@ -9,7 +9,7 @@ OSPOS sale (MySQL) -> ospos_adapter (poll) -> RabbitMQ verdemart.events
                                               routing key: sale.completed
 ```
 
-Downstream consumer (Integration Service) is out of scope for this service.
+The downstream consumer is the Order Integration Service `sale.completed` handler and is out of scope for this service.
 
 ## Configuration
 
@@ -47,16 +47,16 @@ The SQLite database is persisted via the `ospos_adapter_data` Docker volume.
 
 ## Idempotency
 
-Two SQLite tables back the watermark + de-duplication strategy:
+Two SQLite tables back the watermark and de-duplication strategy:
 
-- `LastProcessedTime` — high-watermark used in the SQL `WHERE sale_time > ?` predicate
-- `ProcessedSales` — set of already-published `sale_id` values
+- `LastProcessedTime` - high-watermark used in the SQL `WHERE sale_time > ?` predicate
+- `ProcessedSales` - set of already-published `sale_id` values
 
-A sale is published only if its id is not in `ProcessedSales`. Both are updated only after `PublishAsync` succeeds, so a RabbitMQ failure leaves the sale eligible for retry on the next polling cycle.
+A sale is published only if its id is absent from `ProcessedSales`. Both tables are updated only after `PublishAsync` succeeds, so a RabbitMQ failure leaves the sale eligible for retry on the next polling cycle.
 
 ## Failure Handling
 
-The polling loop wraps each cycle in `try/catch` and logs failures without exiting. Transient MySQL or RabbitMQ errors are retried implicitly by the next cycle. No exponential backoff is implemented — the natural 30s cadence is the retry window.
+The polling loop wraps each cycle in `try/catch` and logs failures without exiting. Transient MySQL or RabbitMQ errors are retried implicitly by the next cycle. No exponential backoff is configured; the 30s polling cadence acts as the retry window.
 
 ## Operations
 

@@ -146,16 +146,50 @@ services:
             MYSQL_DATABASE: ospos
         volumes:
             - ospos_mysql_data:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pospospass"]
+            interval: 5s
+            timeout: 3s
+            retries: 20
         networks:
             - verdemart
         command: --default-authentication-plugin=mysql_native_password
+
+    # One-shot: builds the OSPOS schema on a fresh DB. The jekkos/opensourcepos
+    # image ships no auto-migrator, so a fresh `ospos` DB would otherwise come up
+    # empty (HTTP 500 in the UI). `migrate --all` is idempotent — on an already
+    # built DB it finds nothing new and exits 0. ospos + ospos_adapter gate on
+    # this completing via `service_completed_successfully`.
+    ospos_migrate:
+        image: jekkos/opensourcepos:latest
+        platform: linux/amd64
+        container_name: ospos_migrate
+        depends_on:
+            ospos_mysql:
+                condition: service_healthy
+        environment:
+            CI_ENVIRONMENT: production
+            PHP_TIMEZONE: UTC
+            MYSQL_HOST_NAME: ospos_mysql
+            MYSQL_USERNAME: root
+            MYSQL_PASSWORD: ospospass
+            MYSQL_DB_NAME: ospos
+        volumes:
+            - ./services/ospos/ospos.env:/app/.env:ro
+        command: ["sh", "-c", "cd /app && until php spark migrate --all; do echo 'waiting for OSPOS DB...'; sleep 3; done"]
+        restart: "no"
+        networks:
+            - verdemart
 
     ospos:
         image: jekkos/opensourcepos:latest
         platform: linux/amd64
         container_name: ospos
         depends_on:
-            - ospos_mysql
+            ospos_mysql:
+                condition: service_healthy
+            ospos_migrate:
+                condition: service_completed_successfully
         environment:
             CI_ENVIRONMENT: production
             FORCE_HTTPS: "false"
@@ -181,8 +215,12 @@ services:
         build: ./services/ospos-adapter
         container_name: ospos_adapter
         depends_on:
-            - ospos_mysql
-            - rabbitmq
+            ospos_mysql:
+                condition: service_healthy
+            ospos_migrate:
+                condition: service_completed_successfully
+            rabbitmq:
+                condition: service_healthy
         environment:
             OSPOS_DB_HOST: ospos_mysql
             OSPOS_DB_NAME: ospos
